@@ -6,7 +6,25 @@
         xmlns:local="clr-namespace:OptiLight"
         mc:Ignorable="d"
         Title="MainWindow" Height="350" Width="525">
-    <Grid>
+    <DockPanel>
+        <Grid DockPanel.Dock="Top">
         
-    </Grid>
+        </Grid>
+        <StackPanel DockPanel.Dock="Left">
+            <ListBox>
+                <Button>
+                    <Label></Label>
+                </Button>
+                <Button>
+                    <Label></Label>
+                </Button>
+                <Button>
+                    <Label></Label>
+                </Button>
+            </ListBox>
+            <Grid>
+                <TextBlock >This is Sparta!</TextBlock>
+            </Grid>
+        </StackPanel>
+    </DockPanel>
 </Window>
