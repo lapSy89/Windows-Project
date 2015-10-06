@@ -6,7 +6,21 @@
         xmlns:local="clr-namespace:OptiLight"
         mc:Ignorable="d"
         Title="MainWindow" Height="350" Width="525">
-    <Grid>
-        
-    </Grid>
+    <DockPanel>
+        <Grid DockPanel.Dock="Top" Margin="5">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Menu Grid.Column="0">
+                <MenuItem Header="_File">
+                    <MenuItem Header="_New"></MenuItem>
+                    <MenuItem Header="_Open"></MenuItem>
+                    <MenuItem Header="_Save"></MenuItem>
+                    <Separator />
+                    <MenuItem Header="_Quit"></MenuItem>
+                </MenuItem>
+            </Menu>
+        </Grid>
+    </DockPanel>
 </Window>
