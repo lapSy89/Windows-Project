@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:OptiLight"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
+        Title="Optilight" Height="350" Width="525">
     <DockPanel>
         <Grid DockPanel.Dock="Top" Margin="5">
             <Grid.RowDefinitions>
@@ -21,8 +21,6 @@
                     <MenuItem Header="_Quit"></MenuItem>
                 </MenuItem>
             </Menu>
-    
-            
         </Grid>
         <StackPanel DockPanel.Dock="Left">
             <ListBox>
@@ -37,8 +35,11 @@
                 </Button>
             </ListBox>
             <Grid>
-                <TextBlock >This is Sparta!</TextBlock>
-    </Grid>
+                <TextBlock >Edit Lamp here</TextBlock>
+            </Grid>
         </StackPanel>
+        <Grid DockPanel.Dock="Right">
+            <TextBlock>Here goes the sweet stuff</TextBlock>
+        </Grid>
     </DockPanel>
 </Window>
