@@ -21,6 +21,24 @@
                     <MenuItem Header="_Quit"></MenuItem>
                 </MenuItem>
             </Menu>
+    
+            
         </Grid>
+        <StackPanel DockPanel.Dock="Left">
+            <ListBox>
+                <Button>
+                    <Label></Label>
+                </Button>
+                <Button>
+                    <Label></Label>
+                </Button>
+                <Button>
+                    <Label></Label>
+                </Button>
+            </ListBox>
+            <Grid>
+                <TextBlock >This is Sparta!</TextBlock>
+    </Grid>
+        </StackPanel>
     </DockPanel>
 </Window>
