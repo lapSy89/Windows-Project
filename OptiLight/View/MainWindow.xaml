@@ -60,9 +60,23 @@
             
             <!-- Drawing window -->
             <Grid>
-                <TextBlock Width="600">Here goes the sweet stuff</TextBlock>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="auto"/>
+                </Grid.ColumnDefinitions>
+                <Border Width="500">
+                    <Border.Background>
+                        <VisualBrush TileMode="Tile"
+                                Viewport="0,0,10,10" ViewportUnits="Absolute" 
+                                Viewbox="0,0,10,10" ViewboxUnits="Absolute">
+                            <VisualBrush.Visual>
+                                <Rectangle Stroke="DarkBlue" StrokeThickness="0.5" Height="50" Width="50" StrokeDashArray="5 3"/>
+                            </VisualBrush.Visual>
+                        </VisualBrush>
+                    </Border.Background>
+                </Border>
             </Grid>
-
+           
         </StackPanel>
 
     </DockPanel>
