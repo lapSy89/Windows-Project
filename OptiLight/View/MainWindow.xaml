@@ -1,0 +1,69 @@
+﻿<Window x:Class="OptiLight.View.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:View="clr-namespace:OptiLight.View"
+        Title="Optilight" Height="700" Width="900">
+    <!-- xmlns:View defined for reference to View.SidePanel -->
+    
+    <!-- Overall layout for the Window-->
+    <DockPanel>
+        
+        <!-- Menu layout -->
+        <Grid DockPanel.Dock="Top" Margin="5">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+            </Grid.RowDefinitions>
+            <!-- Menu for "File" "Edit" -->
+            <Menu Grid.Row="0">
+                <MenuItem Header="_File">
+                    <MenuItem Header="_New"></MenuItem>
+                    <MenuItem Header="_Open"></MenuItem>
+                    <MenuItem Header="_Save"></MenuItem>
+                    <Separator />
+                    <MenuItem Header="_Quit"></MenuItem>
+                </MenuItem>
+                <MenuItem Header="_Edit">
+                    <MenuItem Header="_Undo"></MenuItem>
+                    <MenuItem Header="_Redo"></MenuItem>
+                    <Separator />
+                    <MenuItem Header="_Cut"></MenuItem>
+                    <MenuItem Header="_Copy"></MenuItem>
+                    <MenuItem Header="_Paste"></MenuItem>
+                </MenuItem>
+            </Menu>
+            
+              <!-- Menu for Toolbar-->
+            <ToolBarPanel Grid.Row="1">
+                <ToolBar Band="1" BandIndex="1">
+                    <Button>
+                        <Label FontSize="15" Content="&#9993;"/>
+                    </Button>
+                    <Button>
+                        <Label FontSize="15" Content="&#9993;"/>
+                    </Button>
+                    <Button>
+                        <Label FontSize="15" Content="&#9993;"/>
+                    </Button>
+                    <Button>
+                        <Label FontSize="15" Content="&#9993;"/>
+                    </Button>
+                </ToolBar>
+            </ToolBarPanel>
+        </Grid>
+        
+        <!-- Sidepanel and drawing window layout -->
+        <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal">
+            
+            <!-- SidePanel layout (comes from SidePanel.xaml -->
+            <View:SidePanel/>
+            
+            <!-- Drawing window -->
+            <Grid>
+                <TextBlock Width="600">Here goes the sweet stuff</TextBlock>
+            </Grid>
+
+        </StackPanel>
+
+    </DockPanel>
+</Window>
