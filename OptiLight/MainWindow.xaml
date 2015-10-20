@@ -48,12 +48,10 @@
         </Grid>
         <StackPanel DockPanel.Dock="Left">
             <ListBox>
-                <Button>
-                    <Label></Label>
-                </Button>
-                <Button>
+                <Button Background="Transparent" BorderBrush="Transparent">
                     <Label>
-                        <Image Source="pack://application:,,,/Resources/home.png"
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="pack://application:,,,/Resources/home.png"
                            RenderOptions.BitmapScalingMode="HighQuality"
                            Stretch="Fill"
                            Width="32"
@@ -61,11 +59,15 @@
                            VerticalAlignment="Center"
                            Margin="0,0,0,0"
                            HorizontalAlignment="Center" />
+                            <AccessText Text="Round Lamp" VerticalAlignment="Center"/>
+                        </StackPanel>
+                        
                     </Label>
                 </Button>
-                <Button>
+                <Button Background="Transparent" BorderBrush="Transparent">
                     <Label>
-                        <Image Source="pack://application:,,,/Resources/setting.png"
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="pack://application:,,,/Resources/setting.png"
                            RenderOptions.BitmapScalingMode="HighQuality"
                            Stretch="Fill"
                            Width="32"
@@ -73,11 +75,14 @@
                            VerticalAlignment="Center"
                            Margin="0,0,0,0"
                            HorizontalAlignment="Center" />
+                            <AccessText Text="Square Lamp" VerticalAlignment="Center"/>
+                         </StackPanel>
                     </Label>
                 </Button>
-                <Button>
+                <Button Background="Transparent" BorderBrush="Transparent">
                     <Label>
-                        <Image Source="pack://application:,,,/Resources/folder.png"
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="pack://application:,,,/Resources/folder.png"
                            RenderOptions.BitmapScalingMode="Fant"
                            Stretch="Fill"
                            Width="32"
@@ -85,6 +90,8 @@
                            VerticalAlignment="Top"
                            Margin="0,0,0,0"
                            HorizontalAlignment="Center" />
+                            <AccessText Text="Rectangular Lamp"/>
+                        </StackPanel>
                     </Label>
                 </Button>
             </ListBox>
