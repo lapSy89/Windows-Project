@@ -52,10 +52,40 @@
                     <Label></Label>
                 </Button>
                 <Button>
-                    <Label></Label>
+                    <Label>
+                        <Image Source="pack://application:,,,/Resources/home.png"
+                           RenderOptions.BitmapScalingMode="HighQuality"
+                           Stretch="Fill"
+                           Width="32"
+                           Height="32"
+                           VerticalAlignment="Center"
+                           Margin="0,0,0,0"
+                           HorizontalAlignment="Center" />
+                    </Label>
                 </Button>
                 <Button>
-                    <Label></Label>
+                    <Label>
+                        <Image Source="pack://application:,,,/Resources/setting.png"
+                           RenderOptions.BitmapScalingMode="HighQuality"
+                           Stretch="Fill"
+                           Width="32"
+                           Height="32"
+                           VerticalAlignment="Center"
+                           Margin="0,0,0,0"
+                           HorizontalAlignment="Center" />
+                    </Label>
+                </Button>
+                <Button>
+                    <Label>
+                        <Image Source="pack://application:,,,/Resources/folder.png"
+                           RenderOptions.BitmapScalingMode="Fant"
+                           Stretch="Fill"
+                           Width="32"
+                           Height="32"
+                           VerticalAlignment="Top"
+                           Margin="0,0,0,0"
+                           HorizontalAlignment="Center" />
+                    </Label>
                 </Button>
             </ListBox>
             <Grid>
