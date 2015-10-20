@@ -15,7 +15,7 @@
                 <RowDefinition Height="Auto"></RowDefinition>
             </Grid.RowDefinitions>
             <!-- Menu for "File" "Edit" -->
-            <Menu Grid.Column="0">
+            <Menu Grid.Row="0">
                 <MenuItem Header="_File">
                     <MenuItem Header="_New"></MenuItem>
                     <MenuItem Header="_Open"></MenuItem>
@@ -23,9 +23,35 @@
                     <Separator />
                     <MenuItem Header="_Quit"></MenuItem>
                 </MenuItem>
+                <MenuItem Header="_Edit">
+                    <MenuItem Header="_Undo"></MenuItem>
+                    <MenuItem Header="_Redo"></MenuItem>
+                    <Separator />
+                    <MenuItem Header="_Cut"></MenuItem>
+                    <MenuItem Header="_Copy"></MenuItem>
+                    <MenuItem Header="_Paste"></MenuItem>
+                </MenuItem>
             </Menu>
             
-            <!-- Menu for Toolbar-->
+              <!-- Menu for Toolbar-->
+            <ToolBarPanel Grid.Row="1">
+                <ToolBar Band="1" BandIndex="1">
+                    <Button>
+                        <Label FontSize="15" Content="&#9993;"/>
+                    </Button>
+                    <Button>
+                        <Label FontSize="15" Content="&#9993;"/>
+                    </Button>
+                    <Button>
+                        <Label FontSize="15" Content="&#9993;"/>
+                    </Button>
+                    <Button>
+                        <Label FontSize="15" Content="&#9993;"/>
+                    </Button>
+                </ToolBar>
+            </ToolBarPanel>
+            
+           
           
         </Grid>
         
@@ -37,9 +63,10 @@
             
             <!-- Drawing window -->
             <Grid>
-                <TextBlock>Here goes the sweet stuff</TextBlock>
+                <TextBlock Width="600">Here goes the sweet stuff</TextBlock>
             </Grid>
+
         </StackPanel>
-        
+     
     </DockPanel>
 </Window>
