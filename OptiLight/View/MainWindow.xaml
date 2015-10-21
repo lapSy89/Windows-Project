@@ -2,7 +2,9 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:View="clr-namespace:OptiLight.View"
-        Title="Optilight" Height="700" Width="900">
+        Title="Optilight" Height="700" Width="900"
+        Icon="pack://application:,,,/Resources/lampicon.ico"
+        >
     <!-- xmlns:View defined for reference to View.SidePanel -->
     
     <!-- Overall layout for the Window-->
