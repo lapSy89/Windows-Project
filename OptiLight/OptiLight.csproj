@@ -170,6 +170,14 @@
   <ItemGroup>
     <Resource Include="Resources\lampicon.ico" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\arrow1_right.png" />
+    <Resource Include="Resources\arrow2_left.png" />
+    <Resource Include="Resources\arrow2_right.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\arrow1_left.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

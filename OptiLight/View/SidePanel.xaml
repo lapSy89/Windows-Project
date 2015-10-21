@@ -44,7 +44,6 @@
                                 HorizontalAlignment="Center" />
                             <AccessText Text="Round Lamp" VerticalAlignment="Center"/>
                         </StackPanel>
-
                     </Label>
                 </Button>
                 <Button Background="Transparent" BorderBrush="Transparent">
@@ -79,8 +78,5 @@
                 </Button>
             </ListBox>
         </ScrollViewer>
-        
-        
-
     </DockPanel>
 </UserControl>
