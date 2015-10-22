@@ -37,6 +37,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Windows.Controls.Ribbon" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -91,6 +92,9 @@
     <Compile Include="View\LampUserControl.xaml.cs">
       <DependentUpon>LampUserControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\RibbonMenu.xaml.cs">
+      <DependentUpon>RibbonMenu.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\SidePanel.xaml.cs">
       <DependentUpon>SidePanel.xaml</DependentUpon>
     </Compile>
@@ -110,6 +114,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="View\RibbonMenu.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\SidePanel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -177,6 +185,13 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\arrow1_left.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\copy.png" />
+    <Resource Include="Resources\paste.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\switch.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

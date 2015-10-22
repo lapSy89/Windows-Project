@@ -30,8 +30,8 @@
             </ListBoxItem>
         </ListBox>
         <ScrollViewer VerticalScrollBarVisibility="Auto" VerticalAlignment="Stretch" DockPanel.Dock="Bottom">
-            <ListBox>
-                <Button Background="Transparent" BorderBrush="Transparent">
+            <ListBox HorizontalContentAlignment="Stretch">
+                <Button Background="Transparent" BorderBrush="Transparent" HorizontalContentAlignment="Left">
                     <Label>
                         <StackPanel Orientation="Horizontal">
                             <Image Source="pack://application:,,,/Resources/lamp_off.png"
@@ -41,12 +41,12 @@
                                 Height="32"
                                 VerticalAlignment="Center"
                                 Margin="0,0,0,0"
-                                HorizontalAlignment="Center" />
+                                HorizontalAlignment="Left" />
                             <AccessText Text="Round Lamp" VerticalAlignment="Center"/>
                         </StackPanel>
                     </Label>
                 </Button>
-                <Button Background="Transparent" BorderBrush="Transparent">
+                <Button Background="Transparent" BorderBrush="Transparent" HorizontalContentAlignment="Left">
                     <Label>
                         <StackPanel Orientation="Horizontal">
                             <Image Source="pack://application:,,,/Resources/lamp_on.png"
@@ -61,7 +61,7 @@
                         </StackPanel>
                     </Label>
                 </Button>
-                <Button Background="Transparent" BorderBrush="Transparent">
+                <Button Background="Transparent" BorderBrush="Transparent" HorizontalContentAlignment="Left">
                     <Label>
                         <StackPanel Orientation="Horizontal">
                             <Image Source="pack://application:,,,/Resources/lamp_on.png"

@@ -6,10 +6,8 @@
         Icon="pack://application:,,,/Resources/lampicon.ico"
         >
     <!-- xmlns:View defined for reference to View.SidePanel -->
-    
     <!-- Overall layout for the Window-->
     <DockPanel>
-        
         <!-- Menu layout -->
         <Grid DockPanel.Dock="Top" Margin="5">
             <Grid.RowDefinitions>
@@ -34,64 +32,8 @@
                     <MenuItem Header="_Paste"></MenuItem>
                 </MenuItem>
             </Menu>
-            
-              <!-- Menu for Toolbar-->
-            <ToolBarPanel Grid.Row="1">
-                <ToolBar Band="1" BandIndex="1">
-                    <Button ToolTip="New File">
-                        <Image Source="pack://application:,,,/Resources/new_file.png"
-                                RenderOptions.BitmapScalingMode="HighQuality"
-                                Stretch="Fill"
-                                Width="16"
-                                Height="16"
-                                VerticalAlignment="Center"
-                                Margin="0,0,0,0"
-                                HorizontalAlignment="Center" />
-                    </Button>
-                    <Button ToolTip="Open File">
-                        <Image Source="pack://application:,,,/Resources/folder.png"
-                                RenderOptions.BitmapScalingMode="HighQuality"
-                                Stretch="Fill"
-                                Width="18"
-                                Height="18"
-                                VerticalAlignment="Center"
-                                Margin="0,0,0,0"
-                                HorizontalAlignment="Center" />
-                    </Button>
-                    <Button ToolTip="Settings">
-                        <Image Source="pack://application:,,,/Resources/setting.png"
-                                RenderOptions.BitmapScalingMode="HighQuality"
-                                Stretch="Fill"
-                                Width="20"
-                                Height="20"
-                                VerticalAlignment="Center"
-                                Margin="0,0,0,0"
-                                HorizontalAlignment="Center" />
-                    </Button>
-                    <Button ToolTip="Undo">
-                        <Image Source="pack://application:,,,/Resources/arrow1_left.png"
-                                RenderOptions.BitmapScalingMode="HighQuality"
-                                Stretch="Fill"
-                                Width="18"
-                                Height="18"
-                                VerticalAlignment="Center"
-                                Margin="0,0,0,0"
-                                HorizontalAlignment="Center" />
-                    </Button>
-                    <Button ToolTip="Redo">
-                        <Image Source="pack://application:,,,/Resources/arrow1_right.png"
-                                RenderOptions.BitmapScalingMode="HighQuality"
-                                Stretch="Fill"
-                                Width="18"
-                                Height="18"
-                                VerticalAlignment="Center"
-                                Margin="0,0,0,0"
-                                HorizontalAlignment="Center" />
-                    </Button>
-                </ToolBar>
-            </ToolBarPanel>
+            <View:RibbonMenu/>
         </Grid>
-        
         <!-- Sidepanel and drawing window layout -->
         <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal">
             
