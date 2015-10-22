@@ -7,9 +7,10 @@
       xmlns:local="clr-namespace:OptiLight.View"
       mc:Ignorable="d" 
       d:DesignHeight="145" Width="auto"
-      >
+      Background="White"
+        >
     <Ribbon.ApplicationMenu>
-        <RibbonApplicationMenu SmallImageSource="pack://application:,,,/Resources/lamp_on.png" >
+        <RibbonApplicationMenu SmallImageSource="pack://application:,,,/Resources/lamp_on.png" HorizontalContentAlignment="Left">
             <RibbonApplicationMenuItem ImageSource="pack://application:,,,/Resources/new_file.png"
                                        Header="New File"/>
             <RibbonApplicationMenuItem ImageSource="pack://application:,,,/Resources/folder.png"
@@ -39,7 +40,7 @@
             </RibbonControlGroup>
         </RibbonGroup>
         <RibbonGroup Header="Light Control">
-            <RibbonToggleButton Label="Toggle Light" ToolTip="Toggle Light" LargeImageSource="pack://application:,,,/Resources/switch.png"/>
+            <RibbonToggleButton Label="Toggle Light" ToolTip="Toggle Light" LargeImageSource="pack://application:,,,/Resources/switch.png" IsEnabled="True"/>
         </RibbonGroup>
     </RibbonTab>
     <RibbonTab Header="Options">
@@ -59,7 +60,6 @@
                     <TextBlock Grid.Column="0" Grid.Row="1" Text="Height" VerticalAlignment="Center"/>
                     <RibbonTextBox Grid.Column="1" Grid.Row="0"/>
                     <RibbonTextBox Grid.Column="1" Grid.Row="1"/>
-
                 </Grid>
             </RibbonControlGroup>
         </RibbonGroup>
