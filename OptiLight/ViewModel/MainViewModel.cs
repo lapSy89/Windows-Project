@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace OptiLight.ViewModel
 {
-    class MainViewModel
+    public class MainViewModel
     {
     }
 }
