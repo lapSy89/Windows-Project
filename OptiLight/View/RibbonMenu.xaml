@@ -1,24 +1,26 @@
 ﻿<Ribbon x:Class="OptiLight.View.RibbonMenu"
-      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-      xmlns:ribbon="clr-namespace:System.Windows.Controls.Ribbon;assembly=System.Windows.Controls.Ribbon"
-      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:local="clr-namespace:OptiLight.View"
-      mc:Ignorable="d" 
-      d:DesignHeight="145" Width="auto"
-      Background="White"
-        >
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:ribbon="clr-namespace:System.Windows.Controls.Ribbon;assembly=System.Windows.Controls.Ribbon"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+        xmlns:local="clr-namespace:OptiLight.View"
+        mc:Ignorable="d" 
+        Width="auto"
+        Background="White"
+        BorderBrush="Black">
+
     <Ribbon.ApplicationMenu>
-        <RibbonApplicationMenu SmallImageSource="pack://application:,,,/Resources/lamp_on.png" HorizontalContentAlignment="Left">
+        <RibbonApplicationMenu SmallImageSource="/Resources/lamp_on.png" HorizontalContentAlignment="Left"
+                               Background="White"
+                               BorderBrush="Black">
             <RibbonApplicationMenuItem ImageSource="pack://application:,,,/Resources/new_file.png"
                                        Header="New File"/>
             <RibbonApplicationMenuItem ImageSource="pack://application:,,,/Resources/folder.png"
                                        Header="Open File"/>
         </RibbonApplicationMenu>
     </Ribbon.ApplicationMenu>
-    
-        <RibbonTab Header="Home" Margin="0,0,0,1">
+    <RibbonTab Header="Home">
         <RibbonGroup Header="Start">
             <RibbonButton Label="New File"
                           SmallImageSource="pack://application:,,,/Resources/new_file.png"
@@ -31,8 +33,8 @@
         </RibbonGroup>
         <RibbonGroup Header="Edit">
             <RibbonControlGroup>
-                <RibbonButton Grid.Column="0" Grid.Row="0" SmallImageSource="pack://application:,,,/Resources/arrow1_left.png"/>
-                <RibbonButton Grid.Column="1" Grid.Row="0" SmallImageSource="pack://application:,,,/Resources/arrow1_right.png"/>
+                <RibbonButton Grid.Column="0" Grid.Row="0" ToolTip="Undo" SmallImageSource="pack://application:,,,/Resources/arrow1_left.png"/>
+                <RibbonButton Grid.Column="1" Grid.Row="0" ToolTip="Redo" SmallImageSource="pack://application:,,,/Resources/arrow1_right.png"/>
             </RibbonControlGroup>
             <RibbonControlGroup>
                 <RibbonButton ToolTip="Copy" SmallImageSource="pack://application:,,,/Resources/copy.png"/>
@@ -40,12 +42,12 @@
             </RibbonControlGroup>
         </RibbonGroup>
         <RibbonGroup Header="Light Control">
-            <RibbonToggleButton Label="Toggle Light" ToolTip="Toggle Light" LargeImageSource="pack://application:,,,/Resources/switch.png" IsEnabled="True"/>
+            <RibbonToggleButton Label="Toggle Light" ToolTip="Let There Be Light!" LargeImageSource="pack://application:,,,/Resources/switch.png" IsEnabled="True"/>
         </RibbonGroup>
     </RibbonTab>
-    <RibbonTab Header="Options">
+    <RibbonTab ToolTip="Options" Header="Options">
         <RibbonGroup>
-            <RibbonControlGroup>
+            <RibbonControlGroup BorderBrush="White">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition />

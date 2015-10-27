@@ -15,31 +15,15 @@
                 <RowDefinition Height="Auto"></RowDefinition>
             </Grid.RowDefinitions>
             <!-- Menu for "File" "Edit" -->
-            <Menu Grid.Row="0">
-                <MenuItem Header="_File">
-                    <MenuItem Header="_New"></MenuItem>
-                    <MenuItem Header="_Open"></MenuItem>
-                    <MenuItem Header="_Save"></MenuItem>
-                    <Separator />
-                    <MenuItem Header="_Quit"></MenuItem>
-                </MenuItem>
-                <MenuItem Header="_Edit">
-                    <MenuItem Header="_Undo"></MenuItem>
-                    <MenuItem Header="_Redo"></MenuItem>
-                    <Separator />
-                    <MenuItem Header="_Cut"></MenuItem>
-                    <MenuItem Header="_Copy"></MenuItem>
-                    <MenuItem Header="_Paste"></MenuItem>
-                </MenuItem>
-            </Menu>
+
             <View:RibbonMenu Grid.Row="1"/>
         </Grid>
         <!-- Sidepanel and drawing window layout -->
         <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal">
-            
+
             <!-- SidePanel layout (comes from SidePanel.xaml -->
             <View:SidePanel/>
-            
+
             <!-- Drawing window -->
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -58,8 +42,6 @@
                     </Border.Background>
                 </Border>
             </Grid>
-           
         </StackPanel>
-
     </DockPanel>
 </Window>
