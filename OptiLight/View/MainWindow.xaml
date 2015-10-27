@@ -64,13 +64,13 @@
                     <ColumnDefinition />
                     <ColumnDefinition Width="auto"/>
                 </Grid.ColumnDefinitions>
-                <Border Width="500">
+                <Border Width="800">
                     <Border.Background>
                         <VisualBrush TileMode="Tile"
-                                Viewport="0,0,10,10" ViewportUnits="Absolute" 
-                                Viewbox="0,0,10,10" ViewboxUnits="Absolute">
+                                Viewport="0,0,20,20" ViewportUnits="Absolute" 
+                                Viewbox="0,0,20,20" ViewboxUnits="Absolute">
                             <VisualBrush.Visual>
-                                <Rectangle Stroke="DarkBlue" StrokeThickness="0.5" Height="50" Width="50" StrokeDashArray="5 3"/>
+                                <Rectangle Stroke="DarkGray" StrokeThickness="0.3" Height="50" Width="50" StrokeDashArray="5 3"/>
                             </VisualBrush.Visual>
                         </VisualBrush>
                     </Border.Background>
