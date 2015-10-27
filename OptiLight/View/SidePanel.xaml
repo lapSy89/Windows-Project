@@ -3,9 +3,80 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:excd="http://schemas.xceed.com/wpf/xaml/toolkit"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
-    <StackPanel Background="Cyan" Width="300">
-        
-    </StackPanel>
+             d:DesignHeight="300" Width="182.101">
+
+    <DockPanel>
+        <ListBox DockPanel.Dock="Bottom">
+            <ListBoxItem Margin="0,5,0,0">
+                <StackPanel Orientation="Horizontal">
+                    <AccessText Text="Brightness: "/>
+                    <excd:IntegerUpDown Value="25" Increment="1" Maximum="100" FormatString="G0"/>
+                    <AccessText Text=" Watt"/>
+                </StackPanel>
+            </ListBoxItem>
+            <ListBoxItem Margin="0,5,0,0">
+                <StackPanel Orientation="Horizontal">
+                    <AccessText Text="Height:       "/>
+                    <excd:IntegerUpDown Value="25" Increment="1" Maximum="100" FormatString="G0" />
+                    <AccessText Text=" cm"/>
+                </StackPanel>
+            </ListBoxItem>
+            <ListBoxItem Margin="0,5,0,5">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Lightradius is:          200 cm"/>
+                </StackPanel>
+            </ListBoxItem>
+        </ListBox>
+        <ScrollViewer VerticalScrollBarVisibility="Auto" VerticalAlignment="Stretch" DockPanel.Dock="Bottom">
+            <ListBox HorizontalContentAlignment="Stretch">
+                <Button Background="Transparent" BorderBrush="Transparent" HorizontalContentAlignment="Left">
+                    <Label>
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="pack://application:,,,/Resources/lamp_off.png"
+                                RenderOptions.BitmapScalingMode="HighQuality"
+                                Stretch="Fill"
+                                Width="32"
+                                Height="32"
+                                VerticalAlignment="Center"
+                                Margin="0,0,0,0"
+                                HorizontalAlignment="Left" />
+                            <AccessText Text="Round Lamp" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Label>
+                </Button>
+                <Button Background="Transparent" BorderBrush="Transparent" HorizontalContentAlignment="Left">
+                    <Label>
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="pack://application:,,,/Resources/lamp_on.png"
+                                 RenderOptions.BitmapScalingMode="HighQuality"
+                                 Stretch="Fill"
+                                 Width="32"
+                                 Height="32"
+                                 VerticalAlignment="Center"
+                                 Margin="0,0,0,0"
+                                 HorizontalAlignment="Center" />
+                            <AccessText Text="Square Lamp" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Label>
+                </Button>
+                <Button Background="Transparent" BorderBrush="Transparent" HorizontalContentAlignment="Left">
+                    <Label>
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="pack://application:,,,/Resources/lamp_on.png"
+                           RenderOptions.BitmapScalingMode="Fant"
+                           Stretch="Fill"
+                           Width="32"
+                           Height="32"
+                           VerticalAlignment="Top"
+                           Margin="0,0,0,0"
+                           HorizontalAlignment="Center" />
+                            <AccessText Text="Rectangular Lamp" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Label>
+                </Button>
+            </ListBox>
+        </ScrollViewer>
+    </DockPanel>
 </UserControl>
