@@ -31,7 +31,9 @@
         </ListBox>
         <ScrollViewer VerticalScrollBarVisibility="Auto" VerticalAlignment="Stretch" DockPanel.Dock="Bottom">
             <ListBox HorizontalContentAlignment="Stretch">
-                <Button Background="Transparent" BorderBrush="Transparent" HorizontalContentAlignment="Left">
+                <!-- The button is binding to the AddLampCommand from the MainViewModel -->
+                <Button Background="Transparent" BorderBrush="Transparent" HorizontalContentAlignment="Left"
+                        Command="{Binding AddLampCommand}">
                     <Label>
                         <StackPanel Orientation="Horizontal">
                             <Image Source="pack://application:,,,/Resources/lamp_off.png"
