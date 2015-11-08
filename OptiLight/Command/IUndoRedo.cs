@@ -6,7 +6,10 @@ using System.Threading.Tasks;
 
 namespace OptiLight.Command
 {
-    class IUndoRedo
+    public interface IUndoRedo
     {
+        void Execute();
+
+        void UnExecute();
     }
 }
