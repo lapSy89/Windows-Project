@@ -5,10 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OptiLight.Command {
-
-    class AddLamp {
-
+namespace OptiLight.Command
+{
+    class AddLamp : IUndoRedo
+    {
         // Global variables for adding lamp to the collection of lamps
         private ObservableCollection<Model.RoundLamp> RoundLamps;
         private Model.RoundLamp RoundLamp;

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace OptiLight.Command
 {
 
-    class MoveLamp
+    class MoveLamp : IUndoRedo
     {
         // Global variables used for changing lamps position
         private Model.RoundLamp RoundLamp;
