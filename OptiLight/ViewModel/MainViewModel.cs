@@ -16,9 +16,14 @@ namespace OptiLight.ViewModel
 
         // The collection of the lamps
         public ObservableCollection<Model.RoundLamp> RoundLamps { get; set; }
+        public ObservableCollection<Model.RectangleLamp> RectangleLamps { get; set; }
+
+
 
         // Commands used in the gui
-        public ICommand AddLampCommand { get; }
+        public ICommand AddRoundLampCommand { get; }
+        public ICommand AddRectangleLampCommand { get; }
+
         public ICommand LampPressedCommand { get; }
         public ICommand LampReleasedCommand { get; }
         public ICommand MoveLampCommand { get; }
@@ -31,19 +36,30 @@ namespace OptiLight.ViewModel
                 new Model.RoundLamp() { X = 100, Y = 100, Width = 50, Height = 50 }
             };
 
+            RectangleLamps = new ObservableCollection<Model.RectangleLamp>() {
+               new Model.RectangleLamp() { X = 50, Y = 50, Width = 100, Height = 50 },
+               new Model.RectangleLamp() { X = 50, Y = 50, Width = 100, Height = 50 }
+            };
+
             // Commands are defined as relay commands
-            AddLampCommand = new RelayCommand(AddLamp);
+            AddRoundLampCommand = new RelayCommand(AddRoundLamp);
+            AddRectangleLampCommand = new RelayCommand(AddRectangleLamp);
             LampPressedCommand = new RelayCommand<MouseButtonEventArgs>(MousePressed);
             LampReleasedCommand = new RelayCommand<MouseButtonEventArgs>(MouseReleased);
             MoveLampCommand = new RelayCommand<MouseEventArgs>(MoveLamp);
-
         }
 
         // Method for executing the AddLampCommand
-        private void AddLamp()
+        private void AddRoundLamp()
         {
-            new Command.AddLamp(RoundLamps, new Model.RoundLamp()).Execute();
+            new Command.AddRoundLamp(RoundLamps, new Model.RoundLamp()).Execute();
         }
+
+        private void AddRectangleLamp()
+        {
+            new Command.AddRectangleLamp(RectangleLamps, new Model.RectangleLamp()).Execute();
+        }
+
 
         // Method for capturing the mouse on a lamp
         private void MousePressed(MouseButtonEventArgs e)
@@ -55,7 +71,6 @@ namespace OptiLight.ViewModel
             initialMousePosition = MousePosition;
 
             e.MouseDevice.Target.CaptureMouse();
-
         }
 
         // Method for releasing the capturing of the mouse on a lamp. After the mouse is released, the lamps new position is defined
@@ -94,6 +109,8 @@ namespace OptiLight.ViewModel
             return (Model.RoundLamp)targetedElement.DataContext;
         }
 
+
+
         // Helper method for registration of the position of the mouse.
         private Point RelativeMousePosition(MouseEventArgs e)
         {
@@ -108,8 +125,5 @@ namespace OptiLight.ViewModel
             dynamic parent = VisualTreeHelper.GetParent(o);
             return parent.GetType().IsAssignableFrom(typeof(T)) ? parent : FindParentOfType<T>(parent);
         }
-
-
-
     }
 }

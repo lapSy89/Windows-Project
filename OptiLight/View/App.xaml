@@ -6,12 +6,10 @@
              StartupUri="MainWindow.xaml">
     <!-- Here all the resources for showing the lamps are defined -->
     <Application.Resources>
-        
         <!-- This tells the view how the rectangle lamp should look -->
         <DataTemplate DataType="{x:Type Model:RectangleLamp}">
             <Canvas>
-                <!-- Temp value -->
-                <Button Background="Black" Height="20" Width="50"/>
+                <View:RectangleLampUserControl/>
             </Canvas>
         </DataTemplate>
 
@@ -22,13 +20,13 @@
             </Canvas>
         </DataTemplate>
 
-        <!-- This tells the view how the squared lamp should look -->
+        <!-- This tells the view how the squared lamp should look 
         <DataTemplate DataType="{x:Type Model:SquareLamp}">
             <Canvas>
-                <!-- Temp value -->
+                 Temp value 
                 <Button Background="Green" Height="40" Width="40"/>
             </Canvas>
         </DataTemplate>
-        
+        -->
     </Application.Resources>
 </Application>

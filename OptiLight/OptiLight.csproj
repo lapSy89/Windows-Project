@@ -100,7 +100,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Command\AddLamp.cs" />
+    <Compile Include="Command\AddRectangleLamp.cs" />
+    <Compile Include="Command\AddRoundLamp.cs" />
     <Compile Include="Command\IUndoRedo.cs" />
     <Compile Include="Command\MoveLamp.cs" />
     <Compile Include="Command\RemoveLamp.cs" />
@@ -108,7 +109,7 @@
     <Compile Include="Model\Notify.cs" />
     <Compile Include="Model\RectangleLamp.cs" />
     <Compile Include="Model\RoundLamp.cs" />
-    <Compile Include="Model\SquareLamp.cs" />
+    <Compile Include="ViewModel\LampViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
     <Compile Include="View\LampUserControl.xaml.cs">
@@ -116,6 +117,9 @@
     </Compile>
     <Compile Include="View\RibbonMenu.xaml.cs">
       <DependentUpon>RibbonMenu.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\RectangleLampUserControl.xaml.cs">
+      <DependentUpon>RectangleLampUserControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\RoundLampUserControl.xaml.cs">
       <DependentUpon>RoundLampUserControl.xaml</DependentUpon>
@@ -142,6 +146,10 @@
     <Page Include="View\RibbonMenu.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\RectangleLampUserControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="View\RoundLampUserControl.xaml">
       <SubType>Designer</SubType>

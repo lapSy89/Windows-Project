@@ -7,14 +7,14 @@ using System.Threading.Tasks;
 
 namespace OptiLight.Command {
 
-    class AddLamp {
+    class AddRoundLamp {
 
         // Global variables for adding lamp to the collection of lamps
         private ObservableCollection<Model.RoundLamp> RoundLamps;
         private Model.RoundLamp RoundLamp;
 
         // Constructor for setting the global variables
-        public AddLamp(ObservableCollection<Model.RoundLamp> RoundLamps, Model.RoundLamp RoundLamp) {
+        public AddRoundLamp(ObservableCollection<Model.RoundLamp> RoundLamps, Model.RoundLamp RoundLamp) {
             this.RoundLamps = RoundLamps;
             this.RoundLamp = RoundLamp;
         }

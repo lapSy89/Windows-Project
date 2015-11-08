@@ -33,7 +33,7 @@
             <ListBox HorizontalContentAlignment="Stretch">
                 <!-- The button is binding to the AddLampCommand from the MainViewModel -->
                 <Button Background="Transparent" BorderBrush="Transparent" HorizontalContentAlignment="Left"
-                        Command="{Binding AddLampCommand}">
+                        Command="{Binding AddRoundLampCommand}">
                     <Label>
                         <StackPanel Orientation="Horizontal">
                             <Image Source="pack://application:,,,/Resources/lamp_off.png"
@@ -48,7 +48,8 @@
                         </StackPanel>
                     </Label>
                 </Button>
-                <Button Background="Transparent" BorderBrush="Transparent" HorizontalContentAlignment="Left">
+                <Button Background="Transparent" BorderBrush="Transparent" HorizontalContentAlignment="Left"
+                         Command="{Binding AddRectangleLampCommand}">
                     <Label>
                         <StackPanel Orientation="Horizontal">
                             <Image Source="pack://application:,,,/Resources/lamp_on.png"
