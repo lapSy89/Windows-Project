@@ -7,30 +7,13 @@ using System.Threading.Tasks;
 
 namespace OptiLight.Model
 {
-    public class Lamp : Notify
+    public abstract class Lamp
     {
         // Standard x value for placing lamp in Grid with method for setting and getting
-        private double x = 200;
-        public double X { get { return x; } set { x = value; NotifyPropertyChanged(); } }
-
-        // Standard y value for placing lamp in Grid with method for setting and getting
-        private double y = 200;
-        public double Y { get { return y; } set { y = value; NotifyPropertyChanged(); } }
-
-        // Standard width value for size of Round Lamp with method for setting and getting
-        private double roundWidth = 50;
-        public double RoundWidth { get { return roundWidth; } set { roundWidth = value; NotifyPropertyChanged(); } }
-
-        // Standard height value for size of Round Lamp with method for setting and getting
-        private double roundHeight = 50;
-        public double RoundHeight { get { return roundHeight; } set { roundHeight = value; NotifyPropertyChanged(); } }
-
-        // Standard width value for size of Square Lamp with method for setting and getting
-        private double squareWidth = 60;
-        public double SquareWidth { get { return squareWidth; } set { squareWidth = value; NotifyPropertyChanged(); } }
-
-        // Standard height value for size of Square Lamp with method for setting and getting
-        private double squareHeight = 60;
-        public double SquareHeight { get { return squareHeight; } set { squareHeight = value; NotifyPropertyChanged(); } }
+       
+        public double X { get; set; } = 100;
+        public double Y { get; set; } = 100;
+        public double Width { get; set; } = 50;
+        public double Height { get; set; } = 50;
     }
 }

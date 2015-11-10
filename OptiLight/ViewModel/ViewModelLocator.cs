@@ -13,8 +13,13 @@
 */
 
 using GalaSoft.MvvmLight;
-using GalaSoft.MvvmLight.Ioc;
 using Microsoft.Practices.ServiceLocation;
+using Microsoft.Practices.Unity;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace OptiLight.ViewModel
 {
@@ -24,38 +29,25 @@ namespace OptiLight.ViewModel
     /// </summary>
     public class ViewModelLocator
     {
-        /// <summary>
-        /// Initializes a new instance of the ViewModelLocator class.
-        /// </summary>
         public ViewModelLocator()
         {
-            ServiceLocator.SetLocatorProvider(() => SimpleIoc.Default);
+            var container = new UnityContainer();
+            var locator = new UnityServiceLocator(container);
+            ServiceLocator.SetLocatorProvider(() => locator);
 
-            ////if (ViewModelBase.IsInDesignModeStatic)
-            ////{
-            ////    // Create design time view services and models
-            ////    SimpleIoc.Default.Register<IDataService, DesignDataService>();
-            ////}
-            ////else
-            ////{
-            ////    // Create run time view services and models
-            ////    SimpleIoc.Default.Register<IDataService, DataService>();
-            ////}
-
-            SimpleIoc.Default.Register<MainViewModel>();
-        }
-
-        public MainViewModel Main
-        {
-            get
+            if (ViewModelBase.IsInDesignModeStatic)
             {
-                return ServiceLocator.Current.GetInstance<MainViewModel>();
+                // Insert dependencies for design-time data.
             }
+            else
+            {
+                container.RegisterType<DialogViews>();
+                //container.RegisterType<UndoRedoController>();
+            }
+
+            container.RegisterType<MainViewModel>();
         }
-        
-        public static void Cleanup()
-        {
-            // TODO Clear the ViewModels
-        }
+
+        public MainViewModel Main => ServiceLocator.Current.GetInstance<MainViewModel>();
     }
 }

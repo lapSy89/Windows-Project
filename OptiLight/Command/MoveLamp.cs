@@ -3,37 +3,41 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using OptiLight.ViewModel;
 
 namespace OptiLight.Command
 {
 
-    class MoveLamp
+    class MoveLamp : IUndoRedo
     {
         // Global variables used for changing lamps position
-        private Model.Lamp Lamp;
-        private double changeX;
-        private double changeY;
+
+
+        private LampViewModel lamp;
+        private double v1;
+        private double v2;
 
         // Constructer method for setting global variables to here-and-now data
-        public MoveLamp(Model.Lamp Lamp, double changeX, double changeY)
+  
+        public MoveLamp(LampViewModel lamp, double v1, double v2)
         {
-            this.Lamp = Lamp;
-            this.changeX = changeX;
-            this.changeY = changeY;
+            this.lamp = lamp;
+            this.v1 = v1;
+            this.v2 = v2;
         }
 
         // Method for changing the position of the lamp
         public void Execute()
         {
-            Lamp.X += changeX;
-            Lamp.Y += changeY;
+            lamp.X += v1;
+            lamp.Y += v2;
         }
 
         // Method for undoing change in position
         public void UnExecute()
         {
-            Lamp.X -= changeX;
-            Lamp.Y -= changeY;
+            lamp.X -= v1;
+            lamp.Y -= v2;
         }
     }
 }

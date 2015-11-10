@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace OptiLight.Model
 {
-    class RectangleLamp
+   public class RectangleLamp : Lamp
     {
     }
 }

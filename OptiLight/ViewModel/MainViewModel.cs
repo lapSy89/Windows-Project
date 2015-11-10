@@ -1,4 +1,5 @@
-﻿using GalaSoft.MvvmLight.CommandWpf;
+﻿using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.Command;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 using System.Windows;
@@ -7,42 +8,40 @@ using System.Windows.Controls;
 
 namespace OptiLight.ViewModel
 {
-    public class MainViewModel
+    public class MainViewModel : BaseViewModel
     {
         // Global points created for having initials positions of Lamp and Mouse when a lamp is moved.
         private Point initialLampPosition;
         private Point initialMousePosition;
 
         // The collection of the lamps
-        public ObservableCollection<Model.Lamp> Lamps { get; set; }
+
 
         // Commands used in the gui
-        public ICommand AddLampCommand { get; }
+        public ICommand AddRoundLampCommand { get; }
+        public ICommand AddRectangleLampCommand { get; }
+
         public ICommand LampPressedCommand { get; }
         public ICommand LampReleasedCommand { get; }
         public ICommand MoveLampCommand { get; }
 
-        public MainViewModel()
+        public MainViewModel() : base()
         {
             // Lamps created from the start
-            Lamps = new ObservableCollection<Model.Lamp>() {
-                new Model.Lamp() { X = 50, Y = 50, RoundWidth = 50, RoundHeight = 50 },
-                new Model.Lamp() { X = 100, Y = 100, RoundWidth = 50, RoundHeight = 50 }
+            //It generates a collection of LampViewModels
+            Lamps = new ObservableCollection<LampViewModel>() {
+                 new RoundLampViewModel(new Model.RoundLamp() { X = 50, Y = 50, Width = 50, Height = 50 }),
+              new RectangleLampViewModel(new Model.RectangleLamp() { X = 100, Y = 50, Width = 100, Height = 50 })
             };
 
             // Commands are defined as relay commands
-            AddLampCommand = new RelayCommand(AddLamp);
+          
             LampPressedCommand = new RelayCommand<MouseButtonEventArgs>(MousePressed);
             LampReleasedCommand = new RelayCommand<MouseButtonEventArgs>(MouseReleased);
             MoveLampCommand = new RelayCommand<MouseEventArgs>(MoveLamp);
-
         }
 
-        // Method for executing the AddLampCommand
-        private void AddLamp()
-        {
-            new Command.AddLamp(Lamps, new Model.Lamp()).Execute();
-        }
+
 
         // Method for capturing the mouse on a lamp
         private void MousePressed(MouseButtonEventArgs e)
@@ -54,7 +53,6 @@ namespace OptiLight.ViewModel
             initialMousePosition = MousePosition;
 
             e.MouseDevice.Target.CaptureMouse();
-
         }
 
         // Method for releasing the capturing of the mouse on a lamp. After the mouse is released, the lamps new position is defined
@@ -87,11 +85,13 @@ namespace OptiLight.ViewModel
         }
 
         // Helping method for attaching the mouse to a lamp
-        private Model.Lamp TargetLamp(MouseEventArgs e)
+        private LampViewModel TargetLamp(MouseEventArgs e)
         {
             var targetedElement = (FrameworkElement)e.MouseDevice.Target;
-            return (Model.Lamp)targetedElement.DataContext;
+            return (LampViewModel)targetedElement.DataContext;
         }
+
+
 
         // Helper method for registration of the position of the mouse.
         private Point RelativeMousePosition(MouseEventArgs e)

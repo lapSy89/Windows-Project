@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OptiLight.Command
+namespace OptiLight.Model
 {
-    class UndoRedo
+    public class RoundLamp : Lamp
     {
     }
 }
