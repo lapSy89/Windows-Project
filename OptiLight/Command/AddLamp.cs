@@ -7,26 +7,27 @@ using System.Threading.Tasks;
 
 namespace OptiLight.Command {
 
-    class AddRoundLamp {
+    public class AddLamp : IUndoRedo{
 
         // Global variables for adding lamp to the collection of lamps
-        private ObservableCollection<Model.RoundLamp> RoundLamps;
-        private Model.RoundLamp RoundLamp;
+        private ObservableCollection<ViewModel.LampViewModel> lampCollection;
+        private ViewModel.LampViewModel lamp;
 
         // Constructor for setting the global variables
-        public AddRoundLamp(ObservableCollection<Model.RoundLamp> RoundLamps, Model.RoundLamp RoundLamp) {
-            this.RoundLamps = RoundLamps;
-            this.RoundLamp = RoundLamp;
+        public AddLamp(ObservableCollection<ViewModel.LampViewModel> lampCollection, ViewModel.LampViewModel lamp) {
+            this.lampCollection = lampCollection;
+            this.lamp = lamp;
         }
 
         // Method for adding lamp to the collection
         public void Execute() {
-            RoundLamps.Add(RoundLamp);
+            lampCollection.Add(lamp);
         }
 
         // Method for removing the lamp from the collection
+        //TODO: is not currently called, implement this in the BaseViewModel
         public void UnExecute() {
-            RoundLamps.Remove(RoundLamp);
+            lampCollection.Remove(lamp);
         }
     }
 }

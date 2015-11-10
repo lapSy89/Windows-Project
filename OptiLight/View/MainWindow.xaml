@@ -5,11 +5,12 @@
         xmlns:ViewModel="clr-namespace:OptiLight.ViewModel"
         Title="Optilight" Height="700" Width="900"
         Icon="pack://application:,,,/Resources/lampicon.ico"
+        DataContext="{Binding Source={StaticResource Locator}, Path=Main}"
         >
     
-    <Window.DataContext>
+   <!-- <Window.DataContext>
         <ViewModel:MainViewModel />
-    </Window.DataContext>
+    </Window.DataContext> -->
     
     <!-- Overall layout for the Window-->
     <DockPanel>
@@ -36,9 +37,7 @@
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch"/>
 
-                <ItemsControl ItemsSource="{Binding RectangleLamps}"/>
-                <ItemsControl ItemsSource="{Binding RoundLamps}"/>
-                <ItemsControl ItemsSource="{Binding SquareLamps}"/>
+                <ItemsControl ItemsSource="{Binding Lamps}"/>
                  
             </Grid>
            

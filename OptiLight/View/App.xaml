@@ -1,20 +1,21 @@
 ﻿<Application x:Class="OptiLight.View.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:Model="clr-namespace:OptiLight.Model"
+             xmlns:ViewModel="clr-namespace:OptiLight.ViewModel"
              xmlns:View="clr-namespace:OptiLight.View"
              StartupUri="MainWindow.xaml">
     <!-- Here all the resources for showing the lamps are defined -->
     <Application.Resources>
+        <ViewModel:ViewModelLocator x:Key="Locator" />
         <!-- This tells the view how the rectangle lamp should look -->
-        <DataTemplate DataType="{x:Type Model:RectangleLamp}">
+        <DataTemplate DataType="{x:Type ViewModel:RectangleLampViewModel}">
             <Canvas>
                 <View:RectangleLampUserControl/>
             </Canvas>
         </DataTemplate>
 
         <!-- This tells the view how the round lamp should look -->
-        <DataTemplate DataType="{x:Type Model:RoundLamp}">
+        <DataTemplate DataType="{x:Type ViewModel:RoundLampViewModel}">
             <Canvas>
                 <View:RoundLampUserControl/>
             </Canvas>
