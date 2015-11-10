@@ -121,16 +121,15 @@
     <Compile Include="Model\RectangleLamp.cs" />
     <Compile Include="Model\Lamp.cs" />
     <Compile Include="Model\RoundLamp.cs" />
+    <Compile Include="Model\SquareLamp.cs" />
     <Compile Include="ViewModel\BaseViewModel.cs" />
     <Compile Include="ViewModel\DialogViews.cs" />
     <Compile Include="ViewModel\RoundLampViewModel.cs" />
     <Compile Include="ViewModel\RectangleLampViewModel.cs" />
     <Compile Include="ViewModel\LampViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
+    <Compile Include="ViewModel\SquareLampViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
-    <Compile Include="View\LampUserControl.xaml.cs">
-      <DependentUpon>LampUserControl.xaml</DependentUpon>
-    </Compile>
     <Compile Include="View\RibbonMenu.xaml.cs">
       <DependentUpon>RibbonMenu.xaml</DependentUpon>
     </Compile>
@@ -143,10 +142,9 @@
     <Compile Include="View\SidePanel.xaml.cs">
       <DependentUpon>SidePanel.xaml</DependentUpon>
     </Compile>
-    <Page Include="View\LampUserControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
+    <Compile Include="View\SquareLampUserControl.xaml.cs">
+      <DependentUpon>SquareLampUserControl.xaml</DependentUpon>
+    </Compile>
     <Page Include="View\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -172,6 +170,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\SidePanel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\SquareLampUserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

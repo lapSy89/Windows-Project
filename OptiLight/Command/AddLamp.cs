@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.ObjectModel;
 
 namespace OptiLight.Command {
 
-    public class AddLamp : IUndoRedo{
+    public class AddLamp : IUndoRedo {
 
         // Global variables for adding lamp to the collection of lamps
         private ObservableCollection<ViewModel.LampViewModel> lampCollection;

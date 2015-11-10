@@ -1,15 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace OptiLight.Command {
 
-namespace OptiLight.Command
-{
-    public interface IUndoRedo
-    {
+    public interface IUndoRedo {
         void Execute();
-
         void UnExecute();
     }
 }

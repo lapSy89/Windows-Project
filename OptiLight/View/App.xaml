@@ -21,13 +21,11 @@
             </Canvas>
         </DataTemplate>
 
-        <!-- This tells the view how the squared lamp should look 
-        <DataTemplate DataType="{x:Type Model:SquareLamp}">
+        <!-- This tells the view how the squared lamp should look -->
+        <DataTemplate DataType="{x:Type ViewModel:SquareLampViewModel}">
             <Canvas>
-                 Temp value 
-                <Button Background="Green" Height="40" Width="40"/>
+                <View:SquareLampUserControl/>
             </Canvas>
         </DataTemplate>
-        -->
     </Application.Resources>
 </Application>

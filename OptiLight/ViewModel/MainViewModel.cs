@@ -1,16 +1,13 @@
-﻿using GalaSoft.MvvmLight;
-using GalaSoft.MvvmLight.Command;
+﻿using GalaSoft.MvvmLight.Command;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Controls;
-using System;
 
-namespace OptiLight.ViewModel
-{
-    public class MainViewModel : BaseViewModel
-    {
+namespace OptiLight.ViewModel {
+
+    public class MainViewModel : BaseViewModel {
         // Global points created for having initials positions of Lamp and Mouse when a lamp is moved.
         private Point initialLampPosition;
         private Point initialMousePosition;
@@ -30,13 +27,13 @@ namespace OptiLight.ViewModel
         public ICommand MoveLampCommand { get; }
         public ICommand toggleSnappingCommand { get; }
 
-        public MainViewModel() : base()
-        {
+        public MainViewModel() : base() {
             // Lamps created from the start
             //It generates a collection of LampViewModels
             Lamps = new ObservableCollection<LampViewModel>() {
                  new RoundLampViewModel(new Model.RoundLamp() { X = 50, Y = 50, Width = 50, Height = 50 }),
-              new RectangleLampViewModel(new Model.RectangleLamp() { X = 100, Y = 50, Width = 100, Height = 50 })
+                 new RectangleLampViewModel(new Model.RectangleLamp() { X = 100, Y = 50, Width = 50, Height = 50 }),
+                 new SquareLampViewModel(new Model.SquareLamp() { X = 200, Y = 100, Width = 50, Height = 50 })
             };
 
             // Commands are defined as relay commands
@@ -51,10 +48,9 @@ namespace OptiLight.ViewModel
         {
             snapActive = !snapActive;
         }
-
+    
         // Method for capturing the mouse on a lamp
-        private void MousePressed(MouseButtonEventArgs e)
-        {
+        private void MousePressed(MouseButtonEventArgs e) {
             var Lamp = TargetLamp(e);
             var MousePosition = RelativeMousePosition(e);
 
@@ -66,8 +62,7 @@ namespace OptiLight.ViewModel
 
         // Method for releasing the capturing of the mouse on a lamp. After the mouse is released, the lamps new position is defined
         // and saved to the lamp.
-        private void MouseReleased(MouseButtonEventArgs e)
-        {
+        private void MouseReleased(MouseButtonEventArgs e) {
             var Lamp = TargetLamp(e);
             var MousePosition = RelativeMousePosition(e);
 
@@ -106,8 +101,7 @@ namespace OptiLight.ViewModel
 
         // Method for moving the lamp. This is created as an on-the-go method, so that each "pixel" move of the lamp isn't saved in the undo-redo
         // command. So when undo is pressed, the lamp is moved to it's original position before even moving.
-        private void MoveLamp(MouseEventArgs e)
-        {
+        private void MoveLamp(MouseEventArgs e) {
             if (Mouse.Captured != null)
             {
                 var Lamp = TargetLamp(e);
@@ -142,8 +136,7 @@ namespace OptiLight.ViewModel
         }
 
         // Helping method for attaching the mouse to a lamp
-        private LampViewModel TargetLamp(MouseEventArgs e)
-        {
+        private LampViewModel TargetLamp(MouseEventArgs e) {
             var targetedElement = (FrameworkElement)e.MouseDevice.Target;
             return (LampViewModel)targetedElement.DataContext;
         }
@@ -151,16 +144,14 @@ namespace OptiLight.ViewModel
 
 
         // Helper method for registration of the position of the mouse.
-        private Point RelativeMousePosition(MouseEventArgs e)
-        {
+        private Point RelativeMousePosition(MouseEventArgs e) {
             var targetedElement = (FrameworkElement)e.MouseDevice.Target;
             var canvas = FindParentOfType<Canvas>(targetedElement);
             return Mouse.GetPosition(canvas);
         }
 
         // Ved ikke rigtig hvad denne gør!?
-        private static T FindParentOfType<T>(DependencyObject o)
-        {
+        private static T FindParentOfType<T>(DependencyObject o) {
             dynamic parent = VisualTreeHelper.GetParent(o);
             return parent.GetType().IsAssignableFrom(typeof(T)) ? parent : FindParentOfType<T>(parent);
         }

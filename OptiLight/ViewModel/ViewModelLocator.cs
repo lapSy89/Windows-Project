@@ -15,32 +15,22 @@
 using GalaSoft.MvvmLight;
 using Microsoft.Practices.ServiceLocation;
 using Microsoft.Practices.Unity;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace OptiLight.ViewModel
-{
+namespace OptiLight.ViewModel {
     /// <summary>
     /// This class contains static references to all the view models in the
     /// application and provides an entry point for the bindings.
     /// </summary>
-    public class ViewModelLocator
-    {
-        public ViewModelLocator()
-        {
+    public class ViewModelLocator {
+
+        public ViewModelLocator() {
             var container = new UnityContainer();
             var locator = new UnityServiceLocator(container);
             ServiceLocator.SetLocatorProvider(() => locator);
 
-            if (ViewModelBase.IsInDesignModeStatic)
-            {
+            if (ViewModelBase.IsInDesignModeStatic) {
                 // Insert dependencies for design-time data.
-            }
-            else
-            {
+            } else {
                 container.RegisterType<DialogViews>();
                 //container.RegisterType<UndoRedoController>();
             }
