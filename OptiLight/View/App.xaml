@@ -8,15 +8,14 @@
     <Application.Resources>
         
         <!-- This tells the view how the rectangle lamp should look -->
-        <DataTemplate DataType="{x:Type Model:RectangleLamp}">
+        <DataTemplate DataType="{x:Type Model:Lamp}">
             <Canvas>
-                <!-- Temp value -->
-                <Button Background="Black" Height="20" Width="50"/>
+                <View:LampUserControl/>
             </Canvas>
         </DataTemplate>
 
         <!-- This tells the view how the round lamp should look -->
-        <DataTemplate DataType="{x:Type Model:RoundLamp}">
+        <DataTemplate DataType="{x:Type Model:Lamp}">
             <Canvas>
                 <View:RoundLampUserControl/>
             </Canvas>

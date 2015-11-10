@@ -35,10 +35,8 @@
                         BorderThickness="2"
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch"/>
-
-                <ItemsControl ItemsSource="{Binding RectangleLamps}"/>
-                <ItemsControl ItemsSource="{Binding RoundLamps}"/>
-                <ItemsControl ItemsSource="{Binding SquareLamps}"/>
+                
+                <ItemsControl ItemsSource="{Binding Lamps}"/>
                  
             </Grid>
            

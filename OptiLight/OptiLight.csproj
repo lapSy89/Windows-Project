@@ -107,7 +107,7 @@
     <Compile Include="Command\UndoRedo.cs" />
     <Compile Include="Model\Notify.cs" />
     <Compile Include="Model\RectangleLamp.cs" />
-    <Compile Include="Model\RoundLamp.cs" />
+    <Compile Include="Model\Lamp.cs" />
     <Compile Include="Model\SquareLamp.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />

@@ -4,7 +4,6 @@ using System.Windows.Input;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Controls;
-using System;
 
 namespace OptiLight.ViewModel
 {
@@ -15,7 +14,7 @@ namespace OptiLight.ViewModel
         private Point initialMousePosition;
 
         // The collection of the lamps
-        public ObservableCollection<Model.RoundLamp> RoundLamps { get; set; }
+        public ObservableCollection<Model.Lamp> Lamps { get; set; }
 
         // Commands used in the gui
         public ICommand AddLampCommand { get; }
@@ -26,9 +25,9 @@ namespace OptiLight.ViewModel
         public MainViewModel()
         {
             // Lamps created from the start
-            RoundLamps = new ObservableCollection<Model.RoundLamp>() {
-                new Model.RoundLamp() { X = 50, Y = 50, Width = 50, Height = 50 },
-                new Model.RoundLamp() { X = 100, Y = 100, Width = 50, Height = 50 }
+            Lamps = new ObservableCollection<Model.Lamp>() {
+                new Model.Lamp() { X = 50, Y = 50, RoundWidth = 50, RoundHeight = 50 },
+                new Model.Lamp() { X = 100, Y = 100, RoundWidth = 50, RoundHeight = 50 }
             };
 
             // Commands are defined as relay commands
@@ -42,7 +41,7 @@ namespace OptiLight.ViewModel
         // Method for executing the AddLampCommand
         private void AddLamp()
         {
-            new Command.AddLamp(RoundLamps, new Model.RoundLamp()).Execute();
+            new Command.AddLamp(Lamps, new Model.Lamp()).Execute();
         }
 
         // Method for capturing the mouse on a lamp
@@ -88,10 +87,10 @@ namespace OptiLight.ViewModel
         }
 
         // Helping method for attaching the mouse to a lamp
-        private Model.RoundLamp TargetLamp(MouseEventArgs e)
+        private Model.Lamp TargetLamp(MouseEventArgs e)
         {
             var targetedElement = (FrameworkElement)e.MouseDevice.Target;
-            return (Model.RoundLamp)targetedElement.DataContext;
+            return (Model.Lamp)targetedElement.DataContext;
         }
 
         // Helper method for registration of the position of the mouse.
@@ -108,8 +107,5 @@ namespace OptiLight.ViewModel
             dynamic parent = VisualTreeHelper.GetParent(o);
             return parent.GetType().IsAssignableFrom(typeof(T)) ? parent : FindParentOfType<T>(parent);
         }
-
-
-
     }
 }
