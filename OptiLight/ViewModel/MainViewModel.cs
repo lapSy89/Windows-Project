@@ -14,9 +14,10 @@ namespace OptiLight.ViewModel {
 
         // The collection of the lamps
 
-        // Boolean to keep track of grid snapping
+        // Values to keeo track of grid snapping
         private bool snapActive = false;
         public int gridSize = 50;
+
 
         // Commands used in the gui
         public ICommand AddRoundLampCommand { get; }
@@ -66,6 +67,7 @@ namespace OptiLight.ViewModel {
             var Lamp = TargetLamp(e);
             var MousePosition = RelativeMousePosition(e);
 
+            if (MousePosition.X > 0 && MousePosition.Y > 0) {
             Lamp.X = initialLampPosition.X;
             Lamp.Y = initialLampPosition.Y;
 
@@ -73,7 +75,7 @@ namespace OptiLight.ViewModel {
             var offsetX = MousePosition.X - initialMousePosition.X;
             var offsetY = MousePosition.Y - initialMousePosition.Y;
 
-            if (MousePosition.X > 0 && MousePosition.Y > 0) {
+            
                 if (snapActive) {
                     var extraX = offsetX % gridSize;
                     var extraY = offsetY % gridSize;
