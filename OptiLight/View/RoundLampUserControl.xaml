@@ -7,7 +7,7 @@
              xmlns:cmd="clr-namespace:GalaSoft.MvvmLight.Command;assembly=GalaSoft.MvvmLight.Platform"
              xmlns:local="clr-namespace:OptiLight.View"
              mc:Ignorable="d" 
-             Canvas.Left="{Binding X}" Canvas.Top="{Binding Y}" Width="{Binding RoundWidth}" Height="{Binding RoundHeight}"
+             Canvas.Left="{Binding X}" Canvas.Top="{Binding Y}" Width="{Binding Width}" Height="{Binding Height}"
              d:DesignHeight="50" d:DesignWidth="50">
     <Grid>
         <Ellipse>
@@ -38,7 +38,5 @@
                 </i:EventTrigger>
             </i:Interaction.Triggers>
         </Ellipse>
-        <Ellipse Fill="DarkGray" Stroke="Transparent" StrokeThickness="4" Margin="10" />
-        <Ellipse Fill="Black" Margin="24"/>
     </Grid>
 </UserControl>

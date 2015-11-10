@@ -37,6 +37,7 @@ namespace OptiLight.ViewModel
         {
             AddRoundCommand = new RelayCommand(AddRoundLamp);
             AddRectangleCommand = new RelayCommand(AddRectangleLamp);
+            AddSquareCommand = new RelayCommand(AddSquareLamp);
 
       
           //  RemoveLampsCommand = new RelayCommand<IList>(RemoveShapes, CanRemoveShapes);
@@ -50,7 +51,12 @@ namespace OptiLight.ViewModel
 
         private void AddRectangleLamp()
         {
-            new Command.AddLamp(Lamps, new ViewModel.RectangleLampViewModel(new Model.RectangleLamp())).Execute();
+            new Command.AddLamp(Lamps, new RectangleLampViewModel(new Model.RectangleLamp())).Execute();
+        }
+
+        private void AddSquareLamp()
+        {
+            new Command.AddLamp(Lamps, new SquareLampViewModel(new Model.SquareLamp())).Execute();
         }
 
     }
