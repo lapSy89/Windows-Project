@@ -17,30 +17,62 @@
         <!-- Menu layout -->
         <Grid DockPanel.Dock="Top" Margin="5">
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"></RowDefinition>
-                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
             <!-- Menu for "File" "Edit" -->
 
             <View:RibbonMenu Grid.Row="1"/>
         </Grid>
         <!-- Sidepanel and drawing window layout -->
-        <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
 
+            </Grid.ColumnDefinitions>
+   
             <!-- SidePanel layout (comes from SidePanel.xaml -->
             <View:SidePanel/>
-
+         
             <!-- Drawing window -->
-            <Grid Height="500" Width="690">
-                <Border BorderBrush="Black" 
+            <ScrollViewer HorizontalScrollBarVisibility="Visible" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+                          VerticalScrollBarVisibility="Visible" Grid.Column="1">
+                <Grid Height="500" Width="690">
+
+                    <Border BorderBrush="Black" 
                         BorderThickness="2"
                         HorizontalAlignment="Stretch"
-                        VerticalAlignment="Stretch"/>
+                        VerticalAlignment="Stretch"
+                        Background="LightGray"/>
 
-                <ItemsControl ItemsSource="{Binding Lamps}"/>
-                 
-            </Grid>
-           
-        </StackPanel>
+                    <Rectangle Height="500"  Width="690" Stroke="Black" StrokeThickness="0">
+                        <Rectangle.Fill>
+                            <DrawingBrush Stretch="None" TileMode="Tile"
+                            Viewport="0,0 50,50" ViewportUnits="Absolute">
+                                <!-- ^^^^^^^^^^^ set the size of the tile-->
+                                <DrawingBrush.Drawing>
+                                    <GeometryDrawing>
+                                        <GeometryDrawing.Geometry>
+                                            <GeometryGroup>
+                                                <!-- Draws two lines, to represent grid (X,Y Coordinates)
+                                                     Change "50" to the Grid Size Variable, Emil-->
+                                                <LineGeometry StartPoint="0,0" EndPoint="0,50" />
+                                                <LineGeometry StartPoint="0,50" EndPoint="50,50" />
+                                            </GeometryGroup>
+                                        </GeometryDrawing.Geometry>
+                                        <GeometryDrawing.Pen>
+                                            <!-- set color and thickness of lines -->
+                                            <Pen Thickness="0.4" Brush="Black" />
+                                        </GeometryDrawing.Pen>
+                                    </GeometryDrawing>
+                                </DrawingBrush.Drawing>
+                            </DrawingBrush>
+                        </Rectangle.Fill>
+                    </Rectangle>
+                    <ItemsControl ItemsSource="{Binding Lamps}"/>
+                </Grid>
+            </ScrollViewer>
+        </Grid>
     </DockPanel>
 </Window>
