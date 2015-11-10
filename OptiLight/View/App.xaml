@@ -20,12 +20,12 @@
                 <View:RoundLampUserControl/>
             </Canvas>
         </DataTemplate>
-       
+
+        <!-- This tells the view how the squared lamp should look -->
         <DataTemplate DataType="{x:Type ViewModel:SquareLampViewModel}">
             <Canvas>
                 <View:SquareLampUserControl/>
             </Canvas>
         </DataTemplate>
-       
     </Application.Resources>
 </Application>

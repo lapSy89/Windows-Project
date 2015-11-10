@@ -16,7 +16,7 @@ using System.Windows.Shapes;
 namespace OptiLight.View
 {
     /// <summary>
-    /// Interaction logic for RoundLampUserControl.xaml
+    /// Interaction logic for SquareLampUserControl.xaml
     /// </summary>
     public partial class SquareLampUserControl : UserControl
     {

@@ -14,13 +14,6 @@ namespace OptiLight.ViewModel
         private Point initialLampPosition;
         private Point initialMousePosition;
 
-        // The collection of the lamps
-
-
-        // Commands used in the gui
-        public ICommand AddRoundLampCommand { get; }
-        public ICommand AddRectangleLampCommand { get; }
-
         public ICommand LampPressedCommand { get; }
         public ICommand LampReleasedCommand { get; }
         public ICommand MoveLampCommand { get; }
@@ -31,7 +24,8 @@ namespace OptiLight.ViewModel
             //It generates a collection of LampViewModels
             Lamps = new ObservableCollection<LampViewModel>() {
                  new RoundLampViewModel(new Model.RoundLamp() { X = 50, Y = 50, Width = 50, Height = 50 }),
-              new RectangleLampViewModel(new Model.RectangleLamp() { X = 100, Y = 50, Width = 100, Height = 50 })
+                 new RectangleLampViewModel(new Model.RectangleLamp() { X = 100, Y = 50, Width = 50, Height = 50 }),
+                 new SquareLampViewModel(new Model.SquareLamp() { X = 200, Y = 100, Width = 50, Height = 50 })
             };
 
             // Commands are defined as relay commands

@@ -11,7 +11,7 @@
              d:DesignHeight="50" d:DesignWidth="50">
     <Grid>
         <Rectangle Fill="Gray" Margin="0,0,0,0" RenderTransformOrigin="0.94,0.56">
-            
+
         </Rectangle>
         <Rectangle Margin="0,0,0,0">
             <Rectangle.Fill>
