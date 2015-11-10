@@ -1,17 +1,7 @@
-﻿using GalaSoft.MvvmLight.CommandWpf;
-using System.Collections.ObjectModel;
-using System.Windows.Input;
-using System.Windows;
-using System.Windows.Media;
-using System.Windows.Controls;
-using System;
-
-namespace OptiLight.ViewModel
-{
-    public abstract class LampViewModel : BaseViewModel
+﻿namespace OptiLight.ViewModel {
+    public abstract class LampViewModel : BaseViewModel {
     //TODO, consider not to use "RaisePropertyChanged(); but the Notify command instead
     //Figure out where we would do this (This seems like the right place)
-    {
         public Model.Lamp Lamp { get; set; }
 
         
@@ -24,8 +14,7 @@ namespace OptiLight.ViewModel
 
 
         //The base means that it inherits 
-        public LampViewModel(Model.Lamp lamp) : base()
-        {
+        public LampViewModel(Model.Lamp lamp) : base() {
             Lamp = lamp;
         }
     }
