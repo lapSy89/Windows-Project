@@ -16,7 +16,10 @@ namespace OptiLight.ViewModel
         private Point initialMousePosition;
 
         // The collection of the lamps
-        
+
+        // Boolean to keep track of grid snapping
+        private bool snapActive = false;
+        public int gridSize = 50;
 
         // Commands used in the gui
         public ICommand AddRoundLampCommand { get; }
@@ -25,6 +28,7 @@ namespace OptiLight.ViewModel
         public ICommand LampPressedCommand { get; }
         public ICommand LampReleasedCommand { get; }
         public ICommand MoveLampCommand { get; }
+        public ICommand toggleSnappingCommand { get; }
 
         public MainViewModel() : base()
         {
@@ -40,9 +44,13 @@ namespace OptiLight.ViewModel
             LampPressedCommand = new RelayCommand<MouseButtonEventArgs>(MousePressed);
             LampReleasedCommand = new RelayCommand<MouseButtonEventArgs>(MouseReleased);
             MoveLampCommand = new RelayCommand<MouseEventArgs>(MoveLamp);
+            toggleSnappingCommand = new RelayCommand(toggleSnapping);
         }
 
-    
+        public void toggleSnapping()
+        {
+            snapActive = !snapActive;
+        }
 
         // Method for capturing the mouse on a lamp
         private void MousePressed(MouseButtonEventArgs e)
@@ -66,8 +74,33 @@ namespace OptiLight.ViewModel
             Lamp.X = initialLampPosition.X;
             Lamp.Y = initialLampPosition.Y;
 
-            new Command.MoveLamp(Lamp, MousePosition.X - initialMousePosition.X, MousePosition.Y - initialMousePosition.Y).Execute();
 
+            var offsetX = MousePosition.X - initialMousePosition.X;
+            var offsetY = MousePosition.Y - initialMousePosition.Y;
+
+            if (MousePosition.X > 0 && MousePosition.Y > 0) {
+                if (snapActive) {
+                    var extraX = offsetX % gridSize;
+                    var extraY = offsetY % gridSize;
+
+                    if (extraX > gridSize / 2) {
+                        offsetX = offsetX - extraX + gridSize;
+                    }
+                    else {
+                        offsetX = offsetX - extraX;
+                    }
+                    if (extraY > gridSize / 2) {
+                        offsetY = offsetY - extraY + gridSize;
+                    }
+                    else {
+                        offsetY = offsetY - extraY;
+                    }
+                }
+
+
+
+                new Command.MoveLamp(Lamp, offsetX, offsetY).Execute();
+            }
             e.MouseDevice.Target.ReleaseMouseCapture();
         }
 
@@ -80,8 +113,31 @@ namespace OptiLight.ViewModel
                 var Lamp = TargetLamp(e);
                 var MousePosition = RelativeMousePosition(e);
 
-                Lamp.X = initialLampPosition.X + (MousePosition.X - initialMousePosition.X);
-                Lamp.Y = initialLampPosition.Y + (MousePosition.Y - initialMousePosition.Y);
+                var offsetX = MousePosition.X - initialMousePosition.X;
+                var offsetY = MousePosition.Y - initialMousePosition.Y;
+                var newX = initialLampPosition.X + offsetX;
+                var newY = initialLampPosition.Y + offsetY;
+
+                if (newX > 0 && newY > 0){
+                    if (snapActive){
+                        var extraX = newX % gridSize;
+                        var extraY = newY % gridSize;
+
+                        if (extraX > gridSize / 2) {
+                            newX = newX - extraX + gridSize;
+                        } else {
+                            newX = newX - extraX;
+                        }
+                        if (extraY > gridSize / 2) {
+                            newY = newY - extraY + gridSize;
+                        } else {
+                            newY = newY - extraY;
+                        }
+                    }
+
+                    Lamp.X = newX;
+                    Lamp.Y = newY;
+                }
             }
         }
 

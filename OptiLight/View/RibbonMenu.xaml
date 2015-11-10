@@ -44,6 +44,10 @@
         <RibbonGroup Header="Light Control">
             <RibbonToggleButton Label="Toggle Light" ToolTip="Let There Be Light!" LargeImageSource="pack://application:,,,/Resources/switch.png" IsEnabled="True"/>
         </RibbonGroup>
+        <RibbonGroup Header="Grid Options">
+            <RibbonToggleButton Label="Show Grid" ToolTip="Toggle Grid" LargeImageSource="pack://application:,,,/Resources/grid.png" IsEnabled="True"/>
+            <RibbonToggleButton Label="Grid Snapping" ToolTip="Toggle Snap-to-grid" LargeImageSource="pack://application:,,,/Resources/lock.ico" IsEnabled="true" Command="{Binding toggleSnappingCommand}"/>
+        </RibbonGroup>
     </RibbonTab>
     <RibbonTab ToolTip="Options" Header="Options">
         <RibbonGroup>
