@@ -12,15 +12,9 @@ namespace OptiLight.ViewModel {
         private Point initialLampPosition;
         private Point initialMousePosition;
 
-        // The collection of the lamps
-
         // Boolean to keep track of grid snapping
         private bool snapActive = false;
         public int gridSize = 50;
-
-        // Commands used in the gui
-        public ICommand AddRoundLampCommand { get; }
-        public ICommand AddRectangleLampCommand { get; }
 
         public ICommand LampPressedCommand { get; }
         public ICommand LampReleasedCommand { get; }
