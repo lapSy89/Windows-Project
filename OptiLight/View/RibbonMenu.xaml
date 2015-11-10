@@ -1,6 +1,5 @@
-﻿<Ribbon x:Class="OptiLight.View.RibbonMenu"
+﻿<UserControl x:Class="OptiLight.View.RibbonMenu"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:ribbon="clr-namespace:System.Windows.Controls.Ribbon;assembly=System.Windows.Controls.Ribbon"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
@@ -10,64 +9,72 @@
         Background="White"
         BorderBrush="Black">
 
-    <Ribbon.ApplicationMenu>
-        <RibbonApplicationMenu SmallImageSource="/Resources/lamp_on.png" HorizontalContentAlignment="Left"
-                               Background="White"
-                               BorderBrush="Black">
-            <RibbonApplicationMenuItem ImageSource="pack://application:,,,/Resources/new_file.png"
-                                       Header="New File"/>
-            <RibbonApplicationMenuItem ImageSource="pack://application:,,,/Resources/folder.png"
-                                       Header="Open File"/>
-        </RibbonApplicationMenu>
-    </Ribbon.ApplicationMenu>
-    <RibbonTab Header="Home">
-        <RibbonGroup Header="Start">
-            <RibbonButton Label="New File"
-                          SmallImageSource="pack://application:,,,/Resources/new_file.png"
-                          LargeImageSource="pack://application:,,,/Resources/new_file.png"
-                          />
-            <RibbonButton Label="Open File"
-                          SmallImageSource="pack://application:,,,/Resources/folder.png"
-                          LargeImageSource="pack://application:,,,/Resources/folder.png"
-                          />
-        </RibbonGroup>
-        <RibbonGroup Header="Edit">
-            <RibbonControlGroup>
-                <RibbonButton Grid.Column="0" Grid.Row="0" ToolTip="Undo" SmallImageSource="pack://application:,,,/Resources/arrow1_left.png"/>
-                <RibbonButton Grid.Column="1" Grid.Row="0" ToolTip="Redo" SmallImageSource="pack://application:,,,/Resources/arrow1_right.png"/>
-            </RibbonControlGroup>
-            <RibbonControlGroup>
-                <RibbonButton ToolTip="Copy" SmallImageSource="pack://application:,,,/Resources/copy.png"/>
-                <RibbonButton ToolTip="Paste" SmallImageSource="pack://application:,,,/Resources/paste.png"/>
-            </RibbonControlGroup>
-        </RibbonGroup>
-        <RibbonGroup Header="Light Control">
-            <RibbonToggleButton Label="Toggle Light" ToolTip="Let There Be Light!" LargeImageSource="pack://application:,,,/Resources/switch.png" IsEnabled="True"/>
-        </RibbonGroup>
-        <RibbonGroup Header="Grid Options">
-            <RibbonToggleButton Label="Show Grid" ToolTip="Toggle Grid" LargeImageSource="pack://application:,,,/Resources/grid.png" IsEnabled="True"/>
-            <RibbonToggleButton Label="Grid Snapping" ToolTip="Toggle Snap-to-grid" LargeImageSource="pack://application:,,,/Resources/lock.ico" IsEnabled="true" Command="{Binding toggleSnappingCommand}"/>
-        </RibbonGroup>
-    </RibbonTab>
-    <RibbonTab ToolTip="Options" Header="Options">
-        <RibbonGroup>
-            <RibbonControlGroup BorderBrush="White">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition />
-                        <RowDefinition />
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition />
-                        <ColumnDefinition />
-                    </Grid.ColumnDefinitions>
+    <Ribbon>
+        <Ribbon.QuickAccessToolBar>
+            <RibbonQuickAccessToolBar>
+                <RibbonButton SmallImageSource="/Resources/new_file.png"/>
+                <RibbonButton SmallImageSource="/Resources/folder.png"/>
+                <RibbonButton SmallImageSource="/Resources/save.png"/>
+                <RibbonButton SmallImageSource="/Resources/undo.png"/>
+                <RibbonButton SmallImageSource="/Resources/redo.png"/>
+                <RibbonButton SmallImageSource="/Resources/copy.png"/>
+                <RibbonButton SmallImageSource="/Resources/paste.png"/>
+            </RibbonQuickAccessToolBar>
+        </Ribbon.QuickAccessToolBar>
+        <Ribbon.ApplicationMenu>
+            <RibbonApplicationMenu KeyTip="F" SmallImageSource="/Resources/lamp_on.png">
+                <RibbonApplicationMenuItem Header="New File" ImageSource="/Resources/new_file.png"/>
+                <RibbonApplicationMenuItem Header="Open File" ImageSource="/Resources/folder.png"/>
+                <RibbonApplicationMenuItem Header="Save File" ImageSource="/Resources/save.png"/>
+            </RibbonApplicationMenu>
+        </Ribbon.ApplicationMenu>
+        <RibbonTab Header="Home" KeyTip="H">
+            <RibbonGroup Header="Load/Save">
+                <RibbonButton Label="New" LargeImageSource="/Resources/new_file.png"/>
+                <RibbonButton Label="Load" LargeImageSource="/Resources/folder.png"/>
+                <RibbonButton Label="Save" LargeImageSource="/Resources/save.png"/>
+            </RibbonGroup>
+            <RibbonGroup Header="Edit">
+                <RibbonButton Label="Undo" SmallImageSource="/Resources/undo.png"/>
+                <RibbonButton Label="Redo" SmallImageSource="/Resources/redo.png"/>
+                <RibbonButton Label="Copy" SmallImageSource="/Resources/copy.png"/>
+                <RibbonButton Label="Paste" SmallImageSource="/Resources/paste.png"/>
+            </RibbonGroup>
+            <RibbonGroup Header="Light Control" >
+                <!-- This is done for centering the Toggle Light button -->
+                <RibbonGroup.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <Grid>
+                        </Grid>
+                    </ItemsPanelTemplate>
+                </RibbonGroup.ItemsPanel>
+                <RibbonToggleButton Label="Toggle Light" LargeImageSource="/Resources/switch.png" HorizontalAlignment="Center"/>
+            </RibbonGroup>
+            <RibbonGroup Header="Grid Options">
+                <RibbonToggleButton Label="Show Grid" LargeImageSource="/Resources/grid.png"/>
+                <RibbonToggleButton Label="Grip Snapping" LargeImageSource="/Resources/lock.ico" Command="{Binding toggleSnappingCommand}"/>
+            </RibbonGroup>
+        </RibbonTab>
+        <RibbonTab Header="Options" KeyTip="O">
+            <RibbonGroup>
+                <RibbonControlGroup BorderBrush="White">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
 
-                    <TextBlock Grid.Column="0" Grid.Row="0" Text="Brightness" VerticalAlignment="Center"/>
-                    <TextBlock Grid.Column="0" Grid.Row="1" Text="Height" VerticalAlignment="Center"/>
-                    <RibbonTextBox Grid.Column="1" Grid.Row="0"/>
-                    <RibbonTextBox Grid.Column="1" Grid.Row="1"/>
-                </Grid>
-            </RibbonControlGroup>
-        </RibbonGroup>
-    </RibbonTab>
-</Ribbon>
+                        <TextBlock Grid.Column="0" Grid.Row="0" Text="Brightness" VerticalAlignment="Center"/>
+                        <TextBlock Grid.Column="0" Grid.Row="1" Text="Height" VerticalAlignment="Center"/>
+                        <RibbonTextBox Grid.Column="1" Grid.Row="0"/>
+                        <RibbonTextBox Grid.Column="1" Grid.Row="1"/>
+                    </Grid>
+                </RibbonControlGroup>
+            </RibbonGroup>
+        </RibbonTab>
+    </Ribbon>
+</UserControl>

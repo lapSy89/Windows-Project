@@ -18,11 +18,6 @@ namespace OptiLight.ViewModel {
         private bool snapActive = false;
         public int gridSize = 50;
 
-
-        // Commands used in the gui
-        public ICommand AddRoundLampCommand { get; }
-        public ICommand AddRectangleLampCommand { get; }
-
         public ICommand LampPressedCommand { get; }
         public ICommand LampReleasedCommand { get; }
         public ICommand MoveLampCommand { get; }
