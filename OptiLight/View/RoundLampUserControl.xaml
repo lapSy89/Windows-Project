@@ -7,10 +7,20 @@
              xmlns:cmd="clr-namespace:GalaSoft.MvvmLight.Command;assembly=GalaSoft.MvvmLight.Platform"
              xmlns:local="clr-namespace:OptiLight.View"
              mc:Ignorable="d" 
-             Canvas.Left="{Binding X}" Canvas.Top="{Binding Y}" Width="{Binding Width}" Height="{Binding Height}"
-             d:DesignHeight="50" d:DesignWidth="50">
+             Canvas.Left="{Binding X}" Canvas.Top="{Binding Y}" Width="{Binding Width}" Height="{Binding Width}"
+             d:DesignHeight="{Binding Radius}" d:DesignWidth="{Binding Radius}">
     <Grid>
-        <Ellipse>
+        <Ellipse Margin="{Binding Radius}">
+            <Ellipse.Fill>
+                <RadialGradientBrush GradientOrigin="0.5,0.5" Center="0.5,0.5"
+                                     RadiusX="0.5" RadiusY="0.5">
+                    <GradientStop Color="Yellow" Offset="0.5"/>
+                    <GradientStop Color="Transparent" Offset="1"/>
+                </RadialGradientBrush>
+            </Ellipse.Fill>
+        </Ellipse>
+        
+        <Ellipse Width="{Binding Width}" Height="{Binding Width}">
             <Ellipse.Fill>
                 <RadialGradientBrush GradientOrigin="0.5,0.5" Center="0.5,0.5"
                                      RadiusX="0.5" RadiusY="0.5">
