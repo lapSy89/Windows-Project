@@ -66,14 +66,12 @@ namespace OptiLight.ViewModel {
             Lamp.X = initialLampPosition.X;
             Lamp.Y = initialLampPosition.Y;
 
-
             var offsetX = MousePosition.X - initialMousePosition.X;
             var offsetY = MousePosition.Y - initialMousePosition.Y;
-
             
                 if (snapActive) {
-                    var extraX = offsetX % gridSize;
-                    var extraY = offsetY % gridSize;
+                    var extraX = (Lamp.X + offsetX) % gridSize;
+                    var extraY = (Lamp.Y + offsetY) % gridSize;
 
                     if (extraX > gridSize / 2) {
                         offsetX = offsetX - extraX + gridSize;
@@ -99,8 +97,8 @@ namespace OptiLight.ViewModel {
         // Method for moving the lamp. This is created as an on-the-go method, so that each "pixel" move of the lamp isn't saved in the undo-redo
         // command. So when undo is pressed, the lamp is moved to it's original position before even moving.
         private void MoveLamp(MouseEventArgs e) {
-            if (Mouse.Captured != null)
-            {
+            if (Mouse.Captured != null){
+
                 var Lamp = TargetLamp(e);
                 var MousePosition = RelativeMousePosition(e);
 
@@ -137,8 +135,6 @@ namespace OptiLight.ViewModel {
             var targetedElement = (FrameworkElement)e.MouseDevice.Target;
             return (LampViewModel)targetedElement.DataContext;
         }
-
-
 
         // Helper method for registration of the position of the mouse.
         private Point RelativeMousePosition(MouseEventArgs e) {
