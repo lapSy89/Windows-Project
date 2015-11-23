@@ -2,6 +2,7 @@
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
 using System.Collections;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 using System.Linq;
@@ -28,6 +29,8 @@ namespace OptiLight.ViewModel {
         public ICommand AddSquareCommand { get; }
         public ICommand AddRectangleCommand { get; }
 
+        public ICommand RemoveLampCommand { get; }
+
         public LampViewModel targetedLamp { get; set; }
 
         //Constructor 
@@ -38,6 +41,8 @@ namespace OptiLight.ViewModel {
             AddRoundCommand = new RelayCommand(AddRoundLamp);
             AddRectangleCommand = new RelayCommand(AddRectangleLamp);
             AddSquareCommand = new RelayCommand(AddSquareLamp);
+
+            RemoveLampCommand = new RelayCommand(RemoveLamp, CanRemoveLamp);
         }
 
         // Methods for adding lamps
@@ -54,12 +59,15 @@ namespace OptiLight.ViewModel {
         }
 
         // We check whether we can remove the lamp
-        private bool CanRemoveLamp() => targetedLamp == null; 
+        private bool CanRemoveLamp() => targetedLamp != null; 
 
         // We remove the selected lamp
-        private void RemoveLamp(IList lampToRemove)
+        private void RemoveLamp()
         {
-            undoRedoController.AddAndExecute(new RemoveLamp(Lamps, lampToRemove.Cast<LampViewModel>().ToList()));
+            List<LampViewModel> list = new List<LampViewModel>();
+            list.Add(this.targetedLamp);
+            this.targetedLamp = null;
+            undoRedoController.AddAndExecute(new RemoveLamp(Lamps,list));
         }
     }
 }
