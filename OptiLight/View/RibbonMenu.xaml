@@ -52,7 +52,7 @@
             </RibbonGroup>
             <RibbonGroup Header="Grid Options">
                 <RibbonToggleButton Label="Show Grid" LargeImageSource="/Resources/grid.png" Command="{Binding toggleGridVisibilityCommand}"/>
-                <RibbonToggleButton Label="Grip Snapping" LargeImageSource="/Resources/lock.ico" Command="{Binding toggleSnappingCommand}"/>
+                <RibbonToggleButton Label="Grip Snapping" LargeImageSource="/Resources/lock111.png" Command="{Binding toggleSnappingCommand}"/>
             </RibbonGroup>
         </RibbonTab>
         <RibbonTab Header="Options" KeyTip="O">
