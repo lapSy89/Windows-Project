@@ -122,8 +122,9 @@
     <Compile Include="Model\Lamp.cs" />
     <Compile Include="Model\RoundLamp.cs" />
     <Compile Include="Model\SquareLamp.cs" />
+    <Compile Include="Serialization\XML.cs" />
     <Compile Include="ViewModel\BaseViewModel.cs" />
-    <Compile Include="ViewModel\DialogViews.cs" />
+    <Compile Include="View\DialogViews.cs" />
     <Compile Include="ViewModel\RoundLampViewModel.cs" />
     <Compile Include="ViewModel\RectangleLampViewModel.cs" />
     <Compile Include="ViewModel\LampViewModel.cs" />
