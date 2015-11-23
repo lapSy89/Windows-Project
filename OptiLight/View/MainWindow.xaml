@@ -7,7 +7,7 @@
         Icon="pack://application:,,,/Resources/lampicon.ico"
         DataContext="{Binding Source={StaticResource Locator}, Path=Main}"
         >
-
+    
   <!--
        
 
@@ -15,6 +15,18 @@
         <ViewModel:BaseViewModel x:Name="MVM"/>
     </Window.DataContext>
     -->
+    
+    <!-- Key bindings-->
+    <Window.InputBindings>
+        <KeyBinding Key="Delete"
+              Command="{Binding RemoveLampCommand}" />
+        <KeyBinding Key="Z"
+              Modifiers="Control" 
+              Command="{Binding UndoCommand}" />
+        <KeyBinding Key="Y"
+              Modifiers="Control" 
+              Command="{Binding RedoCommand}" />
+    </Window.InputBindings>
     
     <!-- Overall layout for the Window-->
     <DockPanel>
