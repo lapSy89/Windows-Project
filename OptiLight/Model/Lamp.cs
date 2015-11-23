@@ -1,4 +1,10 @@
-﻿namespace OptiLight.Model {
+﻿using System.Xml.Serialization;
+
+namespace OptiLight.Model {
+
+    [XmlInclude(typeof(RoundLamp))]
+    [XmlInclude(typeof(SquareLamp))]
+    [XmlInclude(typeof(RectangleLamp))]
 
     public abstract class Lamp {
         // Standard x value for placing lamp in Grid with method for setting and getting

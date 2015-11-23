@@ -24,5 +24,9 @@ namespace OptiLight.View
         {
             InitializeComponent();
         }
+
+        private void RibbonToggleButton_Checked(object sender, RoutedEventArgs e) {
+
+        }
     }
 }
