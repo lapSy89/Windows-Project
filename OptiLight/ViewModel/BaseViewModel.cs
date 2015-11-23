@@ -1,7 +1,6 @@
 ﻿using OptiLight.Command;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
-using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
@@ -9,7 +8,6 @@ using OptiLight.View;
 using OptiLight.Serialization;
 using System.Linq;
 using OptiLight.Model;
-using System.Collections.Generic;
 
 namespace OptiLight.ViewModel {
     //Base viewModel
@@ -122,7 +120,7 @@ namespace OptiLight.ViewModel {
         }
 
 
-        // Method for executing the AddLampCommand
+        // Methods for adding lamps
         private void AddRoundLamp() {
             this.undoRedoController.AddAndExecute(new Command.AddLamp(Lamps, new RoundLampViewModel(new Model.RoundLamp())));
         }
