@@ -52,8 +52,7 @@ namespace OptiLight.ViewModel {
             AddRoundCommand = new RelayCommand(AddRoundLamp);
             AddRectangleCommand = new RelayCommand(AddRectangleLamp);
             AddSquareCommand = new RelayCommand(AddSquareLamp);
-        }
-          
+         
             NewDrawingCommand = new RelayCommand(NewDrawing);
             LoadDrawingCommand = new RelayCommand(LoadDrawing);
             SaveDrawingCommand = new RelayCommand(SaveDrawing);
