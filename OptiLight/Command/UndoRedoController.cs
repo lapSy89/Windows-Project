@@ -43,5 +43,11 @@ namespace OptiLight.Command {
             undoStack.Push(command);
             command.Execute();
         }
+
+        //Clear stack when a drawing is new or opened.
+        public void ClearStacks() {
+            undoStack.Clear();
+            redoStack.Clear();
+        }
     }
 }

@@ -26,7 +26,6 @@ namespace OptiLight.ViewModel {
         public static ObservableCollection<LampViewModel> Lamps { get; set; }
 
         public DialogViews dialogWindow { get; set; } // Dialog windows for New, Open and Save
-        public bool changesMade = true;               // Changes made to the drawing
 
         public ICommand UndoCommand { get; }
         public ICommand RedoCommand { get; }
@@ -38,6 +37,8 @@ namespace OptiLight.ViewModel {
         public ICommand NewDrawingCommand { get; }
         public ICommand SaveDrawingCommand { get; }
         public ICommand LoadDrawingCommand { get; }
+
+        public ICommand RemoveLampCommand { get; }
 
         public LampViewModel targetedLamp { get; set; }
 
@@ -52,7 +53,9 @@ namespace OptiLight.ViewModel {
             AddRoundCommand = new RelayCommand(AddRoundLamp);
             AddRectangleCommand = new RelayCommand(AddRectangleLamp);
             AddSquareCommand = new RelayCommand(AddSquareLamp);
-         
+
+            RemoveLampCommand = new RelayCommand(RemoveLamp, CanRemoveLamp);
+
             NewDrawingCommand = new RelayCommand(NewDrawing);
             LoadDrawingCommand = new RelayCommand(LoadDrawing);
             SaveDrawingCommand = new RelayCommand(SaveDrawing);
@@ -62,15 +65,17 @@ namespace OptiLight.ViewModel {
         // Method for making a new drawing
         private void NewDrawing() {
             // Check if changes are made to the drawing
-            if (changesMade) {
+            if (undoRedoController.CanUndo() || undoRedoController.CanRedo()) {
                 // Pop up window for confirming deleting of changes.
                 if (dialogWindow.NewFile()) {
                     // Deleting lamps
+                    undoRedoController.ClearStacks();
                     Lamps.Clear();
                 }
             } else {
                 Lamps.Clear();
-            }
+                undoRedoController.ClearStacks();
+        }
         }
 
         // Method for saving drawing
@@ -80,13 +85,12 @@ namespace OptiLight.ViewModel {
             if (savePath != null) {
                 // Saving the file.
                 XML.Instance.AsyncSaveToFile(Lamps.Select(x => x.Lamp).ToList(), savePath);
-                changesMade = false; // Setting changes made to false since no changes are made after saving.
             }
         }
 
         // Method for loading drawing
         private async void LoadDrawing() {
-            if (changesMade) {
+            if (undoRedoController.CanUndo() || undoRedoController.CanRedo()) {
                 string loadPath = dialogWindow.OpenFile(true);
                 if (loadPath != null) {
                     // Get list of lamps
@@ -100,6 +104,7 @@ namespace OptiLight.ViewModel {
                     : lamp is SquareLamp ?
                         (LampViewModel)new SquareLampViewModel(lamp) 
                     : new RectangleLampViewModel(lamp)).ToList().ForEach(lamp => Lamps.Add(lamp));
+                    undoRedoController.ClearStacks();
                 }
             } else {
                 string loadPath = dialogWindow.OpenFile(false);
@@ -112,12 +117,13 @@ namespace OptiLight.ViewModel {
                     : lamp is SquareLamp ?
                         (LampViewModel)new SquareLampViewModel(lamp)
                     : new RectangleLampViewModel(lamp)).ToList().ForEach(lamp => Lamps.Add(lamp));
+                    undoRedoController.ClearStacks();
                 }
             }
         }
 
 
-        // Method for executing the AddLampCommand
+        // Methods for adding lamps
         private void AddRoundLamp() {
             this.undoRedoController.AddAndExecute(new Command.AddLamp(Lamps, new RoundLampViewModel(new Model.RoundLamp())));
         }
@@ -131,12 +137,15 @@ namespace OptiLight.ViewModel {
         }
 
         // We check whether we can remove the lamp
-        private bool CanRemoveLamp() => targetedLamp == null; 
+        private bool CanRemoveLamp() => targetedLamp != null; 
 
         // We remove the selected lamp
-        private void RemoveLamp(IList lampToRemove)
+        private void RemoveLamp()
         {
-            undoRedoController.AddAndExecute(new RemoveLamp(Lamps, lampToRemove.Cast<LampViewModel>().ToList()));
+            List<LampViewModel> list = new List<LampViewModel>();
+            list.Add(this.targetedLamp);
+            this.targetedLamp = null;
+            undoRedoController.AddAndExecute(new RemoveLamp(Lamps,list));
         }
     }
 }
