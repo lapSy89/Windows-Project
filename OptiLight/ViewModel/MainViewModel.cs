@@ -14,16 +14,25 @@ namespace OptiLight.ViewModel {
 
         // The collection of the lamps
 
-        // Values to keeo track of grid snapping
+        // Grid control variables
         private bool snapActive = false;
-        public int gridSize = 50;
+        public string gridVisibility { get; set; } = "Transparent";
+        public int gridSize { get; set; } = 50;
+        public int cellsX   { get; set; } = 14;
+        public int cellsY { get; set; } = 10;
+        public int maxX { get; set; } = 100;
+        public int maxY { get; set; } = 100;
 
         public ICommand LampPressedCommand { get; }
         public ICommand LampReleasedCommand { get; }
         public ICommand MoveLampCommand { get; }
         public ICommand toggleSnappingCommand { get; }
+        public ICommand toggleGridVisibilityCommand { get; }
 
         public MainViewModel() : base() {
+            maxX = gridSize * cellsX;
+            maxY = gridSize * cellsY;
+
             // Lamps created from the start
             //It generates a collection of LampViewModels
             Lamps = new ObservableCollection<LampViewModel>() {
@@ -38,13 +47,23 @@ namespace OptiLight.ViewModel {
             LampReleasedCommand = new RelayCommand<MouseButtonEventArgs>(MouseReleased);
             MoveLampCommand = new RelayCommand<MouseEventArgs>(MoveLamp);
             toggleSnappingCommand = new RelayCommand(toggleSnapping);
+            toggleGridVisibilityCommand = new RelayCommand(toggleVisibility);
         }
 
         public void toggleSnapping()
         {
             snapActive = !snapActive;
         }
-    
+
+        public void toggleVisibility() {
+            if (gridVisibility.Equals("Black")) {
+                gridVisibility = "Transparent";
+            } else if (gridVisibility.Equals("Transparent")) {
+                gridVisibility = "Black";
+            }
+            RaisePropertyChanged(() => gridVisibility);
+        }
+
         // Method for capturing the mouse on a lamp
         private void MousePressed(MouseButtonEventArgs e) {
             var Lamp = TargetLamp(e);
@@ -62,7 +81,10 @@ namespace OptiLight.ViewModel {
             var Lamp = TargetLamp(e);
             var MousePosition = RelativeMousePosition(e);
 
-            if (MousePosition.X > 0 && MousePosition.Y > 0) {
+            if (MousePosition.X > 0 && MousePosition.Y > 0
+                && MousePosition.X < maxX - gridSize
+                && MousePosition.Y < maxY - gridSize) {
+
                 Lamp.X = initialLampPosition.X;
                 Lamp.Y = initialLampPosition.Y;
 
@@ -104,7 +126,7 @@ namespace OptiLight.ViewModel {
                 var newX = initialLampPosition.X + offsetX;
                 var newY = initialLampPosition.Y + offsetY;
 
-                if (newX > 0 && newY > 0 /*&& newX < maxX && newY < maxY */){
+                if (newX > 0 && newY > 0 && newX < maxX-gridSize && newY < maxY-gridSize){
                     if (snapActive){
                         var extraX = newX % gridSize;
                         var extraY = newY % gridSize;
