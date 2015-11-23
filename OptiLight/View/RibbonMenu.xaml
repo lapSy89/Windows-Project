@@ -15,8 +15,8 @@
                 <RibbonButton SmallImageSource="/Resources/new_file.png"/>
                 <RibbonButton SmallImageSource="/Resources/folder.png"/>
                 <RibbonButton SmallImageSource="/Resources/save.png"/>
-                <RibbonButton SmallImageSource="/Resources/undo.png"/>
-                <RibbonButton SmallImageSource="/Resources/redo.png"/>
+                <RibbonButton Command="{Binding UndoCommand}" SmallImageSource="/Resources/undo.png"/>
+                <RibbonButton Command="{Binding RedoCommand}" SmallImageSource="/Resources/redo.png"/>
                 <RibbonButton SmallImageSource="/Resources/copy.png"/>
                 <RibbonButton SmallImageSource="/Resources/paste.png"/>
             </RibbonQuickAccessToolBar>
@@ -35,8 +35,8 @@
                 <RibbonButton Label="Save" LargeImageSource="/Resources/save.png" Command="{Binding SaveDrawingCommand}"/>
             </RibbonGroup>
             <RibbonGroup Header="Edit">
-                <RibbonButton Label="Undo" SmallImageSource="/Resources/undo.png"/>
-                <RibbonButton Label="Redo" SmallImageSource="/Resources/redo.png"/>
+                <RibbonButton Label="Undo" Command="{Binding UndoCommand}" SmallImageSource="/Resources/undo.png"/>
+                <RibbonButton Label="Redo" Command="{Binding RedoCommand}" SmallImageSource="/Resources/redo.png"/>
                 <RibbonButton Label="Copy" SmallImageSource="/Resources/copy.png"/>
                 <RibbonButton Label="Paste" SmallImageSource="/Resources/paste.png"/>
             </RibbonGroup>
@@ -51,7 +51,7 @@
                 <RibbonToggleButton Label="Toggle Light" LargeImageSource="/Resources/switch.png" HorizontalAlignment="Center"/>
             </RibbonGroup>
             <RibbonGroup Header="Grid Options">
-                <RibbonToggleButton Label="Show Grid" LargeImageSource="/Resources/grid.png"/>
+                <RibbonToggleButton Label="Show Grid" LargeImageSource="/Resources/grid.png" Command="{Binding toggleGridVisibilityCommand}"/>
                 <RibbonToggleButton Label="Grip Snapping" LargeImageSource="/Resources/lock.ico" Command="{Binding toggleSnappingCommand}"/>
             </RibbonGroup>
         </RibbonTab>

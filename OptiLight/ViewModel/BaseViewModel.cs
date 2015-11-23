@@ -1,5 +1,7 @@
-﻿using GalaSoft.MvvmLight;
-using GalaSoft.MvvmLight.Command;
+﻿using OptiLight.Command;
+using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.CommandWpf;
+using System.Collections;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 using OptiLight.View;
@@ -12,15 +14,22 @@ namespace OptiLight.ViewModel {
     //Base viewModel
     //Should contain:
     //Add methods
-    //All design patterns, usch as undo redo, copy paste. etc
+    //All design patterns, such as undo redo, copy paste. etc
 
     //Implements the Galasoft ViewModelBase
     public abstract class BaseViewModel : ViewModelBase {
 
+        //The undoRedoController is created only here once
+        protected UndoRedoController undoRedoController = UndoRedoController.Instance;
+
+        // All the single lamps, all the single lamps, all the single lamps, all the single lamps, throw your light up!
         public static ObservableCollection<LampViewModel> Lamps { get; set; }
 
         public DialogViews dialogWindow { get; set; } // Dialog windows for New, Open and Save
         public bool changesMade = true;               // Changes made to the drawing
+
+        public ICommand UndoCommand { get; }
+        public ICommand RedoCommand { get; }
 
         public ICommand AddRoundCommand { get; }
         public ICommand AddSquareCommand { get; }
@@ -30,16 +39,21 @@ namespace OptiLight.ViewModel {
         public ICommand SaveDrawingCommand { get; }
         public ICommand LoadDrawingCommand { get; }
 
+        public LampViewModel targetedLamp { get; set; }
+
         //Constructor 
-        //TODO: Be able ro Remove lamps, by unexecuting
         public BaseViewModel() {
 
             dialogWindow = new DialogViews();
 
+            UndoCommand = new RelayCommand(undoRedoController.Undo, undoRedoController.CanUndo);
+            RedoCommand = new RelayCommand(undoRedoController.Redo, undoRedoController.CanRedo);
+
             AddRoundCommand = new RelayCommand(AddRoundLamp);
             AddRectangleCommand = new RelayCommand(AddRectangleLamp);
             AddSquareCommand = new RelayCommand(AddSquareLamp);
-
+        }
+          
             NewDrawingCommand = new RelayCommand(NewDrawing);
             LoadDrawingCommand = new RelayCommand(LoadDrawing);
             SaveDrawingCommand = new RelayCommand(SaveDrawing);
@@ -106,16 +120,24 @@ namespace OptiLight.ViewModel {
 
         // Method for executing the AddLampCommand
         private void AddRoundLamp() {
-            new Command.AddLamp(Lamps, new RoundLampViewModel(new Model.RoundLamp())).Execute();
+            this.undoRedoController.AddAndExecute(new Command.AddLamp(Lamps, new RoundLampViewModel(new Model.RoundLamp())));
         }
 
         private void AddRectangleLamp() {
-            new Command.AddLamp(Lamps, new RectangleLampViewModel(new Model.RectangleLamp())).Execute();
+            this.undoRedoController.AddAndExecute(new Command.AddLamp(Lamps, new RectangleLampViewModel(new Model.RectangleLamp())));
         }
 
         private void AddSquareLamp() {
-            new Command.AddLamp(Lamps, new SquareLampViewModel(new Model.SquareLamp())).Execute();
+            this.undoRedoController.AddAndExecute(new Command.AddLamp(Lamps, new SquareLampViewModel(new Model.SquareLamp())));
         }
 
+        // We check whether we can remove the lamp
+        private bool CanRemoveLamp() => targetedLamp == null; 
+
+        // We remove the selected lamp
+        private void RemoveLamp(IList lampToRemove)
+        {
+            undoRedoController.AddAndExecute(new RemoveLamp(Lamps, lampToRemove.Cast<LampViewModel>().ToList()));
+        }
     }
 }

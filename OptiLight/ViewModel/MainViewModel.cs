@@ -14,16 +14,27 @@ namespace OptiLight.ViewModel {
 
         // The collection of the lamps
 
-        // Values to keeo track of grid snapping
+        // Grid control variables
         private bool snapActive = false;
-        public int gridSize = 50;
+        public string gridVisibility { get; set; } = "Transparent";
+        public int gridSize { get; set; } = 50;
+        public int cellsX   { get; set; } = 14;
+        public int cellsY { get; set; } = 10;
+        public int maxX { get; set; } = 100;
+        public int maxY { get; set; } = 100;
 
+        // The possible commands
         public ICommand LampPressedCommand { get; }
         public ICommand LampReleasedCommand { get; }
-        public ICommand MoveLampCommand { get; }
+        public ICommand LampMovedCommand { get; }
         public ICommand toggleSnappingCommand { get; }
+        public ICommand toggleGridVisibilityCommand { get; }
 
+        // Constructor - creates the initial lamps and initializes the commands
         public MainViewModel() : base() {
+            maxX = gridSize * cellsX;
+            maxY = gridSize * cellsY;
+
             // Lamps created from the start
             //It generates a collection of LampViewModels
             Lamps = new ObservableCollection<LampViewModel>() {
@@ -33,11 +44,11 @@ namespace OptiLight.ViewModel {
             };
 
             // Commands are defined as relay commands
-          
-            LampPressedCommand = new RelayCommand<MouseButtonEventArgs>(MousePressed);
-            LampReleasedCommand = new RelayCommand<MouseButtonEventArgs>(MouseReleased);
-            MoveLampCommand = new RelayCommand<MouseEventArgs>(MoveLamp);
+            LampPressedCommand = new RelayCommand<MouseButtonEventArgs>(LampPressed);
+            LampReleasedCommand = new RelayCommand<MouseButtonEventArgs>(LampReleased);
+            LampMovedCommand = new RelayCommand<MouseEventArgs>(LampMoved);
             toggleSnappingCommand = new RelayCommand(toggleSnapping);
+            toggleGridVisibilityCommand = new RelayCommand(toggleVisibility);
         }
 
         public void toggleSnapping()
@@ -45,10 +56,20 @@ namespace OptiLight.ViewModel {
             snapActive = !snapActive;
         }
     
+        public void toggleVisibility() {
+            if (gridVisibility.Equals("Black")) {
+                gridVisibility = "Transparent";
+            } else if (gridVisibility.Equals("Transparent")) {
+                gridVisibility = "Black";
+            }
+            RaisePropertyChanged(() => gridVisibility);
+        }
+
         // Method for capturing the mouse on a lamp
-        private void MousePressed(MouseButtonEventArgs e) {
+        private void LampPressed(MouseButtonEventArgs e) {
             var Lamp = TargetLamp(e);
             var MousePosition = RelativeMousePosition(e);
+            this.targetedLamp = Lamp;
 
             initialLampPosition = new Point(Lamp.X, Lamp.Y);
             initialMousePosition = MousePosition;
@@ -56,47 +77,48 @@ namespace OptiLight.ViewModel {
             e.MouseDevice.Target.CaptureMouse();
         }
 
-        // Method for releasing the capturing of the mouse on a lamp. After the mouse is released, the lamps new position is defined
-        // and saved to the lamp.
-        private void MouseReleased(MouseButtonEventArgs e) {
+        // Method for releasing the capturing of the mouse on a lamp. After the mouse is released, 
+        // the lamps new position is definedand saved to the lamp.
+        private void LampReleased(MouseButtonEventArgs e) {
             var Lamp = TargetLamp(e);
             var MousePosition = RelativeMousePosition(e);
 
-            if (MousePosition.X > 0 && MousePosition.Y > 0) {
-            Lamp.X = initialLampPosition.X;
-            Lamp.Y = initialLampPosition.Y;
+            if (MousePosition.X > 0 && MousePosition.Y > 0
+                && MousePosition.X < maxX - gridSize
+                && MousePosition.Y < maxY - gridSize) {
 
-            var offsetX = MousePosition.X - initialMousePosition.X;
-            var offsetY = MousePosition.Y - initialMousePosition.Y;
+                Lamp.X = initialLampPosition.X;
+                Lamp.Y = initialLampPosition.Y;
+
+                var offsetX = MousePosition.X - initialMousePosition.X;
+                var offsetY = MousePosition.Y - initialMousePosition.Y;
             
                 if (snapActive) {
-                    var extraX = (Lamp.X + offsetX) % gridSize;
+                    var extraX = (Lamp.X + offsetX) % gridSize; 
                     var extraY = (Lamp.Y + offsetY) % gridSize;
 
-                    if (extraX > gridSize / 2) {
-                        offsetX = offsetX - extraX + gridSize;
+                    if (extraX > gridSize/2) {
+                        offsetX = offsetX - extraX + 0.5 * gridSize;
                     }
                     else {
-                        offsetX = offsetX - extraX;
+                        offsetX = offsetX - extraX + 0.5 * gridSize;
                     }
-                    if (extraY > gridSize / 2) {
-                        offsetY = offsetY - extraY + gridSize;
+                    if (extraY > gridSize/2) {
+                        offsetY = offsetY - extraY + 0.5 * gridSize;
                     }
                     else {
-                        offsetY = offsetY - extraY;
+                        offsetY = offsetY - extraY + 0.5 * gridSize;
                     }
                 }
-
-
-
-                new Command.MoveLamp(Lamp, offsetX, offsetY).Execute();
+                this.undoRedoController.AddAndExecute(new Command.MoveLamp(Lamp, offsetX, offsetY));
             }
             e.MouseDevice.Target.ReleaseMouseCapture();
         }
 
-        // Method for moving the lamp. This is created as an on-the-go method, so that each "pixel" move of the lamp isn't saved in the undo-redo
-        // command. So when undo is pressed, the lamp is moved to it's original position before even moving.
-        private void MoveLamp(MouseEventArgs e) {
+        // Method for moving the lamp. This is created as an on-the-go method, so that each "pixel" 
+        // move of the lamp isn't saved in the undo-redo command. 
+        // So when undo is pressed, the lamp is moved to it's original position before even moving.
+        private void LampMoved(MouseEventArgs e) {
             if (Mouse.Captured != null){
 
                 var Lamp = TargetLamp(e);
@@ -107,20 +129,20 @@ namespace OptiLight.ViewModel {
                 var newX = initialLampPosition.X + offsetX;
                 var newY = initialLampPosition.Y + offsetY;
 
-                if (newX > 0 && newY > 0){
+                if (newX > 0 && newY > 0 && newX < maxX-gridSize && newY < maxY-gridSize){
                     if (snapActive){
                         var extraX = newX % gridSize;
                         var extraY = newY % gridSize;
 
                         if (extraX > gridSize / 2) {
-                            newX = newX - extraX + gridSize;
+                            newX = newX - extraX + 0.5 * gridSize;
                         } else {
-                            newX = newX - extraX;
+                            newX = newX - extraX + 0.5 * gridSize;
                         }
                         if (extraY > gridSize / 2) {
-                            newY = newY - extraY + gridSize;
+                            newY = newY - extraY + 0.5 * gridSize;
                         } else {
-                            newY = newY - extraY;
+                            newY = newY - extraY + 0.5 * gridSize;
                         }
                     }
 
