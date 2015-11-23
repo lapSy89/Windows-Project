@@ -1,6 +1,8 @@
-﻿namespace OptiLight.ViewModel {
+﻿using OptiLight.Model;
+
+namespace OptiLight.ViewModel {
 
     public class SquareLampViewModel : LampViewModel {
-        public SquareLampViewModel(Model.Lamp lamp) : base(lamp) { }
+        public SquareLampViewModel(Lamp lamp) : base(lamp) { }
     }
 }

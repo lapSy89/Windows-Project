@@ -15,6 +15,7 @@
 using GalaSoft.MvvmLight;
 using Microsoft.Practices.ServiceLocation;
 using Microsoft.Practices.Unity;
+using OptiLight.View;
 
 namespace OptiLight.ViewModel {
     /// <summary>

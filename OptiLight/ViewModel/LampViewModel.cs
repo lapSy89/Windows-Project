@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using OptiLight.Model;
 
 namespace OptiLight.ViewModel {
     public abstract class LampViewModel : BaseViewModel {
@@ -14,7 +15,7 @@ namespace OptiLight.ViewModel {
         public Thickness Radius { get { return new Thickness(Lamp.Radius); } set { Lamp.Radius = value.Top; RaisePropertyChanged(); } }
 
         //The base means that it inherits 
-        public LampViewModel(Model.Lamp lamp) : base() {
+        public LampViewModel(Lamp lamp) : base() {
             Lamp = lamp;
         }
     }

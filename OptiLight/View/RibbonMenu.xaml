@@ -30,9 +30,9 @@
         </Ribbon.ApplicationMenu>
         <RibbonTab Header="Home" KeyTip="H">
             <RibbonGroup Header="Load/Save">
-                <RibbonButton Label="New" LargeImageSource="/Resources/new_file.png"/>
-                <RibbonButton Label="Load" LargeImageSource="/Resources/folder.png"/>
-                <RibbonButton Label="Save" LargeImageSource="/Resources/save.png"/>
+                <RibbonButton Label="New" LargeImageSource="/Resources/new_file.png" Command="{Binding NewDrawingCommand}"/>
+                <RibbonButton Label="Load" LargeImageSource="/Resources/folder.png" Command="{Binding LoadDrawingCommand}"/>
+                <RibbonButton Label="Save" LargeImageSource="/Resources/save.png" Command="{Binding SaveDrawingCommand}"/>
             </RibbonGroup>
             <RibbonGroup Header="Edit">
                 <RibbonButton Label="Undo" Command="{Binding UndoCommand}" SmallImageSource="/Resources/arrow1_left.png"/>
