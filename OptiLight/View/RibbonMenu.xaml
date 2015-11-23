@@ -12,9 +12,9 @@
     <Ribbon>
         <Ribbon.QuickAccessToolBar>
             <RibbonQuickAccessToolBar>
-                <RibbonButton SmallImageSource="/Resources/new_file.png"/>
-                <RibbonButton SmallImageSource="/Resources/folder.png"/>
-                <RibbonButton SmallImageSource="/Resources/save.png"/>
+                <RibbonButton SmallImageSource="/Resources/new_file.png" Command="{Binding NewDrawingCommand}"/>
+                <RibbonButton SmallImageSource="/Resources/folder.png" Command="{Binding LoadDrawingCommand}"/>
+                <RibbonButton SmallImageSource="/Resources/save.png" Command="{Binding SaveDrawingCommand}"/>
                 <RibbonButton Command="{Binding UndoCommand}" SmallImageSource="/Resources/arrow1_left.png"/>
                 <RibbonButton Command="{Binding RedoCommand}" SmallImageSource="/Resources/arrow1_right.png"/>
                 <RibbonButton SmallImageSource="/Resources/copy.png"/>
@@ -23,15 +23,15 @@
         </Ribbon.QuickAccessToolBar>
         <Ribbon.ApplicationMenu>
             <RibbonApplicationMenu KeyTip="F" SmallImageSource="/Resources/lamp_on.png">
-                <RibbonApplicationMenuItem Header="New File" ImageSource="/Resources/new_file.png"/>
-                <RibbonApplicationMenuItem Header="Open File" ImageSource="/Resources/folder.png"/>
-                <RibbonApplicationMenuItem Header="Save File" ImageSource="/Resources/save.png"/>
+                <RibbonApplicationMenuItem Header="New File" ImageSource="/Resources/new_file.png" Command="{Binding NewDrawingCommand}"/>
+                <RibbonApplicationMenuItem Header="Open File" ImageSource="/Resources/folder.png" Command="{Binding LoadDrawingCommand}"/>
+                <RibbonApplicationMenuItem Header="Save File" ImageSource="/Resources/save.png" Command="{Binding SaveDrawingCommand}"/>
             </RibbonApplicationMenu>
         </Ribbon.ApplicationMenu>
         <RibbonTab Header="Home" KeyTip="H">
             <RibbonGroup Header="Load/Save">
                 <RibbonButton Label="New" LargeImageSource="/Resources/new_file.png" Command="{Binding NewDrawingCommand}"/>
-                <RibbonButton Label="Load" LargeImageSource="/Resources/folder.png" Command="{Binding LoadDrawingCommand}"/>
+                <RibbonButton Label="Open" LargeImageSource="/Resources/folder.png" Command="{Binding LoadDrawingCommand}"/>
                 <RibbonButton Label="Save" LargeImageSource="/Resources/save.png" Command="{Binding SaveDrawingCommand}"/>
             </RibbonGroup>
             <RibbonGroup Header="Edit">

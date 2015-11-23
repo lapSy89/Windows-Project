@@ -69,13 +69,13 @@ namespace OptiLight.ViewModel {
                 // Pop up window for confirming deleting of changes.
                 if (dialogWindow.NewFile()) {
                     // Deleting lamps
-                    undoRedoController.ClearStacks();
+                    clearWorkspace();
                     Lamps.Clear();
                 }
             } else {
+                clearWorkspace();
                 Lamps.Clear();
-                undoRedoController.ClearStacks();
-        }
+            }
         }
 
         // Method for saving drawing
@@ -90,35 +90,26 @@ namespace OptiLight.ViewModel {
 
         // Method for loading drawing
         private async void LoadDrawing() {
+            string loadPath;
             if (undoRedoController.CanUndo() || undoRedoController.CanRedo()) {
-                string loadPath = dialogWindow.OpenFile(true);
-                if (loadPath != null) {
-                    // Get list of lamps
-                    List<Lamp> lamps = await XML.Instance.AsyncOpenFromFile(loadPath);
-
-                    // Clear the board for loading new lamps
-                    Lamps.Clear();
-                    // Inserting lamps into array of lamps
-                    lamps.Select(lamp => lamp is RoundLamp ?
-                        (LampViewModel)new RoundLampViewModel(lamp) 
-                    : lamp is SquareLamp ?
-                        (LampViewModel)new SquareLampViewModel(lamp) 
-                    : new RectangleLampViewModel(lamp)).ToList().ForEach(lamp => Lamps.Add(lamp));
-                    undoRedoController.ClearStacks();
-                }
+                loadPath = dialogWindow.OpenFile(true);  
             } else {
-                string loadPath = dialogWindow.OpenFile(false);
-                if (loadPath != null) {
-                    List<Lamp> lamps = await XML.Instance.AsyncOpenFromFile(loadPath);
+                loadPath = dialogWindow.OpenFile(false);
+            }
 
-                    Lamps.Clear();
-                    lamps.Select(lamp => lamp is RoundLamp ?
-                        (LampViewModel)new RoundLampViewModel(lamp)
-                    : lamp is SquareLamp ?
-                        (LampViewModel)new SquareLampViewModel(lamp)
-                    : new RectangleLampViewModel(lamp)).ToList().ForEach(lamp => Lamps.Add(lamp));
-                    undoRedoController.ClearStacks();
-                }
+            if (loadPath != null) {
+                // Get list of lamps
+                List<Lamp> lamps = await XML.Instance.AsyncOpenFromFile(loadPath);
+
+                // Clear the board for loading new lamps
+                Lamps.Clear();
+                // Inserting lamps into array of lamps
+                lamps.Select(lamp => lamp is RoundLamp ?
+                    (LampViewModel)new RoundLampViewModel(lamp)
+                : lamp is SquareLamp ?
+                    (LampViewModel)new SquareLampViewModel(lamp)
+                : new RectangleLampViewModel(lamp)).ToList().ForEach(lamp => Lamps.Add(lamp));
+                clearWorkspace();
             }
         }
 
@@ -146,6 +137,12 @@ namespace OptiLight.ViewModel {
             list.Add(this.targetedLamp);
             this.targetedLamp = null;
             undoRedoController.AddAndExecute(new RemoveLamp(Lamps,list));
+        }
+
+        // We clear the workspace
+        private void clearWorkspace() {
+            this.targetedLamp = null;
+            undoRedoController.ClearStacks();
         }
     }
 }
