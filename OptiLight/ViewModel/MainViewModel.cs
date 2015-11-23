@@ -73,17 +73,17 @@ namespace OptiLight.ViewModel {
                     var extraX = (Lamp.X + offsetX) % gridSize;
                     var extraY = (Lamp.Y + offsetY) % gridSize;
 
-                    if (extraX > gridSize / 2) {
-                        offsetX = offsetX - extraX + gridSize;
+                    if (extraX > gridSize/2) {
+                        offsetX = offsetX - extraX + 0.5 * gridSize;
                     }
                     else {
-                        offsetX = offsetX - extraX;
+                        offsetX = offsetX - extraX + 0.5 * gridSize;
                     }
-                    if (extraY > gridSize / 2) {
-                        offsetY = offsetY - extraY + gridSize;
+                    if (extraY > gridSize/2) {
+                        offsetY = offsetY - extraY + 0.5 * gridSize;
                     }
                     else {
-                        offsetY = offsetY - extraY;
+                        offsetY = offsetY - extraY + 0.5 * gridSize;
                     }
                 }
                 this.undoRedoController.AddAndExecute(new Command.MoveLamp(Lamp, offsetX, offsetY));
@@ -105,20 +105,20 @@ namespace OptiLight.ViewModel {
                 var newX = initialLampPosition.X + offsetX;
                 var newY = initialLampPosition.Y + offsetY;
 
-                if (newX > 0 && newY > 0){
+                if (newX > 0 && newY > 0 /*&& newX < maxX && newY < maxY */){
                     if (snapActive){
                         var extraX = newX % gridSize;
                         var extraY = newY % gridSize;
 
                         if (extraX > gridSize / 2) {
-                            newX = newX - extraX + gridSize;
+                            newX = newX - extraX + 0.5 * gridSize;
                         } else {
-                            newX = newX - extraX;
+                            newX = newX - extraX + 0.5 * gridSize;
                         }
                         if (extraY > gridSize / 2) {
-                            newY = newY - extraY + gridSize;
+                            newY = newY - extraY + 0.5 * gridSize;
                         } else {
-                            newY = newY - extraY;
+                            newY = newY - extraY + 0.5 * gridSize;
                         }
                     }
 
