@@ -1,13 +1,14 @@
 ﻿using OptiLight.Command;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
-using System.Collections.Generic;
+using System.Collections;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 using OptiLight.View;
 using OptiLight.Serialization;
 using System.Linq;
 using OptiLight.Model;
+using System.Collections.Generic;
 
 namespace OptiLight.ViewModel {
     //Base viewModel
@@ -25,7 +26,6 @@ namespace OptiLight.ViewModel {
         public static ObservableCollection<LampViewModel> Lamps { get; set; }
 
         public DialogViews dialogWindow { get; set; } // Dialog windows for New, Open and Save
-        public bool changesMade = true;               // Changes made to the drawing
 
         public ICommand UndoCommand { get; }
         public ICommand RedoCommand { get; }
@@ -65,14 +65,16 @@ namespace OptiLight.ViewModel {
         // Method for making a new drawing
         private void NewDrawing() {
             // Check if changes are made to the drawing
-            if (changesMade) {
+            if (undoRedoController.CanUndo() || undoRedoController.CanRedo()) {
                 // Pop up window for confirming deleting of changes.
                 if (dialogWindow.NewFile()) {
                     // Deleting lamps
+                    undoRedoController.ClearStacks();
                     Lamps.Clear();
                 }
             } else {
                 Lamps.Clear();
+                undoRedoController.ClearStacks();
         }
         }
 
@@ -83,13 +85,12 @@ namespace OptiLight.ViewModel {
             if (savePath != null) {
                 // Saving the file.
                 XML.Instance.AsyncSaveToFile(Lamps.Select(x => x.Lamp).ToList(), savePath);
-                changesMade = false; // Setting changes made to false since no changes are made after saving.
             }
         }
 
         // Method for loading drawing
         private async void LoadDrawing() {
-            if (changesMade) {
+            if (undoRedoController.CanUndo() || undoRedoController.CanRedo()) {
                 string loadPath = dialogWindow.OpenFile(true);
                 if (loadPath != null) {
                     // Get list of lamps
@@ -103,6 +104,7 @@ namespace OptiLight.ViewModel {
                     : lamp is SquareLamp ?
                         (LampViewModel)new SquareLampViewModel(lamp) 
                     : new RectangleLampViewModel(lamp)).ToList().ForEach(lamp => Lamps.Add(lamp));
+                    undoRedoController.ClearStacks();
                 }
             } else {
                 string loadPath = dialogWindow.OpenFile(false);
@@ -115,6 +117,7 @@ namespace OptiLight.ViewModel {
                     : lamp is SquareLamp ?
                         (LampViewModel)new SquareLampViewModel(lamp)
                     : new RectangleLampViewModel(lamp)).ToList().ForEach(lamp => Lamps.Add(lamp));
+                    undoRedoController.ClearStacks();
                 }
             }
         }
