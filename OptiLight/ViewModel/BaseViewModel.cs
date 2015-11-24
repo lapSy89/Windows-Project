@@ -1,7 +1,6 @@
 ﻿using OptiLight.Command;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
-using System.Collections;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 using OptiLight.View;
@@ -122,7 +121,7 @@ namespace OptiLight.ViewModel {
             }
         }
 
-
+        
         // Methods for adding lamps
         private void AddRoundLamp() {
             this.undoRedoController.AddAndExecute(new Command.AddLamp(Lamps, new RoundLampViewModel(new Model.RoundLamp())));
@@ -137,14 +136,24 @@ namespace OptiLight.ViewModel {
         }
 
         // We check whether we can remove the lamp
-        private bool CanRemoveLamp() => targetedLamp != null; 
+        // TODO LAMBDA EXPRESSION INSTEAD
+        private bool CanRemoveLamp()
+        {
+            foreach (var lamp in Lamps)
+            {
+                if (lamp.IsSelected) return true;
+            }
+            return false;
+        }
 
         // We remove the selected lamp
         private void RemoveLamp()
         {
             List<LampViewModel> list = new List<LampViewModel>();
-            list.Add(this.targetedLamp);
-            this.targetedLamp = null;
+            foreach (var lamp in Lamps)
+            {
+                if (lamp.IsSelected) list.Add(lamp);
+            }
             undoRedoController.AddAndExecute(new RemoveLamp(Lamps,list));
         }
     }

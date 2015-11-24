@@ -69,7 +69,7 @@ namespace OptiLight.ViewModel {
         private void LampPressed(MouseButtonEventArgs e) {
             var Lamp = TargetLamp(e);
             var MousePosition = RelativeMousePosition(e);
-            this.targetedLamp = Lamp;
+            Lamp.IsSelected = true;
 
             initialLampPosition = new Point(Lamp.X, Lamp.Y);
             initialMousePosition = MousePosition;
