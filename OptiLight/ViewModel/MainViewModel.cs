@@ -74,7 +74,7 @@ namespace OptiLight.ViewModel {
             initialLampPosition = new Point(Lamp.X, Lamp.Y);
             initialMousePosition = MousePosition;
 
-            e.MouseDevice.Target.CaptureMouse();
+            e.MouseDevice.Target.CaptureMouse(); 
         }
 
         // Method for releasing the capturing of the mouse on a lamp. After the mouse is released, 
