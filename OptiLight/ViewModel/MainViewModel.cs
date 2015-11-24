@@ -17,11 +17,12 @@ namespace OptiLight.ViewModel {
         // Grid control variables
         private bool snapActive = false;
         public string gridVisibility { get; set; } = "Transparent";
-        public int gridSize { get; set; } = 50;
-        public int cellsX   { get; set; } = 14;
-        public int cellsY { get; set; } = 10;
-        public int maxX { get; set; } = 100;
-        public int maxY { get; set; } = 100;
+        public int cellSet { get { return cellSize; } set { System.Console.WriteLine(value); cellSize = value; } }
+        public int cellSize { get; set; }
+        public int cellsX { get; set; }
+        public int cellsY { get; set; }
+        public int width { get; set; }
+        public int height { get; set; }
 
         // The possible commands
         public ICommand LampPressedCommand { get; }
@@ -33,8 +34,11 @@ namespace OptiLight.ViewModel {
 
         // Constructor - creates the initial lamps and initializes the commands
         public MainViewModel() : base() {
-            maxX = gridSize * cellsX;
-            maxY = gridSize * cellsY;
+            cellSet = 50; //Default cell size
+            cellsX = 14;
+            cellsY = 10;
+            width = cellSize * cellsX;
+            height = cellSize * cellsY;
 
             // Lamps created from the start
             //It generates a collection of LampViewModels
@@ -90,8 +94,8 @@ namespace OptiLight.ViewModel {
             var MousePosition = RelativeMousePosition(e);
 
             if (MousePosition.X > 0 && MousePosition.Y > 0
-                && MousePosition.X < maxX - gridSize
-                && MousePosition.Y < maxY - gridSize) {
+                && MousePosition.X < width - cellSize
+                && MousePosition.Y < height - cellSize) {
 
                 Lamp.X = initialLampPosition.X;
                 Lamp.Y = initialLampPosition.Y;
@@ -100,20 +104,20 @@ namespace OptiLight.ViewModel {
                 var offsetY = MousePosition.Y - initialMousePosition.Y;
             
                 if (snapActive) {
-                    var extraX = (Lamp.X + offsetX) % gridSize; 
-                    var extraY = (Lamp.Y + offsetY) % gridSize;
+                    var extraX = (Lamp.X + offsetX) % cellSize; 
+                    var extraY = (Lamp.Y + offsetY) % cellSize;
 
-                    if (extraX > gridSize/2) {
-                        offsetX = offsetX - extraX + 0.5 * gridSize;
+                    if (extraX > cellSize/2) {
+                        offsetX = offsetX - extraX + 0.5 * cellSize;
                     }
                     else {
-                        offsetX = offsetX - extraX + 0.5 * gridSize;
+                        offsetX = offsetX - extraX + 0.5 * cellSize;
                     }
-                    if (extraY > gridSize/2) {
-                        offsetY = offsetY - extraY + 0.5 * gridSize;
+                    if (extraY > cellSize/2) {
+                        offsetY = offsetY - extraY + 0.5 * cellSize;
                     }
                     else {
-                        offsetY = offsetY - extraY + 0.5 * gridSize;
+                        offsetY = offsetY - extraY + 0.5 * cellSize;
                     }
                 }
                 this.undoRedoController.AddAndExecute(new Command.MoveLamp(Lamp, offsetX, offsetY));
@@ -143,20 +147,20 @@ namespace OptiLight.ViewModel {
                 var newX = initialLampPosition.X + offsetX;
                 var newY = initialLampPosition.Y + offsetY;
 
-                if (newX > 0 && newY > 0 && newX < maxX-gridSize && newY < maxY-gridSize){
+                if (newX > 0 && newY > 0 && newX < width-cellSize && newY < height-cellSize){
                     if (snapActive){
-                        var extraX = newX % gridSize;
-                        var extraY = newY % gridSize;
+                        var extraX = newX % cellSize;
+                        var extraY = newY % cellSize;
 
-                        if (extraX > gridSize / 2) {
-                            newX = newX - extraX + 0.5 * gridSize;
+                        if (extraX > cellSize / 2) {
+                            newX = newX - extraX + 0.5 * cellSize;
                         } else {
-                            newX = newX - extraX + 0.5 * gridSize;
+                            newX = newX - extraX + 0.5 * cellSize;
                         }
-                        if (extraY > gridSize / 2) {
-                            newY = newY - extraY + 0.5 * gridSize;
+                        if (extraY > cellSize / 2) {
+                            newY = newY - extraY + 0.5 * cellSize;
                         } else {
-                            newY = newY - extraY + 0.5 * gridSize;
+                            newY = newY - extraY + 0.5 * cellSize;
                         }
                     }
 

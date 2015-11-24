@@ -56,7 +56,7 @@
             <!-- Drawing window -->
             <ScrollViewer HorizontalScrollBarVisibility="Visible" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
                           VerticalScrollBarVisibility="Visible" Grid.Column="1">
-                <Grid Height="{Binding maxY}" Width="{Binding maxX}">
+                <Grid Height="{Binding height}" Width="{Binding width}">
 
                     <Border BorderBrush="Black" 
                         BorderThickness="2"
@@ -64,7 +64,7 @@
                         VerticalAlignment="Stretch"
                         Background="LightGray"/>
 
-                    <Rectangle Height="{Binding maxY}"  Width="{Binding maxX}" Stroke="Black" StrokeThickness="0">
+                    <Rectangle Height="{Binding height}"  Width="{Binding width}" Stroke="Black" StrokeThickness="0">
                         <Rectangle.Fill>
                             <DrawingBrush Stretch="None" TileMode="Tile"
                             Viewport="0,0 50,50" ViewportUnits="Absolute">
