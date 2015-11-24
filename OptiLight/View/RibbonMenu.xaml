@@ -17,8 +17,8 @@
                 <RibbonButton SmallImageSource="/Resources/save.png" Command="{Binding SaveDrawingCommand}"/>
                 <RibbonButton Command="{Binding UndoCommand}" SmallImageSource="/Resources/arrow1_left.png"/>
                 <RibbonButton Command="{Binding RedoCommand}" SmallImageSource="/Resources/arrow1_right.png"/>
-                <RibbonButton SmallImageSource="/Resources/copy.png"/>
-                <RibbonButton SmallImageSource="/Resources/paste.png"/>
+                <RibbonButton Command="{Binding CopyCommand}" SmallImageSource="/Resources/copy.png"/>
+                <RibbonButton Command="{Binding PasteCommand}" SmallImageSource="/Resources/paste.png"/>
             </RibbonQuickAccessToolBar>
         </Ribbon.QuickAccessToolBar>
         <Ribbon.ApplicationMenu>
