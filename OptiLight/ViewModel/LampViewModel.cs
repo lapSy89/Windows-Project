@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using OptiLight.Model;
 
 namespace OptiLight.ViewModel {
     public abstract class LampViewModel : BaseViewModel {
@@ -15,7 +16,7 @@ namespace OptiLight.ViewModel {
 
         
         //The base means that it inherits 
-        public LampViewModel(Model.Lamp lamp) : base() {
+        public LampViewModel(Lamp lamp) : base() {
             Lamp = lamp;
         }
     }

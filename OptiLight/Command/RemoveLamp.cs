@@ -1,4 +1,5 @@
 ﻿using OptiLight.Model;
+using OptiLight.ViewModel;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
@@ -6,13 +7,13 @@ namespace OptiLight.Command {
 
     class RemoveLamp : IUndoRedo {
         //The collection of lamps
-        private ObservableCollection<RoundLamp> lamps;
+        private ObservableCollection<LampViewModel> lamps;
 
         //Holds the removed lamps, so they can be undone
-        private List<RoundLamp> removedLamps;
+        private List<LampViewModel> removedLamps;
 
         //Constructor
-        public RemoveLamp(ObservableCollection<RoundLamp> lamps, List<RoundLamp> removedLamps) {
+        public RemoveLamp(ObservableCollection<LampViewModel> lamps, List<LampViewModel> removedLamps) {
             this.lamps = lamps;
             this.removedLamps = removedLamps;
         }

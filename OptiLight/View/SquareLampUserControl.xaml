@@ -35,7 +35,7 @@
                         RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" PassEventArgsToCommand="True"/>
                 </i:EventTrigger>
                 <i:EventTrigger EventName="MouseMove">
-                    <cmd:EventToCommand Command="{Binding DataContext.MoveLampCommand, 
+                    <cmd:EventToCommand Command="{Binding DataContext.LampMovedCommand, 
                         RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" PassEventArgsToCommand="True"/>
                 </i:EventTrigger>
             </i:Interaction.Triggers>
