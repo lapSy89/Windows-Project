@@ -17,15 +17,13 @@ namespace OptiLight.ViewModel {
 
         //Determines whether a lamp is selected or not
         private bool isSelected;
-        public bool IsSelected
-        {
+        public bool IsSelected{
             get { return this.isSelected; }
-            set { this.isSelected = value; RaisePropertyChanged(); }
+            set { this.isSelected = value; RaisePropertyChanged(); RaisePropertyChanged(() => SelectedColor); }
         }
 
         //Colors
-        public Brush SelectedColor => IsSelected ? Brushes.Salmon : Brushes.Chocolate;
-
+        public Brush SelectedColor => IsSelected ? Brushes.Blue : Brushes.Transparent;
         //The base means that it inherits 
         public LampViewModel(Lamp lamp) : base() {
             Lamp = lamp;

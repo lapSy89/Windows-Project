@@ -140,13 +140,24 @@ namespace OptiLight.ViewModel {
 
         // We check whether we can remove lamps
         // TODO LAMBDA EXPRESSION INSTEAD
-        private bool CanRemoveLamp()
+        //MEYBE NOT PUBLIC
+        public bool CanRemoveLamp()
         {
             foreach (var lamp in Lamps)
             {
                 if (lamp.IsSelected) return true;
             }
             return false;
+        }
+
+        public void UnSelectAllLamps() {
+            if (CanRemoveLamp()) {
+                foreach(var lamp in Lamps) {
+                    if (lamp.IsSelected) {
+                        lamp.IsSelected = false;
+                    }
+                }
+            }
         }
 
         // We remove the selected lamps

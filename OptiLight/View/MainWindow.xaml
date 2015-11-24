@@ -2,6 +2,8 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:View="clr-namespace:OptiLight.View"
+        xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+          xmlns:cmd="clr-namespace:GalaSoft.MvvmLight.Command;assembly=GalaSoft.MvvmLight.Platform"
         xmlns:ViewModel="clr-namespace:OptiLight.ViewModel"
         Title="Optilight" Height="700" Width="900"
         Icon="pack://application:,,,/Resources/lampicon.ico"
@@ -54,7 +56,7 @@
             <!-- Drawing window -->
             <ScrollViewer HorizontalScrollBarVisibility="Visible" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
                           VerticalScrollBarVisibility="Visible" Grid.Column="1">
-                <Grid Height="{Binding maxY}" Width="{Binding maxX}">
+                <Grid Height="{Binding height}" Width="{Binding width}">
 
                     <Border BorderBrush="Black" 
                         BorderThickness="2"
@@ -62,7 +64,7 @@
                         VerticalAlignment="Stretch"
                         Background="LightGray"/>
 
-                    <Rectangle Height="{Binding maxY}"  Width="{Binding maxX}" Stroke="Black" StrokeThickness="0">
+                    <Rectangle Height="{Binding height}"  Width="{Binding width}" Stroke="Black" StrokeThickness="0">
                         <Rectangle.Fill>
                             <DrawingBrush Stretch="None" TileMode="Tile"
                             Viewport="0,0 50,50" ViewportUnits="Absolute">
@@ -85,7 +87,24 @@
                                 </DrawingBrush.Drawing>
                             </DrawingBrush>
                         </Rectangle.Fill>
+
+
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="MouseLeftButtonDown">
+                                <cmd:EventToCommand Command="{Binding MouseDownCanvasCommand}" PassEventArgsToCommand="True"/>
+                            </i:EventTrigger>
+                          <!--
+                            <i:EventTrigger EventName="MouseMove">
+                                <cmd:EventToCommand Command="{Binding MouseMoveCanvasCommand}" PassEventArgsToCommand="True"/>
+                            </i:EventTrigger>
+                            <i:EventTrigger EventName="MouseLeftButtonUp">
+                                <cmd:EventToCommand Command="{Binding MouseUpCanvasCommand}" PassEventArgsToCommand="True"/>
+                            </i:EventTrigger>
+                              -->
+                        </i:Interaction.Triggers>
+                         
                     </Rectangle>
+ 
                     <ItemsControl ItemsSource="{Binding Lamps}"/>
                 </Grid>
             </ScrollViewer>
