@@ -45,7 +45,7 @@
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch"
                         Background="LightGray"/>
-
+                   
                     <Rectangle Height="500"  Width="690" Stroke="Black" StrokeThickness="0">
                         <Rectangle.Fill>
                             <DrawingBrush Stretch="None" TileMode="Tile"
@@ -63,7 +63,7 @@
                                         </GeometryDrawing.Geometry>
                                         <GeometryDrawing.Pen>
                                             <!-- set color and thickness of lines -->
-                                            <Pen Thickness="0.4" Brush="Black" />
+                                            <Pen Thickness="0.4" Brush="{Binding GridVisible}" />
                                         </GeometryDrawing.Pen>
                                     </GeometryDrawing>
                                 </DrawingBrush.Drawing>

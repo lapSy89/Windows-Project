@@ -51,7 +51,7 @@
                 <RibbonToggleButton Label="Toggle Light" LargeImageSource="/Resources/switch.png" HorizontalAlignment="Center"/>
             </RibbonGroup>
             <RibbonGroup Header="Grid Options">
-                <RibbonToggleButton Label="Show Grid" LargeImageSource="/Resources/grid.png"/>
+                <RibbonToggleButton Label="Show Grid" LargeImageSource="/Resources/grid.png" Command="{Binding toggleGridCommand}"/>
                 <RibbonToggleButton Label="Grip Snapping" LargeImageSource="/Resources/lock.ico" Command="{Binding toggleSnappingCommand}"/>
             </RibbonGroup>
         </RibbonTab>

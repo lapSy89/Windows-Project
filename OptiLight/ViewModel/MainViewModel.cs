@@ -17,6 +17,9 @@ namespace OptiLight.ViewModel {
         // Values to keeo track of grid snapping
         private bool snapActive = false;
         public int gridSize = 50;
+        public string GridVisible = "Black";
+
+        private ICommand toggleGridCommand { get; }
 
         public ICommand LampPressedCommand { get; }
         public ICommand LampReleasedCommand { get; }
@@ -38,10 +41,19 @@ namespace OptiLight.ViewModel {
             LampReleasedCommand = new RelayCommand<MouseButtonEventArgs>(MouseReleased);
             MoveLampCommand = new RelayCommand<MouseEventArgs>(MoveLamp);
             toggleSnappingCommand = new RelayCommand(toggleSnapping);
+            toggleGridCommand = new RelayCommand(toggleGrid);
         }
 
-        public void toggleSnapping()
-        {
+        public void toggleGrid() {
+            if ( GridVisible.Equals("Black")){
+                GridVisible = "Black";
+            } else if (GridVisible.Equals("Black")){
+                GridVisible = "Black";
+            }
+         
+        }
+
+        public void toggleSnapping(){
             snapActive = !snapActive;
         }
     

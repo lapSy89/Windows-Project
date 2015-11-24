@@ -13,6 +13,7 @@ namespace OptiLight.ViewModel {
         public double Height { get { return Lamp.Height; } set { Lamp.Height = value; RaisePropertyChanged(); } }
         public Thickness Radius { get { return new Thickness(Lamp.Radius); } set { Lamp.Radius = value.Top; RaisePropertyChanged(); } }
 
+        
         //The base means that it inherits 
         public LampViewModel(Model.Lamp lamp) : base() {
             Lamp = lamp;
