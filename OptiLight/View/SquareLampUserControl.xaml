@@ -10,10 +10,9 @@
              Canvas.Left="{Binding X}" Canvas.Top="{Binding Y}" Width="{Binding Width}" Height="{Binding Height}"
              d:DesignHeight="50" d:DesignWidth="50">
     <Grid>
-        <Rectangle Fill="Gray" Margin="0,0,0,0" RenderTransformOrigin="0.94,0.56">
-
-        </Rectangle>
-        <Rectangle Margin="0,0,0,0">
+        <Rectangle Fill="{Binding SelectedColor}" Opacity = "0.7" Margin="-2"/>
+        <Rectangle Fill="Gray" Margin="0,0,0,0"/>
+            <Rectangle Margin="0,0,0,0">
             <Rectangle.Fill>
                 <LinearGradientBrush StartPoint="0,1" EndPoint="0,0">
                     <GradientStop Color="Beige" Offset="0"/>
@@ -25,6 +24,9 @@
             </Rectangle.Fill>
             <!-- Triggers for handeling the moving of a lamp 
             This only bounds to the outer part of the lamp, need to add triggers to inner circle also -->
+
+        </Rectangle>
+        <Rectangle Fill="{Binding SelectedColor}" Opacity="0.2">
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="MouseDown">
                     <cmd:EventToCommand Command="{Binding DataContext.LampPressedCommand, 
