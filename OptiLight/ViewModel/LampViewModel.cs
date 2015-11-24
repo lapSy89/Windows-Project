@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using OptiLight.Model;
+using System.Windows.Media;
 
 namespace OptiLight.ViewModel {
     public abstract class LampViewModel : BaseViewModel {
@@ -14,6 +15,15 @@ namespace OptiLight.ViewModel {
         public double Height { get { return Lamp.Height; } set { Lamp.Height = value; RaisePropertyChanged(); } }
         public Thickness Radius { get { return new Thickness(Lamp.Radius); } set { Lamp.Radius = value.Top; RaisePropertyChanged(); } }
 
+        //Determines whether a lamp is selected or not
+        private bool isSelected;
+        public bool IsSelected{
+            get { return this.isSelected; }
+            set { this.isSelected = value; RaisePropertyChanged(); RaisePropertyChanged(() => SelectedColor); }
+        }
+
+        //Colors
+        public Brush SelectedColor => IsSelected ? Brushes.Blue : Brushes.Transparent;
         //The base means that it inherits 
         public LampViewModel(Lamp lamp) : base() {
             Lamp = lamp;

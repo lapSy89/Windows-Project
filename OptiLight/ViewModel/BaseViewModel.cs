@@ -1,7 +1,6 @@
 ﻿using OptiLight.Command;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
-using System.Collections;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 using OptiLight.View;
@@ -39,8 +38,6 @@ namespace OptiLight.ViewModel {
         public ICommand LoadDrawingCommand { get; }
 
         public ICommand RemoveLampCommand { get; }
-
-        public LampViewModel targetedLamp { get; set; }
 
         //Constructor 
         public BaseViewModel() {
@@ -113,7 +110,7 @@ namespace OptiLight.ViewModel {
             }
         }
 
-
+        
         // Methods for adding lamps
         private void AddRoundLamp() {
             this.undoRedoController.AddAndExecute(new Command.AddLamp(Lamps, new RoundLampViewModel(new Model.RoundLamp())));
@@ -127,21 +124,30 @@ namespace OptiLight.ViewModel {
             this.undoRedoController.AddAndExecute(new Command.AddLamp(Lamps, new SquareLampViewModel(new Model.SquareLamp())));
         }
 
-        // We check whether we can remove the lamp
-        private bool CanRemoveLamp() => targetedLamp != null; 
+        // We check whether we can remove lamps
+        // TODO LAMBDA EXPRESSION INSTEAD
+        private bool CanRemoveLamp()
+        {
+            foreach (var lamp in Lamps)
+            {
+                if (lamp.IsSelected) return true;
+            }
+            return false;
+        }
 
-        // We remove the selected lamp
+        // We remove the selected lamps
         private void RemoveLamp()
         {
             List<LampViewModel> list = new List<LampViewModel>();
-            list.Add(this.targetedLamp);
-            this.targetedLamp = null;
+            foreach (var lamp in Lamps)
+            {
+                if (lamp.IsSelected) list.Add(lamp);
+            }
             undoRedoController.AddAndExecute(new RemoveLamp(Lamps,list));
         }
 
         // We clear the workspace
         private void clearWorkspace() {
-            this.targetedLamp = null;
             undoRedoController.ClearStacks();
         }
     }
