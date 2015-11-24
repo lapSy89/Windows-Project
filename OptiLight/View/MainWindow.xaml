@@ -2,6 +2,8 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:View="clr-namespace:OptiLight.View"
+        xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+          xmlns:cmd="clr-namespace:GalaSoft.MvvmLight.Command;assembly=GalaSoft.MvvmLight.Platform"
         xmlns:ViewModel="clr-namespace:OptiLight.ViewModel"
         Title="Optilight" Height="700" Width="900"
         Icon="pack://application:,,,/Resources/lampicon.ico"
@@ -85,7 +87,24 @@
                                 </DrawingBrush.Drawing>
                             </DrawingBrush>
                         </Rectangle.Fill>
+
+
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="MouseLeftButtonDown">
+                                <cmd:EventToCommand Command="{Binding MouseDownCanvasCommand}" PassEventArgsToCommand="True"/>
+                            </i:EventTrigger>
+                          <!--
+                            <i:EventTrigger EventName="MouseMove">
+                                <cmd:EventToCommand Command="{Binding MouseMoveCanvasCommand}" PassEventArgsToCommand="True"/>
+                            </i:EventTrigger>
+                            <i:EventTrigger EventName="MouseLeftButtonUp">
+                                <cmd:EventToCommand Command="{Binding MouseUpCanvasCommand}" PassEventArgsToCommand="True"/>
+                            </i:EventTrigger>
+                              -->
+                        </i:Interaction.Triggers>
+                         
                     </Rectangle>
+ 
                     <ItemsControl ItemsSource="{Binding Lamps}"/>
                 </Grid>
             </ScrollViewer>

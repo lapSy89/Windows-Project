@@ -25,6 +25,7 @@ namespace OptiLight.ViewModel {
 
         // The possible commands
         public ICommand LampPressedCommand { get; }
+        public ICommand MouseDownCanvasCommand { get; }
         public ICommand LampReleasedCommand { get; }
         public ICommand LampMovedCommand { get; }
         public ICommand toggleSnappingCommand { get; }
@@ -49,6 +50,7 @@ namespace OptiLight.ViewModel {
             LampMovedCommand = new RelayCommand<MouseEventArgs>(LampMoved);
             toggleSnappingCommand = new RelayCommand(toggleSnapping);
             toggleGridVisibilityCommand = new RelayCommand(toggleVisibility);
+            MouseDownCanvasCommand = new RelayCommand<MouseButtonEventArgs>(CanvasDown);
         }
 
         public void toggleSnapping()
@@ -69,11 +71,15 @@ namespace OptiLight.ViewModel {
         private void LampPressed(MouseButtonEventArgs e) {
             var Lamp = TargetLamp(e);
             var MousePosition = RelativeMousePosition(e);
-            Lamp.IsSelected = true;
+
+            if (CanRemoveLamp()) {
+                UnSelectAllLamps();
+            }
 
             initialLampPosition = new Point(Lamp.X, Lamp.Y);
             initialMousePosition = MousePosition;
 
+            Lamp.IsSelected = true;
             e.MouseDevice.Target.CaptureMouse();
         }
 
@@ -115,9 +121,17 @@ namespace OptiLight.ViewModel {
             e.MouseDevice.Target.ReleaseMouseCapture();
         }
 
+
+
+        private void CanvasDown(MouseButtonEventArgs e) {
+            if (CanRemoveLamp()) {
+                UnSelectAllLamps();
+            }
+        }
         // Method for moving the lamp. This is created as an on-the-go method, so that each "pixel" 
         // move of the lamp isn't saved in the undo-redo command. 
         // So when undo is pressed, the lamp is moved to it's original position before even moving.
+
         private void LampMoved(MouseEventArgs e) {
             if (Mouse.Captured != null){
 
@@ -155,9 +169,11 @@ namespace OptiLight.ViewModel {
         // Helping method for attaching the mouse to a lamp
         private LampViewModel TargetLamp(MouseEventArgs e) {
             var targetedElement = (FrameworkElement)e.MouseDevice.Target;
+
+            System.Console.WriteLine("This is the targetedElement " + targetedElement.DataContext);
+
             return (LampViewModel)targetedElement.DataContext;
         }
-
         // Helper method for registration of the position of the mouse.
         private Point RelativeMousePosition(MouseEventArgs e) {
             var targetedElement = (FrameworkElement)e.MouseDevice.Target;

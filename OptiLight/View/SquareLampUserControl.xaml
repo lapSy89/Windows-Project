@@ -25,6 +25,9 @@
             </Rectangle.Fill>
             <!-- Triggers for handeling the moving of a lamp 
             This only bounds to the outer part of the lamp, need to add triggers to inner circle also -->
+
+        </Rectangle>
+        <Rectangle Fill="{Binding SelectedColor}" Opacity="0.3">
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="MouseDown">
                     <cmd:EventToCommand Command="{Binding DataContext.LampPressedCommand, 
