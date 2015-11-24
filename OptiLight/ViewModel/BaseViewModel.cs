@@ -39,8 +39,6 @@ namespace OptiLight.ViewModel {
 
         public ICommand RemoveLampCommand { get; }
 
-        public LampViewModel targetedLamp { get; set; }
-
         //Constructor 
         public BaseViewModel() {
 
@@ -126,7 +124,7 @@ namespace OptiLight.ViewModel {
             this.undoRedoController.AddAndExecute(new Command.AddLamp(Lamps, new SquareLampViewModel(new Model.SquareLamp())));
         }
 
-        // We check whether we can remove the lamp
+        // We check whether we can remove lamps
         // TODO LAMBDA EXPRESSION INSTEAD
         private bool CanRemoveLamp()
         {
@@ -137,7 +135,7 @@ namespace OptiLight.ViewModel {
             return false;
         }
 
-        // We remove the selected lamp
+        // We remove the selected lamps
         private void RemoveLamp()
         {
             List<LampViewModel> list = new List<LampViewModel>();
@@ -150,7 +148,6 @@ namespace OptiLight.ViewModel {
 
         // We clear the workspace
         private void clearWorkspace() {
-            this.targetedLamp = null;
             undoRedoController.ClearStacks();
         }
     }
