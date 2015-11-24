@@ -10,7 +10,8 @@
              Canvas.Left="{Binding X}" Canvas.Top="{Binding Y}" Width="{Binding Width}" Height="{Binding Height}"
              d:DesignHeight="50" d:DesignWidth="50">
     <Grid>
-        <Rectangle Fill="Gray" Margin="0,0,-50,0" RenderTransformOrigin="0.94,0.56">
+        <Rectangle Fill="{Binding SelectedColor}" Opacity = "0.7" Margin="-2,-2,-52,-2"/>
+        <Rectangle Fill="Gray" Margin="0,0,-50,0">
             
         </Rectangle>
         <Rectangle Margin="0,0,-50,0">
@@ -27,7 +28,7 @@
             This only bounds to the outer part of the lamp, need to add triggers to inner circle also -->
             
         </Rectangle>
-        <Rectangle Fill="{Binding SelectedColor}" Opacity="0.3" Margin="0,0,-50,0">
+        <Rectangle Fill="{Binding SelectedColor}" Opacity="0.2" Margin="0,0,-50,0">
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="MouseDown">
                     <cmd:EventToCommand Command="{Binding DataContext.LampPressedCommand, 

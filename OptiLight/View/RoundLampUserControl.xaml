@@ -24,6 +24,7 @@
                 </MenuItem>
             </ContextMenu>
         </Grid.ContextMenu>
+       
         <Ellipse Margin="{Binding Radius}">
             <Ellipse.Fill>
                 <RadialGradientBrush GradientOrigin="0.5,0.5" Center="0.5,0.5"
@@ -33,7 +34,7 @@
                 </RadialGradientBrush>
             </Ellipse.Fill>
         </Ellipse>
-        
+        <Ellipse Fill="{Binding SelectedColor}" Opacity = "0.7" Margin="-2"/> 
         <Ellipse Width="{Binding Width}" Height="{Binding Width}">
             <Ellipse.Fill>
                 <RadialGradientBrush GradientOrigin="0.5,0.5" Center="0.5,0.5"
@@ -45,7 +46,8 @@
         </Ellipse>
         <Ellipse Fill="DarkGray" Stroke="Transparent" StrokeThickness="4" Margin="10" />
         <Ellipse Fill="Black" Margin="24"/>
-        <Ellipse Fill="{Binding SelectedColor}" Opacity="0.3">
+        
+        <Ellipse Fill="{Binding SelectedColor}" Opacity="0.2" >
             <!-- Triggers for handeling the moving of a lamp -->
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="MouseDown">
