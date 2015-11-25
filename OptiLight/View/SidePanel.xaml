@@ -32,7 +32,7 @@
             </ListBoxItem>
         </ListBox>
         <ScrollViewer VerticalScrollBarVisibility="Auto" VerticalAlignment="Stretch" DockPanel.Dock="Bottom">
-            <ListBox HorizontalContentAlignment="Stretch">
+            <ListBox HorizontalContentAlignment="Stretch" ItemsSource="{Binding lampTypes}">
                 <!-- The button is binding to the AddLampCommand from the MainViewModel -->
                 <Button Background="Transparent" BorderBrush="Transparent" HorizontalContentAlignment="Left"
                         Command="{Binding AddRoundCommand}">

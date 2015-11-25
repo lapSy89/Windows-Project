@@ -9,6 +9,7 @@ using System.Linq;
 using OptiLight.Model;
 using System.Collections.Generic;
 using System.Windows;
+using System.IO;
 
 namespace OptiLight.ViewModel {
     //Base viewModel
@@ -24,6 +25,9 @@ namespace OptiLight.ViewModel {
 
         // All the single lamps, all the single lamps, all the single lamps, all the single lamps, throw your light up!
         public static ObservableCollection<LampViewModel> Lamps { get; set; }
+
+        //A list containing a viewmodel of each lamp type
+        public static ObservableCollection<LampViewModel> lampTypes { get; set; }
 
         public DialogViews dialogWindow { get; set; } // Dialog windows for New, Open and Save
 
@@ -65,7 +69,9 @@ namespace OptiLight.ViewModel {
             NewDrawingCommand = new RelayCommand(NewDrawing);
             LoadDrawingCommand = new RelayCommand(LoadDrawing);
             SaveDrawingCommand = new RelayCommand(SaveDrawing);
-          
+
+            int fCount = Directory.GetFiles("ViewModel", "*Lamp*", SearchOption.TopDirectoryOnly).Length;
+            System.Console.WriteLine(fCount);
         }
 
         // Method for making a new drawing
