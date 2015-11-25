@@ -173,9 +173,6 @@ namespace OptiLight.ViewModel {
         // Helping method for attaching the mouse to a lamp
         private LampViewModel TargetLamp(MouseEventArgs e) {
             var targetedElement = (FrameworkElement)e.MouseDevice.Target;
-
-            System.Console.WriteLine("This is the targetedElement " + targetedElement.DataContext);
-
             return (LampViewModel)targetedElement.DataContext;
         }
         // Helper method for registration of the position of the mouse.
