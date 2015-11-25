@@ -11,12 +11,12 @@ namespace OptiLight.View {
 
         // Create new file - showing window if changes aren't saved.
         public bool NewFile() =>
-            MessageBox.Show("Forsæt uden at gemme?", "OptiLight", MessageBoxButton.YesNo) == MessageBoxResult.Yes;
+            MessageBox.Show("Continue without saving?", "OptiLight", MessageBoxButton.YesNo) == MessageBoxResult.Yes;
 
         // Open file - showing window if changes aren't saved
         public string OpenFile(bool changesMade) => 
             changesMade ?
-                MessageBox.Show("Fortsæt uden at gemme?", "OptiLight", MessageBoxButton.YesNo) == MessageBoxResult.Yes ?
+                MessageBox.Show("Continue without saving?", "OptiLight", MessageBoxButton.YesNo) == MessageBoxResult.Yes ?
                     openDialog.ShowDialog() == true ? 
                         openDialog.FileName 
                         : null 
@@ -27,5 +27,10 @@ namespace OptiLight.View {
 
         // Save file - showing window to specify save file
         public string SaveFile() => saveDialog.ShowDialog() == true ? saveDialog.FileName : null;
+
+        // Pop up window for when something goes wrong with the program.
+        public void popUpError() {
+             MessageBox.Show("Error opening file!", "OptiLight - Error", MessageBoxButton.OK);
+        }
     }
 }

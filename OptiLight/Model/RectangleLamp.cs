@@ -1,4 +1,4 @@
 ﻿namespace OptiLight.Model {
-
-   public class RectangleLamp : Lamp { }
+    public class RectangleLamp : Lamp {
+    }
 }

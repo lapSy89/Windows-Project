@@ -9,7 +9,8 @@ using System.Linq;
 using OptiLight.Model;
 using System.Collections.Generic;
 using System.Windows;
-using System.IO;
+using OptiLight.Model;
+//using LampLibrary; // LampLibrary DLL
 
 namespace OptiLight.ViewModel {
     //Base viewModel
@@ -69,9 +70,7 @@ namespace OptiLight.ViewModel {
             NewDrawingCommand = new RelayCommand(NewDrawing);
             LoadDrawingCommand = new RelayCommand(LoadDrawing);
             SaveDrawingCommand = new RelayCommand(SaveDrawing);
-
-            int fCount = Directory.GetFiles("ViewModel", "*Lamp*", SearchOption.TopDirectoryOnly).Length;
-            System.Console.WriteLine(fCount);
+          
         }
 
         // Method for making a new drawing
@@ -113,6 +112,10 @@ namespace OptiLight.ViewModel {
                 // Get list of lamps
                 List<Lamp> lamps = await XML.Instance.AsyncOpenFromFile(loadPath);
 
+                // If there is an error in opening the file.
+                if(lamps.Count == 0) {
+                    dialogWindow.popUpError();
+                } else {
                 // Clear the board for loading new lamps
                 Lamps.Clear();
                 // Inserting lamps into array of lamps
@@ -123,6 +126,8 @@ namespace OptiLight.ViewModel {
                 : new RectangleLampViewModel(lamp)).ToList().ForEach(lamp => Lamps.Add(lamp));
                 clearWorkspace();
             }
+                
+        }
         }
 
         // We clear the workspace for loading or new workspace
@@ -132,15 +137,15 @@ namespace OptiLight.ViewModel {
 
         // Methods for adding lamps
         private void AddRoundLamp() {
-            this.undoRedoController.AddAndExecute(new Command.AddLamp(Lamps, new RoundLampViewModel(new Model.RoundLamp())));
+            this.undoRedoController.AddAndExecute(new Command.AddLamp(Lamps, new RoundLampViewModel(new RoundLamp())));
         }
 
         private void AddRectangleLamp() {
-            this.undoRedoController.AddAndExecute(new Command.AddLamp(Lamps, new RectangleLampViewModel(new Model.RectangleLamp())));
+            this.undoRedoController.AddAndExecute(new Command.AddLamp(Lamps, new RectangleLampViewModel(new RectangleLamp())));
         }
 
         private void AddSquareLamp() {
-            this.undoRedoController.AddAndExecute(new Command.AddLamp(Lamps, new SquareLampViewModel(new Model.SquareLamp())));
+            this.undoRedoController.AddAndExecute(new Command.AddLamp(Lamps, new SquareLampViewModel(new SquareLamp())));
         }
 
         // We check whether we can remove lamps
@@ -188,9 +193,12 @@ namespace OptiLight.ViewModel {
             var xml = Clipboard.GetText();
             List<Lamp> lamps = await XML.Instance.AsyncDeserializeFromString(xml);
 
+            if (lamps.Count() == 0) {
+                // Do nothing when the paste data isn't correct
+            } else {
             // All the lamps are turned into viewmodels
             List<LampViewModel> lampsVM = lamps.Select(lamp => lamp is RoundLamp ?
-                    (LampViewModel) new RoundLampViewModel(lamp)
+                        (LampViewModel)new RoundLampViewModel(lamp)
                 : lamp is SquareLamp ?
                     (LampViewModel)new SquareLampViewModel(lamp)
                 : new RectangleLampViewModel(lamp)).ToList();
@@ -203,4 +211,5 @@ namespace OptiLight.ViewModel {
             }
         }
     }
+}
 }
