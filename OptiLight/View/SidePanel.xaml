@@ -43,28 +43,28 @@
         </ListBox>
 -->
         <ScrollViewer VerticalScrollBarVisibility="Auto" VerticalAlignment="Stretch" DockPanel.Dock="Bottom">
-            <DataGrid x:Name="lampControl" ItemsSource="{Binding lampTypes}" AutoGenerateColumns="False" 
-                      SelectionUnit="FullRow" SelectionMode="Single" CanUserAddRows="False" 
-                      CanUserDeleteRows="False" CanUserResizeColumns="False" HeadersVisibility="None">
+            <DataGrid x:Name="AddLampControl"  ItemsSource="{Binding lampTypes}" AutoGenerateColumns="False" 
+                SelectionUnit="FullRow" SelectionMode="Single" CanUserAddRows="False" 
+                CanUserDeleteRows="False" CanUserResizeColumns="False" HeadersVisibility="None">
                 <DataGrid.Columns>
-                    <DataGridTemplateColumn Width="SizeToCells" IsReadOnly="True">
+                    <DataGridTemplateColumn Width="*">
                         <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <Image Source="{Binding img}"
-                                RenderOptions.BitmapScalingMode="HighQuality"
-                                Stretch="Fill"
-                                Width="40"
-                                Height="40"
-                                VerticalAlignment="Center"
-                                Margin="0,0,0,0"
-                                HorizontalAlignment="Left" />
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Width="*" IsReadOnly="True">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <AccessText Text="{Binding name}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                            <DataTemplate >
+                                <DockPanel>
+                                    <Image Source="{Binding img}"
+                                        RenderOptions.BitmapScalingMode="HighQuality"
+                                        Stretch="Fill"
+                                        Width="50"
+                                        Height="50"
+                                        VerticalAlignment="Center"
+                                        Margin="0,0,0,0"
+                                        HorizontalAlignment="Left" 
+                                        DockPanel.Dock="Left"/>
+                                    <AccessText Text="{Binding name}" 
+                                        VerticalAlignment="Center" 
+                                        HorizontalAlignment="Center" 
+                                        DockPanel.Dock="Right"/>
+                                </DockPanel>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
