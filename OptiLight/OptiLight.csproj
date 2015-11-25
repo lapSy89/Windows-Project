@@ -47,6 +47,9 @@
       <HintPath>..\packages\MvvmLightLibs.5.2.0.0\lib\net45\GalaSoft.MvvmLight.Platform.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="LampLibrary">
+      <HintPath>..\..\..\..\..\..\..\Documents\Visual Studio 2015\Projects\LampLibrary\LampLibrary\bin\Debug\LampLibrary.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\CommonServiceLocator.1.3\lib\portable-net4+sl5+netcore45+wpa81+wp8\Microsoft.Practices.ServiceLocation.dll</HintPath>
       <Private>True</Private>
@@ -117,9 +120,8 @@
     <Compile Include="Command\MoveLamp.cs" />
     <Compile Include="Command\RemoveLamp.cs" />
     <Compile Include="Command\UndoRedoController.cs" />
-    <Compile Include="Model\Notify.cs" />
-    <Compile Include="Model\RectangleLamp.cs" />
     <Compile Include="Model\Lamp.cs" />
+    <Compile Include="Model\RectangleLamp.cs" />
     <Compile Include="Model\RoundLamp.cs" />
     <Compile Include="Model\SquareLamp.cs" />
     <Compile Include="Serialization\XML.cs" />
@@ -274,6 +276,7 @@
   <ItemGroup>
     <Resource Include="Resources\Cut.png" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

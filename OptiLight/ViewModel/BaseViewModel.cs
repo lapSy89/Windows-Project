@@ -6,9 +6,10 @@ using System.Windows.Input;
 using OptiLight.View;
 using OptiLight.Serialization;
 using System.Linq;
-using OptiLight.Model;
 using System.Collections.Generic;
 using System.Windows;
+using OptiLight.Model;
+//using LampLibrary; // LampLibrary DLL
 
 namespace OptiLight.ViewModel {
     //Base viewModel
@@ -107,15 +108,21 @@ namespace OptiLight.ViewModel {
                 // Get list of lamps
                 List<Lamp> lamps = await XML.Instance.AsyncOpenFromFile(loadPath);
 
-                // Clear the board for loading new lamps
-                Lamps.Clear();
-                // Inserting lamps into array of lamps
-                lamps.Select(lamp => lamp is RoundLamp ?
-                    (LampViewModel)new RoundLampViewModel(lamp)
-                : lamp is SquareLamp ?
-                    (LampViewModel)new SquareLampViewModel(lamp)
-                : new RectangleLampViewModel(lamp)).ToList().ForEach(lamp => Lamps.Add(lamp));
-                clearWorkspace();
+                // If there is an error in opening the file.
+                if(lamps.Count == 0) {
+                    dialogWindow.popUpError();
+                } else {
+                    // Clear the board for loading new lamps
+                    Lamps.Clear();
+                    // Inserting lamps into array of lamps
+                    lamps.Select(lamp => lamp is RoundLamp ?
+                        (LampViewModel)new RoundLampViewModel(lamp)
+                    : lamp is SquareLamp ?
+                        (LampViewModel)new SquareLampViewModel(lamp)
+                    : new RectangleLampViewModel(lamp)).ToList().ForEach(lamp => Lamps.Add(lamp));
+                    clearWorkspace();
+                }
+                
             }
         }
 
@@ -126,15 +133,15 @@ namespace OptiLight.ViewModel {
 
         // Methods for adding lamps
         private void AddRoundLamp() {
-            this.undoRedoController.AddAndExecute(new Command.AddLamp(Lamps, new RoundLampViewModel(new Model.RoundLamp())));
+            this.undoRedoController.AddAndExecute(new Command.AddLamp(Lamps, new RoundLampViewModel(new RoundLamp())));
         }
 
         private void AddRectangleLamp() {
-            this.undoRedoController.AddAndExecute(new Command.AddLamp(Lamps, new RectangleLampViewModel(new Model.RectangleLamp())));
+            this.undoRedoController.AddAndExecute(new Command.AddLamp(Lamps, new RectangleLampViewModel(new RectangleLamp())));
         }
 
         private void AddSquareLamp() {
-            this.undoRedoController.AddAndExecute(new Command.AddLamp(Lamps, new SquareLampViewModel(new Model.SquareLamp())));
+            this.undoRedoController.AddAndExecute(new Command.AddLamp(Lamps, new SquareLampViewModel(new SquareLamp())));
         }
 
         // We check whether we can remove lamps
@@ -182,19 +189,23 @@ namespace OptiLight.ViewModel {
             var xml = Clipboard.GetText();
             List<Lamp> lamps = await XML.Instance.AsyncDeserializeFromString(xml);
 
-            // All the lamps are turned into viewmodels
-            List<LampViewModel> lampsVM = lamps.Select(lamp => lamp is RoundLamp ?
-                    (LampViewModel) new RoundLampViewModel(lamp)
-                : lamp is SquareLamp ?
-                    (LampViewModel)new SquareLampViewModel(lamp)
-                : new RectangleLampViewModel(lamp)).ToList();
+            if (lamps.Count() == 0) {
+                // Do nothing when the paste data isn't correct
+            } else {
+                // All the lamps are turned into viewmodels
+                List<LampViewModel> lampsVM = lamps.Select(lamp => lamp is RoundLamp ?
+                        (LampViewModel)new RoundLampViewModel(lamp)
+                    : lamp is SquareLamp ?
+                        (LampViewModel)new SquareLampViewModel(lamp)
+                    : new RectangleLampViewModel(lamp)).ToList();
 
-            // All the lamps are added to the collection and their coordinates are changed
-            foreach (var lamp in lampsVM) {
-                lamp.X = lamp.X + 50;
-                lamp.Y = lamp.Y + 50;
-                undoRedoController.AddAndExecute(new AddLamp(Lamps, lamp));
-            }
+                // All the lamps are added to the collection and their coordinates are changed
+                foreach (var lamp in lampsVM) {
+                    lamp.X = lamp.X + 50;
+                    lamp.Y = lamp.Y + 50;
+                    undoRedoController.AddAndExecute(new AddLamp(Lamps, lamp));
+                }
+            }            
         }
     }
 }

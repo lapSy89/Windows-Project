@@ -1,5 +1,4 @@
-﻿using OptiLight.Model;
-using OptiLight.ViewModel;
+﻿using OptiLight.ViewModel;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
