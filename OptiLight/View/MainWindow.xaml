@@ -84,19 +84,12 @@
                             </DrawingBrush>
                         </Rectangle.Fill>
 
-
+                        <!--Interaction on the canvas for adding lamps or deselecting-->
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="MouseLeftButtonDown">
+                                <cmd:EventToCommand Command="{Binding AddLampCommand}" CommandParameter="{Binding ElementName=x SidePanel.AddLampControl, Path=SelectedItems}" />
                                 <cmd:EventToCommand Command="{Binding MouseDownCanvasCommand}" PassEventArgsToCommand="True"/>
                             </i:EventTrigger>
-                          <!--
-                            <i:EventTrigger EventName="MouseMove">
-                                <cmd:EventToCommand Command="{Binding MouseMoveCanvasCommand}" PassEventArgsToCommand="True"/>
-                            </i:EventTrigger>
-                            <i:EventTrigger EventName="MouseLeftButtonUp">
-                                <cmd:EventToCommand Command="{Binding MouseUpCanvasCommand}" PassEventArgsToCommand="True"/>
-                            </i:EventTrigger>
-                              -->
                         </i:Interaction.Triggers>
                          
                     </Rectangle>
