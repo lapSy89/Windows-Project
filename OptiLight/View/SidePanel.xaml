@@ -38,7 +38,7 @@
                         Command="{Binding AddRoundCommand}">
                     <Label>
                         <StackPanel Orientation="Horizontal">
-                            <Image Source="pack://application:,,,/Resources/lamp_off.png"
+                            <Image Source="/Resources/lamp_off.png"
                                 RenderOptions.BitmapScalingMode="HighQuality"
                                 Stretch="Fill"
                                 Width="32"
@@ -54,7 +54,7 @@
                          Command="{Binding AddSquareCommand}">
                     <Label>
                         <StackPanel Orientation="Horizontal">
-                            <Image Source="pack://application:,,,/Resources/lamp_on.png"
+                            <Image Source="/Resources/lamp_on.png"
                                  RenderOptions.BitmapScalingMode="HighQuality"
                                  Stretch="Fill"
                                  Width="32"
@@ -70,7 +70,7 @@
                         Command="{Binding AddRectangleCommand}">
                     <Label>
                         <StackPanel Orientation="Horizontal">
-                            <Image Source="pack://application:,,,/Resources/lamp_on.png"
+                            <Image Source="/Resources/lamp_on.png"
                            RenderOptions.BitmapScalingMode="Fant"
                            Stretch="Fill"
                            Width="32"

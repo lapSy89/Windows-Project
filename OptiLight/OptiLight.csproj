@@ -117,7 +117,6 @@
     <Compile Include="Command\MoveLamp.cs" />
     <Compile Include="Command\RemoveLamp.cs" />
     <Compile Include="Command\UndoRedoController.cs" />
-    <Compile Include="Model\Notify.cs" />
     <Compile Include="Model\RectangleLamp.cs" />
     <Compile Include="Model\Lamp.cs" />
     <Compile Include="Model\RoundLamp.cs" />
