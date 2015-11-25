@@ -26,6 +26,8 @@ namespace OptiLight.ViewModel {
         // All the single lamps, all the single lamps, all the single lamps, all the single lamps, throw your light up!
         public static ObservableCollection<LampViewModel> Lamps { get; set; }
 
+        public static List<Lamp> lampTypes { get; set; } = new List<Lamp>();
+
         public DialogViews dialogWindow { get; set; } // Dialog windows for New, Open and Save
 
         public ICommand UndoCommand { get; }

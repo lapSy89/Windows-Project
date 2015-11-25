@@ -46,8 +46,8 @@
         </Ellipse>
         <Ellipse Fill="DarkGray" Stroke="Transparent" StrokeThickness="4" Margin="10" />
         <Ellipse Fill="Black" Margin="24"/>
-        
-        <Ellipse Fill="{Binding SelectedColor}" Opacity="0.2" >
+
+        <Ellipse Fill="{Binding SelectedColor}" Opacity="0.2">
             <!-- Triggers for handeling the moving of a lamp -->
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="MouseDown">
