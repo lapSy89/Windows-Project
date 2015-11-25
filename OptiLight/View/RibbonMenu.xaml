@@ -35,10 +35,12 @@
                 <RibbonButton Label="Save" LargeImageSource="/Resources/save.png" Command="{Binding SaveDrawingCommand}"/>
             </RibbonGroup>
             <RibbonGroup Header="Edit">
-                <RibbonButton Label="Undo" Command="{Binding UndoCommand}" SmallImageSource="/Resources/arrow1_left.png"/>
-                <RibbonButton Label="Redo" Command="{Binding RedoCommand}" SmallImageSource="/Resources/arrow1_right.png"/>
-                <RibbonButton Label="Copy" SmallImageSource="/Resources/copy.png"/>
-                <RibbonButton Label="Paste" SmallImageSource="/Resources/paste.png"/>
+                <RibbonButton Label="Undo" SmallImageSource="/Resources/arrow1_left.png" Command="{Binding UndoCommand}"/>
+                <RibbonButton Label="Redo" SmallImageSource="/Resources/arrow1_right.png" Command="{Binding RedoCommand}"/>
+                <RibbonButton />
+                <RibbonButton Label="Cut" SmallImageSource="/Resources/Cut.png" Command="{Binding CutCommand}"/>
+                <RibbonButton Label="Copy" SmallImageSource="/Resources/copy.png" Command="{Binding CopyCommand}"/>
+                <RibbonButton Label="Paste" SmallImageSource="/Resources/paste.png" Command="{Binding PasteCommand}"/>
             </RibbonGroup>
             <RibbonGroup Header="Light Control" >
                 <!-- This is done for centering the Toggle Light button -->

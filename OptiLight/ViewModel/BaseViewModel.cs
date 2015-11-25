@@ -52,15 +52,15 @@ namespace OptiLight.ViewModel {
             UndoCommand = new RelayCommand(undoRedoController.Undo, undoRedoController.CanUndo);
             RedoCommand = new RelayCommand(undoRedoController.Redo, undoRedoController.CanRedo);
 
-            CutCommand = new RelayCommand(Cut);
-            CopyCommand = new RelayCommand(Copy);
+            CutCommand = new RelayCommand(Cut, LampsAreSelected);
+            CopyCommand = new RelayCommand(Copy, LampsAreSelected);
             PasteCommand = new RelayCommand(Paste);
 
             AddRoundCommand = new RelayCommand(AddRoundLamp);
             AddRectangleCommand = new RelayCommand(AddRectangleLamp);
             AddSquareCommand = new RelayCommand(AddSquareLamp);
 
-            RemoveLampCommand = new RelayCommand(RemoveLamp, CanRemoveLamp);
+            RemoveLampCommand = new RelayCommand(RemoveLamp, LampsAreSelected);
 
             NewDrawingCommand = new RelayCommand(NewDrawing);
             LoadDrawingCommand = new RelayCommand(LoadDrawing);
@@ -120,8 +120,7 @@ namespace OptiLight.ViewModel {
         }
 
         // We clear the workspace for loading or new workspace
-        private void clearWorkspace()
-        {
+        private void clearWorkspace() {
             undoRedoController.ClearStacks();
         }
 
@@ -140,36 +139,30 @@ namespace OptiLight.ViewModel {
 
         // We check whether we can remove lamps
         // TODO LAMBDA EXPRESSION INSTEAD
-        //MEYBE NOT PUBLIC
-        public bool CanRemoveLamp()
-        {
-            foreach (var lamp in Lamps)
-            {
+        // MAYBE NOT PUBLIC
+        public bool LampsAreSelected() {
+            foreach (var lamp in Lamps) {
                 if (lamp.IsSelected) return true;
             }
             return false;
         }
 
+        // Unselects all lamps
+        //TODO LAMBDA EXPRESSION INSTEAD
         public void UnSelectAllLamps() {
-            if (CanRemoveLamp()) {
-                foreach(var lamp in Lamps) {
-                    if (lamp.IsSelected) {
-                        lamp.IsSelected = false;
-                    }
-                }
+            foreach(var lamp in Lamps) {
+                if (lamp.IsSelected) lamp.IsSelected = false;
             }
         }
 
         // We remove the selected lamps
-        private void RemoveLamp()
-        {
+        private void RemoveLamp() {
             var selectedLamps = Lamps.Where(lamp => lamp.IsSelected).ToList();
             undoRedoController.AddAndExecute(new RemoveLamp(Lamps,selectedLamps));
         }
 
         // The selected lamps are removed and moved to the clipboard as xml
-        private async void Cut()
-        {
+        private async void Cut() {
             var selectedLamps = Lamps.Where(lamp => lamp.IsSelected).ToList();
             undoRedoController.AddAndExecute(new RemoveLamp(Lamps,selectedLamps));
             var xml = await XML.Instance.AsyncSerializeToString(selectedLamps.Select(lamp => lamp.Lamp).ToList());
@@ -177,16 +170,14 @@ namespace OptiLight.ViewModel {
         }
 
         // The selected lamps are copied to clipboard as xml
-        private async void Copy()
-        {
+        private async void Copy() {
             var selectedLamps = Lamps.Where(lamp => lamp.IsSelected).ToList();
             var xml = await XML.Instance.AsyncSerializeToString(selectedLamps.Select(lamp => lamp.Lamp).ToList());
             Clipboard.SetText(xml);
         }
 
         // The lamps in the clipboard are pasted
-        private async void Paste()
-        {
+        private async void Paste() {
             // We retrieve the xml from clipboard and deserialize into Lamps
             var xml = Clipboard.GetText();
             List<Lamp> lamps = await XML.Instance.AsyncDeserializeFromString(xml);
@@ -199,8 +190,7 @@ namespace OptiLight.ViewModel {
                 : new RectangleLampViewModel(lamp)).ToList();
 
             // All the lamps are added to the collection and their coordinates are changed
-            foreach (var lamp in lampsVM)
-            {
+            foreach (var lamp in lampsVM) {
                 lamp.X = lamp.X + 50;
                 lamp.Y = lamp.Y + 50;
                 undoRedoController.AddAndExecute(new AddLamp(Lamps, lamp));

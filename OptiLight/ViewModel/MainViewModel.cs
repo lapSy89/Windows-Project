@@ -76,7 +76,7 @@ namespace OptiLight.ViewModel {
             var Lamp = TargetLamp(e);
             var MousePosition = RelativeMousePosition(e);
 
-            if (CanRemoveLamp()) {
+            if (LampsAreSelected()) {
                 UnSelectAllLamps();
             }
 
@@ -120,7 +120,12 @@ namespace OptiLight.ViewModel {
                         offsetY = offsetY - extraY + 0.5 * cellSize;
                     }
                 }
-                this.undoRedoController.AddAndExecute(new Command.MoveLamp(Lamp, offsetX, offsetY));
+
+                // The move command is only added to the undo/redo stack if the lamp is moved and not when
+                // it is just selected
+                if (offsetX != 0 || offsetY != 0) {
+                    this.undoRedoController.AddAndExecute(new Command.MoveLamp(Lamp, offsetX, offsetY));
+                }
             }
             e.MouseDevice.Target.ReleaseMouseCapture();
         }
@@ -128,7 +133,7 @@ namespace OptiLight.ViewModel {
 
 
         private void CanvasDown(MouseButtonEventArgs e) {
-            if (CanRemoveLamp()) {
+            if (LampsAreSelected()) {
                 UnSelectAllLamps();
             }
         }

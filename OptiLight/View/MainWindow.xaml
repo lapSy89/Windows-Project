@@ -10,17 +10,11 @@
         DataContext="{Binding Source={StaticResource Locator}, Path=Main}"
         >
     
-  <!--
-       
-
-    <Window.DataContext>
-        <ViewModel:BaseViewModel x:Name="MVM"/>
-    </Window.DataContext>
-    -->
-    
     <!-- Key bindings-->
     <Window.InputBindings>
         <KeyBinding Key="Delete"
+              Command="{Binding RemoveLampCommand}" />
+        <KeyBinding Key="Backspace"
               Command="{Binding RemoveLampCommand}" />
         <KeyBinding Key="Z"
               Modifiers="Control" 
@@ -28,26 +22,28 @@
         <KeyBinding Key="Y"
               Modifiers="Control" 
               Command="{Binding RedoCommand}" />
+        <KeyBinding Key="X"
+              Modifiers="Control" 
+              Command="{Binding CutCommand}" />
+        <KeyBinding Key="C"
+              Modifiers="Control" 
+              Command="{Binding CopyCommand}" />
+        <KeyBinding Key="V"
+              Modifiers="Control" 
+              Command="{Binding PasteCommand}" />
     </Window.InputBindings>
     
     <!-- Overall layout for the Window-->
     <DockPanel>
-        <!-- Menu layout -->
+        <!-- RibbonMenu layout -->
         <Grid DockPanel.Dock="Top" Margin="5">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-            </Grid.RowDefinitions>
-            <!-- Menu for "File" "Edit" -->
-
-            <View:RibbonMenu Grid.Row="1"/>
+            <View:RibbonMenu/>
         </Grid>
         <!-- Sidepanel and drawing window layout -->
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="*"/>
-
             </Grid.ColumnDefinitions>
    
             <!-- SidePanel layout (comes from SidePanel.xaml -->
