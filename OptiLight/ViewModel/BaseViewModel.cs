@@ -9,6 +9,7 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Windows;
 using OptiLight.Model;
+using System.Collections;
 //using LampLibrary; // LampLibrary DLL
 
 namespace OptiLight.ViewModel {
@@ -26,9 +27,14 @@ namespace OptiLight.ViewModel {
         // All the single lamps, all the single lamps, all the single lamps, all the single lamps, throw your light up!
         public static ObservableCollection<LampViewModel> Lamps { get; set; }
 
-        public static List<Lamp> lampTypess = new List<Lamp>();
+        // Contains a copy of all current types of lamps
+        public static List<Lamp> lampTypes { get; } = Lamp.lampTypes;
 
-        public DialogViews dialogWindow { get; set; } // Dialog windows for New, Open and Save
+        // The currently selected lamp type to add represented. Null when none is selected.
+        public Lamp addingLampSelected { get; set; }
+
+        // Dialog windows for New, Open and Save
+        public DialogViews dialogWindow { get; set; }
 
         public ICommand UndoCommand { get; }
         public ICommand RedoCommand { get; }
@@ -37,9 +43,7 @@ namespace OptiLight.ViewModel {
         public ICommand CopyCommand { get; set; }
         public ICommand PasteCommand { get; set; }
 
-        public ICommand AddRoundCommand { get; }
-        public ICommand AddSquareCommand { get; }
-        public ICommand AddRectangleCommand { get; }
+        public ICommand AddLampCommand { get; set; }
 
         public ICommand NewDrawingCommand { get; }
         public ICommand SaveDrawingCommand { get; }
@@ -59,9 +63,7 @@ namespace OptiLight.ViewModel {
             CopyCommand = new RelayCommand(Copy, LampsAreSelected);
             PasteCommand = new RelayCommand(Paste);
 
-            AddRoundCommand = new RelayCommand(AddRoundLamp);
-            AddRectangleCommand = new RelayCommand(AddRectangleLamp);
-            AddSquareCommand = new RelayCommand(AddSquareLamp);
+            AddLampCommand = new RelayCommand<IList>(AddNewLamp);
 
             RemoveLampCommand = new RelayCommand(RemoveLamp, LampsAreSelected);
 
@@ -133,9 +135,18 @@ namespace OptiLight.ViewModel {
             undoRedoController.ClearStacks();
         }
 
-        // Methods for adding lamps
-        private void AddRoundLamp() {
-            this.undoRedoController.AddAndExecute(new Command.AddLamp(Lamps, new RoundLampViewModel(new RoundLamp())));
+        // Method for adding lamps
+        private void AddNewLamp(IList selectedAddingLamp) {
+            
+            if (addingLampSelected != null)
+            {
+                System.Console.WriteLine("Hej!");
+            }
+            else
+            {
+                System.Console.WriteLine(":(");
+            }
+            //this.undoRedoController.AddAndExecute(new Command.AddLamp(Lamps, new RoundLampViewModel(new RoundLamp())));
         }
 
         private void AddRectangleLamp() {
