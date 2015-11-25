@@ -20,6 +20,9 @@ namespace OptiLight.Model {
         //The name of the lamp type
         public abstract string name { get; }
 
+        // The path of the image of the lamp
+        public abstract string img { get; }
+
         //The list with the different lamp types 
         public static List<Lamp> lampTypes { get; } = new List<Lamp>() {
             new RectangleLamp(),
