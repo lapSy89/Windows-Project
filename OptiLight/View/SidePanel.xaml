@@ -39,21 +39,24 @@
                     <DataGridTemplateColumn Width="*">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate >
-                                <DockPanel>
-                                    <Image Source="{Binding img}"
-                                        RenderOptions.BitmapScalingMode="HighQuality"
-                                        Stretch="Fill"
-                                        Width="50"
-                                        Height="50"
-                                        VerticalAlignment="Center"
-                                        Margin="0,0,0,0"
-                                        HorizontalAlignment="Left" 
-                                        DockPanel.Dock="Left"/>
-                                    <AccessText Text="{Binding name}" 
-                                        VerticalAlignment="Center" 
-                                        HorizontalAlignment="Center" 
-                                        DockPanel.Dock="Right"/>
-                                </DockPanel>
+                                <Button Command="{Binding DataContext.AddLampCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"
+                                        CommandParameter="{Binding ElementName=AddLampControl, Path=SelectedItems}">
+                                    <DockPanel>
+                                        <Image Source="{Binding img}"
+                                            RenderOptions.BitmapScalingMode="HighQuality"
+                                            Stretch="Fill"
+                                            Width="50"
+                                            Height="50"
+                                            VerticalAlignment="Center"
+                                            Margin="0,0,0,0"
+                                            HorizontalAlignment="Left" 
+                                            DockPanel.Dock="Left"/>
+                                        <AccessText Text="{Binding name}" 
+                                            VerticalAlignment="Center" 
+                                            HorizontalAlignment="Center" 
+                                            DockPanel.Dock="Right"/>
+                                    </DockPanel>
+                                </Button>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
