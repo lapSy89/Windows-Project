@@ -86,7 +86,6 @@
                         <!--Interaction on the canvas for adding lamps or deselecting-->
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="MouseLeftButtonDown">
-                                <cmd:EventToCommand Command="{Binding AddLampCommand}" CommandParameter="{Binding ElementName=x SidePanel.AddLampControl, Path=SelectedItems}" />
                                 <cmd:EventToCommand Command="{Binding MouseDownCanvasCommand}" PassEventArgsToCommand="True"/>
                             </i:EventTrigger>
                         </i:Interaction.Triggers>

@@ -1,23 +1,20 @@
 ﻿using OptiLight.Command;
-using GalaSoft.MvvmLight;
-using GalaSoft.MvvmLight.CommandWpf;
-using System.Collections.ObjectModel;
-using System.Windows.Input;
+using OptiLight.Model;
 using OptiLight.View;
 using OptiLight.Serialization;
-using System.Linq;
+using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.CommandWpf;
+using System;
+using System.Collections;
+using System.Collections.ObjectModel;
 using System.Collections.Generic;
 using System.Windows;
-using OptiLight.Model;
-using System.Collections;
+using System.Windows.Media;
+using System.Windows.Input;
+using System.Linq;
 //using LampLibrary; // LampLibrary DLL
-using System;
 
 namespace OptiLight.ViewModel {
-    //Base viewModel
-    //Should contain:
-    //Add methods
-    //All design patterns, such as undo redo, copy paste. etc
 
     //Implements the Galasoft ViewModelBase
     public abstract class BaseViewModel : ViewModelBase {
@@ -35,7 +32,11 @@ namespace OptiLight.ViewModel {
         // The currently selected lamp type to add represented. Null when none is selected.
         public Lamp addingLampSelected { get; set; }
 
-        // Dialog windows for New, Open and Save
+        // The color of the selected lamp in the side menu - either transparent or darkgray
+        private Color addingColor;
+        public Color AddingColor { get { return addingColor; } set { addingColor = value; RaisePropertyChanged(); } }
+
+        // Dialog windows for New, Load and Save
         public DialogViews dialogWindow { get; set; }
 
         public bool lightsOn = true;
@@ -48,17 +49,19 @@ namespace OptiLight.ViewModel {
         public ICommand PasteCommand { get; set; }
 
         public ICommand AddLampCommand { get; set; }
+        public ICommand RemoveLampCommand { get; }
 
         public ICommand NewDrawingCommand { get; }
         public ICommand SaveDrawingCommand { get; }
         public ICommand LoadDrawingCommand { get; }
 
-        public ICommand RemoveLampCommand { get; }
         public ICommand LightSwitchCommand { get; }
+
         //Constructor 
         public BaseViewModel() {
 
-            dialogWindow = new DialogViews();
+            //The initial color of the sidepanal
+            AddingColor = Colors.Transparent;
 
             UndoCommand = new RelayCommand(undoRedoController.Undo, undoRedoController.CanUndo);
             RedoCommand = new RelayCommand(undoRedoController.Redo, undoRedoController.CanRedo);
@@ -68,17 +71,19 @@ namespace OptiLight.ViewModel {
             PasteCommand = new RelayCommand(Paste);
 
             AddLampCommand = new RelayCommand<IList>(AddNewLamp);
-
             RemoveLampCommand = new RelayCommand(RemoveLamp, LampsAreSelected);
+
+            dialogWindow = new DialogViews();
             NewDrawingCommand = new RelayCommand(NewDrawing);
             LoadDrawingCommand = new RelayCommand(LoadDrawing);
             SaveDrawingCommand = new RelayCommand(SaveDrawing);
+            LightSwitchCommand = new RelayCommand(LightSwitch);
             LightSwitchCommand = new RelayCommand(LightSwitch);
         }
 
         private void LightSwitch() {
             foreach (var lamp in Lamps) {
-          
+
                 if (lightsOn) {
                     lamp.IsTurnedOn = true;
                 } else {
@@ -92,6 +97,8 @@ namespace OptiLight.ViewModel {
         }
             lightsOn = !lightsOn;
         }
+
+        #region New / Save / Load
 
         // Method for making a new drawing
         private void NewDrawing() {
@@ -136,18 +143,18 @@ namespace OptiLight.ViewModel {
                 if(lamps.Count == 0) {
                     dialogWindow.popUpError();
                 } else {
-                // Clear the board for loading new lamps
-                Lamps.Clear();
-                // Inserting lamps into array of lamps
-                lamps.Select(lamp => lamp is RoundLamp ?
-                    (LampViewModel)new RoundLampViewModel(lamp)
-                : lamp is SquareLamp ?
-                    (LampViewModel)new SquareLampViewModel(lamp)
-                : new RectangleLampViewModel(lamp)).ToList().ForEach(lamp => Lamps.Add(lamp));
-                clearWorkspace();
-            }
+                    // Clear the board for loading new lamps
+                    Lamps.Clear();
+                    // Inserting lamps into array of lamps
+                    lamps.Select(lamp => lamp is RoundLamp ?
+                        (LampViewModel)new RoundLampViewModel(lamp)
+                    : lamp is SquareLamp ?
+                        (LampViewModel)new SquareLampViewModel(lamp)
+                    : new RectangleLampViewModel(lamp)).ToList().ForEach(lamp => Lamps.Add(lamp));
+                    clearWorkspace();
+                }
                 
-        }
+            }
         }
 
         // We clear the workspace for loading or new workspace
@@ -155,18 +162,25 @@ namespace OptiLight.ViewModel {
             undoRedoController.ClearStacks();
         }
 
+        #endregion New / Save / Load
+
         // Method for adding lamps
         private void AddNewLamp(IList selectedAddingLamp) {
-            Lamp lamp = selectedAddingLamp.Cast<Lamp>().ToList().First();
-            new 
-        }
 
-        private void AddRectangleLamp() {
-            this.undoRedoController.AddAndExecute(new Command.AddLamp(Lamps, new RectangleLampViewModel(new RectangleLamp())));
-        }
+            // We get the selected lamp from the View
+            Lamp selectedLamp = selectedAddingLamp.Cast<Lamp>().ToList().First();
 
-        private void AddSquareLamp() {
-            this.undoRedoController.AddAndExecute(new Command.AddLamp(Lamps, new SquareLampViewModel(new SquareLamp())));
+            //We either choose a type of lamp to add or stop adding
+            if (addingLampSelected == null) {
+                AddingColor = Colors.DarkGray;
+                addingLampSelected = selectedLamp;
+            } else if (addingLampSelected.name.Equals(selectedLamp.name)) {
+                addingLampSelected = null;
+                AddingColor = Colors.Transparent;
+            } else {
+                addingLampSelected = selectedLamp;
+                AddingColor = Colors.DarkGray;
+        }
         }
 
         // We check whether we can remove lamps
@@ -196,6 +210,8 @@ namespace OptiLight.ViewModel {
             undoRedoController.AddAndExecute(new RemoveLamp(Lamps,selectedLamps));
         }
 
+        #region Cut / Copy / Paste
+
         // The selected lamps are removed and moved to the clipboard as xml
         private async void Cut() {
             var selectedLamps = Lamps.Where(lamp => lamp.IsSelected).ToList();
@@ -220,20 +236,22 @@ namespace OptiLight.ViewModel {
             if (lamps.Count() == 0) {
                 // Do nothing when the paste data isn't correct
             } else {
-            // All the lamps are turned into viewmodels
-            List<LampViewModel> lampsVM = lamps.Select(lamp => lamp is RoundLamp ?
+                // All the lamps are turned into viewmodels
+                List<LampViewModel> lampsVM = lamps.Select(lamp => lamp is RoundLamp ?
                         (LampViewModel)new RoundLampViewModel(lamp)
-                : lamp is SquareLamp ?
-                    (LampViewModel)new SquareLampViewModel(lamp)
-                : new RectangleLampViewModel(lamp)).ToList();
+                    : lamp is SquareLamp ?
+                        (LampViewModel)new SquareLampViewModel(lamp)
+                    : new RectangleLampViewModel(lamp)).ToList();
 
-            // All the lamps are added to the collection and their coordinates are changed
-            foreach (var lamp in lampsVM) {
-                lamp.X = lamp.X + 50;
-                lamp.Y = lamp.Y + 50;
-                undoRedoController.AddAndExecute(new AddLamp(Lamps, lamp));
-            }
+                // All the lamps are added to the collection and their coordinates are changed
+                foreach (var lamp in lampsVM) {
+                    lamp.X = lamp.X + 50;
+                    lamp.Y = lamp.Y + 50;
+                    undoRedoController.AddAndExecute(new AddLamp(Lamps, lamp));
+                }
+            }            
         }
+
+        #endregion Cut / Copy / Paste
     }
-}
 }
