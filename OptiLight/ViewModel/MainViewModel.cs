@@ -48,7 +48,7 @@ namespace OptiLight.ViewModel {
             // Lamps created from the start
             //It generates a collection of LampViewModels
             Lamps = new ObservableCollection<LampViewModel>() {
-                 new RoundLampViewModel(new Model.RoundLamp())
+                 new RoundLampViewModel(new Model.RoundLamp(50,50))
             };
             HighlightedLamps = new ObservableCollection<LampViewModel> { };
 
