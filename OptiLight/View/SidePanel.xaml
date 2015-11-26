@@ -43,13 +43,13 @@
         </ListBox>
 -->
         <ScrollViewer VerticalScrollBarVisibility="Auto" VerticalAlignment="Stretch" DockPanel.Dock="Bottom">
-            <ListBox HorizontalContentAlignment="Stretch">
+            <ListBox HorizontalContentAlignment="Stretch" ItemsSource="{Binding lampTypes}">
                 <!-- The button is binding to the AddLampCommand from the MainViewModel -->
                 <Button Background="Transparent" BorderBrush="Transparent" HorizontalContentAlignment="Left"
                         Command="{Binding AddRoundCommand}">
                     <Label>
                         <StackPanel Orientation="Horizontal">
-                            <Image Source="pack://application:,,,/Resources/lamp_off.png"
+                            <Image Source="/Resources/lamp_off.png"
                                 RenderOptions.BitmapScalingMode="HighQuality"
                                 Stretch="Fill"
                                 Width="32"
@@ -65,7 +65,7 @@
                          Command="{Binding AddSquareCommand}">
                     <Label>
                         <StackPanel Orientation="Horizontal">
-                            <Image Source="pack://application:,,,/Resources/lamp_on.png"
+                            <Image Source="/Resources/lamp_on.png"
                                  RenderOptions.BitmapScalingMode="HighQuality"
                                  Stretch="Fill"
                                  Width="32"
@@ -81,7 +81,7 @@
                         Command="{Binding AddRectangleCommand}">
                     <Label>
                         <StackPanel Orientation="Horizontal">
-                            <Image Source="pack://application:,,,/Resources/lamp_on.png"
+                            <Image Source="/Resources/lamp_on.png"
                            RenderOptions.BitmapScalingMode="Fant"
                            Stretch="Fill"
                            Width="32"

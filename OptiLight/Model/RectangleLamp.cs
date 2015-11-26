@@ -1,4 +1,8 @@
-﻿namespace OptiLight.Model {
+﻿using System;
 
-   public class RectangleLamp : Lamp { }
+namespace OptiLight.Model {
+    public class RectangleLamp : Lamp
+    {
+        public override string name { get; } = "Rectangle Lamp";
+    }
 }

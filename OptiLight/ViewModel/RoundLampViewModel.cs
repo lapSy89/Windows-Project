@@ -1,4 +1,5 @@
 ﻿using OptiLight.Model;
+//using LampLibrary; // LampLibrary DLL
 
 namespace OptiLight.ViewModel {
 

@@ -6,9 +6,10 @@ using System.Windows.Input;
 using OptiLight.View;
 using OptiLight.Serialization;
 using System.Linq;
-using OptiLight.Model;
 using System.Collections.Generic;
 using System.Windows;
+using OptiLight.Model;
+//using LampLibrary; // LampLibrary DLL
 using System;
 
 namespace OptiLight.ViewModel {
@@ -26,6 +27,8 @@ namespace OptiLight.ViewModel {
         // All the single lamps, all the single lamps, all the single lamps, all the single lamps, throw your light up!
         public static ObservableCollection<LampViewModel> Lamps { get; set; }
         public static ObservableCollection<LampViewModel> HighlightedLamps { get; set; }
+
+        public static List<Lamp> lampTypess = new List<Lamp>();
 
         public DialogViews dialogWindow { get; set; } // Dialog windows for New, Open and Save
 
@@ -73,7 +76,7 @@ namespace OptiLight.ViewModel {
 
         private void LightSwitch() {
             foreach (var lamp in Lamps) {
-
+          
                 if (lightsOn) {
                     lamp.IsTurnedOn = true;
                 } else {
@@ -84,7 +87,7 @@ namespace OptiLight.ViewModel {
                 //Does not work correctly because it will flip lights if new lamps are added
                 //There needs to be a global lights off variable
                 //lamp.IsTurnedOn = !lamp.IsTurnedOn;
-            }
+        }
             lightsOn = !lightsOn;
         }
 
@@ -127,6 +130,10 @@ namespace OptiLight.ViewModel {
                 // Get list of lamps
                 List<Lamp> lamps = await XML.Instance.AsyncOpenFromFile(loadPath);
 
+                // If there is an error in opening the file.
+                if(lamps.Count == 0) {
+                    dialogWindow.popUpError();
+                } else {
                 // Clear the board for loading new lamps
                 Lamps.Clear();
                 // Inserting lamps into array of lamps
@@ -137,6 +144,8 @@ namespace OptiLight.ViewModel {
                 : new RectangleLampViewModel(lamp)).ToList().ForEach(lamp => Lamps.Add(lamp));
                 clearWorkspace();
             }
+                
+        }
         }
 
         // We clear the workspace for loading or new workspace
@@ -146,15 +155,15 @@ namespace OptiLight.ViewModel {
 
         // Methods for adding lamps
         private void AddRoundLamp() {
-            this.undoRedoController.AddAndExecute(new Command.AddLamp(Lamps, new RoundLampViewModel(new Model.RoundLamp())));
+            this.undoRedoController.AddAndExecute(new Command.AddLamp(Lamps, new RoundLampViewModel(new RoundLamp())));
         }
 
         private void AddRectangleLamp() {
-            this.undoRedoController.AddAndExecute(new Command.AddLamp(Lamps, new RectangleLampViewModel(new Model.RectangleLamp())));
+            this.undoRedoController.AddAndExecute(new Command.AddLamp(Lamps, new RectangleLampViewModel(new RectangleLamp())));
         }
 
         private void AddSquareLamp() {
-            this.undoRedoController.AddAndExecute(new Command.AddLamp(Lamps, new SquareLampViewModel(new Model.SquareLamp())));
+            this.undoRedoController.AddAndExecute(new Command.AddLamp(Lamps, new SquareLampViewModel(new SquareLamp())));
         }
 
         // We check whether we can remove lamps
@@ -205,9 +214,12 @@ namespace OptiLight.ViewModel {
             var xml = Clipboard.GetText();
             List<Lamp> lamps = await XML.Instance.AsyncDeserializeFromString(xml);
 
+            if (lamps.Count() == 0) {
+                // Do nothing when the paste data isn't correct
+            } else {
             // All the lamps are turned into viewmodels
             List<LampViewModel> lampsVM = lamps.Select(lamp => lamp is RoundLamp ?
-                    (LampViewModel) new RoundLampViewModel(lamp)
+                        (LampViewModel)new RoundLampViewModel(lamp)
                 : lamp is SquareLamp ?
                     (LampViewModel)new SquareLampViewModel(lamp)
                 : new RectangleLampViewModel(lamp)).ToList();
@@ -220,4 +232,5 @@ namespace OptiLight.ViewModel {
             }
         }
     }
+}
 }

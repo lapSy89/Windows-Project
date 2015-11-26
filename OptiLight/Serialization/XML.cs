@@ -1,28 +1,30 @@
-﻿using OptiLight.Model;
-using OptiLight.ViewModel;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.IO;
-using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
+using OptiLight.Model;
+//using LampLibrary; // LampLibrary DLL
 
 namespace OptiLight.Serialization
 {
     class XML
     {
 
+        // We use the Singleton design pattern for our constructor
         public static XML Instance { get; } = new XML();
-
         private XML() { }
 
+        // We create an async method, to save the file in a second process.
         public async void AsyncSaveToFile(List<Lamp> lamps, string path)
         {
+            // The process is awaited, so that no changes are made to the drawing, 
+            // before the file is saved.
             await Task.Run(() => ToFile(lamps, path));
         }
 
+        // We save the XML file.
         private void ToFile(List<Lamp> lamps, string path)
         {
             using (FileStream stream = File.Create(path))
@@ -32,17 +34,24 @@ namespace OptiLight.Serialization
             }
         }
 
+        // We create an async method, to load the file in a second process
         public Task<List<Lamp>> AsyncOpenFromFile(string path)
         {
             return Task.Run(() => FromFile(path));
         }
 
+        // We load the XML file
         private List<Lamp> FromFile(string path)
         {
             using (FileStream stream = File.OpenRead(path))
             {
+                List<Lamp> tempLamps = new List<Lamp>();
                 XmlSerializer serializer = new XmlSerializer(typeof(List<Lamp>));
-                return serializer.Deserialize(stream) as List<Lamp>;
+                try {
+                    tempLamps = serializer.Deserialize(stream) as List<Lamp>;
+                } catch (InvalidOperationException) {}
+
+                return tempLamps;
             }
         }
 
@@ -73,10 +82,13 @@ namespace OptiLight.Serialization
         {
             using (TextReader stream = new StringReader(xml))
             {
+                List<Lamp> tempLamps = new List<Lamp>();
                 XmlSerializer serializer = new XmlSerializer(typeof(List<Lamp>));
-                List<Lamp> lamps = serializer.Deserialize(stream) as List<Lamp>;
+                try {
+                    tempLamps = serializer.Deserialize(stream) as List<Lamp>;
+                } catch (InvalidOperationException) { }
 
-                return lamps;
+                return tempLamps;
             }
         }
     }

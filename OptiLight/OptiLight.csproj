@@ -117,9 +117,8 @@
     <Compile Include="Command\MoveLamp.cs" />
     <Compile Include="Command\RemoveLamp.cs" />
     <Compile Include="Command\UndoRedoController.cs" />
-    <Compile Include="Model\Notify.cs" />
-    <Compile Include="Model\RectangleLamp.cs" />
     <Compile Include="Model\Lamp.cs" />
+    <Compile Include="Model\RectangleLamp.cs" />
     <Compile Include="Model\RoundLamp.cs" />
     <Compile Include="Model\SquareLamp.cs" />
     <Compile Include="Serialization\XML.cs" />
@@ -274,6 +273,7 @@
   <ItemGroup>
     <Resource Include="Resources\Cut.png" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -1,12 +1,14 @@
 ﻿using System.Windows;
-using OptiLight.Model;
 using System.Windows.Media;
+using OptiLight.Model;
+//using LampLibrary; // LampLibrary DLL
+
 
 namespace OptiLight.ViewModel {
     public abstract class LampViewModel : BaseViewModel {
     //TODO, consider not to use "RaisePropertyChanged(); but the Notify command instead
     //Figure out where we would do this (This seems like the right place)
-        public Model.Lamp Lamp { get; set; }
+        public Lamp Lamp { get; set; }
 
         
         public double X { get { return Lamp.X; } set { Lamp.X = value; RaisePropertyChanged();} }
