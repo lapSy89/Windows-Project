@@ -5,6 +5,8 @@ using System.Windows;
 using System.Windows.Media;
 using System.Windows.Controls;
 using OptiLight.Model;
+using OptiLight.Command;
+using System.Linq;
 //using LampLibrary; // LampLibrary DLL
 
 namespace OptiLight.ViewModel {
@@ -14,12 +16,15 @@ namespace OptiLight.ViewModel {
         private Point initialLampPosition;
         private Point initialMousePosition;
 
-        // The collection of the lamps
+        // Variables for showing and editing lamps (Brightness, Height and Radius)
+        private double currentLampBrightness;
+        private double currentLampHeight;
+        private double currentLampRadius;
 
         // Grid control variables
         private bool snapActive = false;
         public string gridVisibility { get; set; } = "Transparent";
-        public int cellSet { get { return cellSize; } set { System.Console.WriteLine(value); cellSize = value; } }
+        public int cellSet { get { return cellSize; } set { cellSize = value; } }
         public int cellSize { get; set; }
         public int cellsX { get; set; }
         public int cellsY { get; set; }
@@ -41,6 +46,11 @@ namespace OptiLight.ViewModel {
             cellsY = 10;
             width = cellSize * cellsX;
             height = cellSize * cellsY;
+
+            // Initialize Current values for editing selected lamp
+            CurrentLampBrightness = 0;
+            CurrentLampHeight = 0;
+            CurrentLampRadius = 0;
 
             // Lamps created from the start
             //It generates a collection of LampViewModels
@@ -86,6 +96,13 @@ namespace OptiLight.ViewModel {
             initialMousePosition = MousePosition;
 
             Lamp.IsSelected = true;
+
+            // Sending Lamp values for editing in sidebar
+            // TODO .X skal ændres!!!!!!!!!!!!!!!!
+            CurrentLampBrightness = Lamp.X;
+            CurrentLampHeight = Lamp.Y;
+            CurrentLampRadius = Lamp.X;
+
             e.MouseDevice.Target.CaptureMouse();
         }
 
@@ -138,6 +155,10 @@ namespace OptiLight.ViewModel {
             if (LampsAreSelected()) {
                 UnSelectAllLamps();
             }
+            // Resetting sidebar values after canvas has been pressed and a lamp has been unselected
+            CurrentLampBrightness = 0;
+            CurrentLampRadius = 0;
+            CurrentLampHeight = 0;
         }
         // Method for moving the lamp. This is created as an on-the-go method, so that each "pixel" 
         // move of the lamp isn't saved in the undo-redo command. 
@@ -193,6 +214,47 @@ namespace OptiLight.ViewModel {
         private static T FindParentOfType<T>(DependencyObject o) {
             dynamic parent = VisualTreeHelper.GetParent(o);
             return parent.GetType().IsAssignableFrom(typeof(T)) ? parent : FindParentOfType<T>(parent);
+        }
+
+        // Method for getting/setting currentLampBrightness
+        public double CurrentLampBrightness {
+            get { return currentLampBrightness; }
+            set { currentLampBrightness = value;
+                // TODO .X skal ændres!!
+                if (Lamps != null && getCurrentLamp() != null) getCurrentLamp().X = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        // Method for getting/setting currentLampHeight
+        public double CurrentLampHeight {
+            get { return currentLampHeight; }
+            set { currentLampHeight = value;
+                // TODO .X skal ændres!!
+                if (Lamps != null && getCurrentLamp() != null) getCurrentLamp().Y = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        // Method for getting/setting currentLampRadius
+        public double CurrentLampRadius {
+            get { return currentLampRadius; }
+            set {
+                currentLampRadius = value;
+                // TODO .X skal ændres!!
+                if (Lamps != null && getCurrentLamp() != null) getCurrentLamp().X = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        // Method for getting current selected lamp.
+        private LampViewModel getCurrentLamp() {
+            foreach (LampViewModel lamp in Lamps) {
+                if(lamp.IsSelected) {
+                    return lamp;
+                }
+            }
+            return null;
         }
     }
 }

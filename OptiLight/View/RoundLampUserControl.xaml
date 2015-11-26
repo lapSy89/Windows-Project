@@ -48,6 +48,19 @@
         <Ellipse Fill="Black" Margin="24"/>
 
         <Ellipse Fill="{Binding SelectedColor}" Opacity="0.2">
+            <Ellipse.ToolTip>
+                <ToolTip DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Self}}">
+                    <StackPanel>
+                        <TextBlock FontWeight="Bold" Text="{Binding name, StringFormat='Type: {0}'}"/>
+                        <TextBlock Text="{Binding Width, StringFormat='Width: {0}'}"/>
+                        <TextBlock Text="{Binding Height, StringFormat='Height: {0}'}"/>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding X, StringFormat='Coords: ( {0} ,'}"/>
+                            <TextBlock Text="{Binding Y, StringFormat=' {0} )'}"/>
+                        </StackPanel>
+                    </StackPanel>
+                </ToolTip>
+            </Ellipse.ToolTip>
             <!-- Triggers for handeling the moving of a lamp -->
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="MouseDown">
