@@ -157,16 +157,8 @@ namespace OptiLight.ViewModel {
 
         // Method for adding lamps
         private void AddNewLamp(IList selectedAddingLamp) {
-            
-            if (addingLampSelected != null)
-            {
-                System.Console.WriteLine("Hej!");
-            }
-            else
-            {
-                System.Console.WriteLine(":(");
-            }
-            //this.undoRedoController.AddAndExecute(new Command.AddLamp(Lamps, new RoundLampViewModel(new RoundLamp())));
+            Lamp lamp = selectedAddingLamp.Cast<Lamp>().ToList().First();
+            new 
         }
 
         private void AddRectangleLamp() {
