@@ -223,7 +223,7 @@ namespace OptiLight.ViewModel {
         // Helper method for registration of the position of the mouse.
         private Point RelativeMousePosition(MouseEventArgs e) {
             var targetedElement = (FrameworkElement)e.MouseDevice.Target;
-            var canvas = FindParentOfType<Canvas>(targetedElement);
+            var canvas = FindParentOfType<System.Windows.Controls.Canvas>(targetedElement);
             return Mouse.GetPosition(canvas);
         }
 
