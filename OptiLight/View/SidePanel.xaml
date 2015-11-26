@@ -11,13 +11,12 @@
 
         <DataGrid DockPanel.Dock="Bottom" x:Name="shapesControl" Height="140" ItemsSource="{Binding HighlightedLamps}" HeadersVisibility="Column" AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False">
             <DataGrid.Columns>
-                <DataGridTextColumn Binding="{Binding Width}" Header="Width" Width="*"/>
-                <DataGridTextColumn Binding="{Binding Height}" Header="Height" Width="*"/>
-                <DataGridTextColumn Binding="{Binding Radius.Top}" Header="Vertical" Width="*"/>
-                <DataGridTextColumn Binding="{Binding Radius.Left}" Header="Horizontal" Width="*"/>
+                <DataGridTextColumn Binding="{Binding Width}" Header="Size" Width="*"/>
+                <DataGridTextColumn Binding="{Binding Radius.Left}" Header="Vertical" Width="*"/>
             </DataGrid.Columns>
         </DataGrid>
-<!--
+
+        <!--
         <ListBox DockPanel.Dock="Bottom">
             <ListBoxItem Margin="0,5,0,0">
                 <StackPanel Orientation="Horizontal">

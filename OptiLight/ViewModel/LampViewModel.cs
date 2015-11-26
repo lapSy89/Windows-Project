@@ -16,8 +16,10 @@ namespace OptiLight.ViewModel {
         public double Width { get { return Lamp.Width; } set { Lamp.Width = value; RaisePropertyChanged(); } }
         public double Height { get { return Lamp.Height; } set { Lamp.Height = value; RaisePropertyChanged(); } }
 
-        
-        public Thickness Radius { get { return new Thickness(Lamp.Vertical, Lamp.Horizontal, Lamp.Vertical, Lamp.Horizontal); } set { Lamp.Vertical = value.Top; Lamp.Horizontal = value.Left; RaisePropertyChanged(); } }
+
+        public Thickness Radius { get { return new Thickness(Lamp.Vertical, Lamp.Horizontal, Lamp.Vertical, Lamp.Horizontal); }
+                                  set { Lamp.Vertical = value.Top; Lamp.Horizontal = value.Left; Lamp.Vertical = value.Bottom; Lamp.Horizontal = value.Right;
+                                        RaisePropertyChanged(); } }
 
         //Determines whether a lamp is selected or not
         private bool isSelected;
