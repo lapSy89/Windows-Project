@@ -4,15 +4,18 @@ using System.Windows.Input;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Controls;
+using OptiLight.Model;
+using OptiLight.Command;
+using System;
+//using LampLibrary; // LampLibrary DLL
 
 namespace OptiLight.ViewModel {
 
     public class MainViewModel : BaseViewModel {
+
         // Global points created for having initials positions of Lamp and Mouse when a lamp is moved.
         private Point initialLampPosition;
         private Point initialMousePosition;
-
-        // The collection of the lamps
 
         // Grid control variables
         private bool snapActive = false;
@@ -23,8 +26,6 @@ namespace OptiLight.ViewModel {
         public int cellsY { get; set; }
         public int width { get; set; }
         public int height { get; set; }
-
-
 
         // The possible commands
         public ICommand LampPressedCommand { get; }
@@ -45,7 +46,7 @@ namespace OptiLight.ViewModel {
             // Lamps created from the start
             //It generates a collection of LampViewModels
             Lamps = new ObservableCollection<LampViewModel>() {
-                 new RoundLampViewModel(new Model.RoundLamp())
+                 new RoundLampViewModel(new Model.RoundLamp(50,50))
             };
             HighlightedLamps = new ObservableCollection<LampViewModel> { };
 
@@ -132,19 +133,13 @@ namespace OptiLight.ViewModel {
             e.MouseDevice.Target.ReleaseMouseCapture();
         }
 
-
-
-        private void CanvasDown(MouseButtonEventArgs e) {
-            if (LampsAreSelected()) {
-                UnSelectAllLamps();
-            }
-        }
         // Method for moving the lamp. This is created as an on-the-go method, so that each "pixel" 
         // move of the lamp isn't saved in the undo-redo command. 
         // So when undo is pressed, the lamp is moved to it's original position before even moving.
-
-        private void LampMoved(MouseEventArgs e) {
-            if (Mouse.Captured != null){
+        private void LampMoved(MouseEventArgs e)
+        {
+            if (Mouse.Captured != null)
+            {
 
                 var Lamp = TargetLamp(e);
                 var MousePosition = RelativeMousePosition(e);
@@ -154,19 +149,27 @@ namespace OptiLight.ViewModel {
                 var newX = initialLampPosition.X + offsetX;
                 var newY = initialLampPosition.Y + offsetY;
 
-                if (newX > 0 && newY > 0 && newX < width-cellSize && newY < height-cellSize){
-                    if (snapActive){
+                if (newX > 0 && newY > 0 && newX < width - cellSize && newY < height - cellSize)
+                {
+                    if (snapActive)
+                    {
                         var extraX = newX % cellSize;
                         var extraY = newY % cellSize;
 
-                        if (extraX > cellSize / 2) {
-                            newX = newX - extraX + 0.5 * cellSize;
-                        } else {
+                        if (extraX > cellSize / 2)
+                        {
                             newX = newX - extraX + 0.5 * cellSize;
                         }
-                        if (extraY > cellSize / 2) {
+                        else
+                        {
+                            newX = newX - extraX + 0.5 * cellSize;
+                        }
+                        if (extraY > cellSize / 2)
+                        {
                             newY = newY - extraY + 0.5 * cellSize;
-                        } else {
+                        }
+                        else
+                        {
                             newY = newY - extraY + 0.5 * cellSize;
                         }
                     }
@@ -174,6 +177,41 @@ namespace OptiLight.ViewModel {
                     Lamp.X = newX;
                     Lamp.Y = newY;
                 }
+            }
+        }
+
+        // Method for clicking on the canvas - deselects all lamps
+        private void CanvasDown(MouseButtonEventArgs e) {
+
+            // We retrieve the mouse position
+            var MousePosition = Mouse.GetPosition((FrameworkElement)e.MouseDevice.Target);
+            double mouseX = MousePosition.X;
+            double mouseY = MousePosition.Y;
+
+            // We unselect all lamps
+            if (LampsAreSelected())
+            {
+                UnSelectAllLamps();
+            }
+
+            // We add a lamp at the mouse position if add lamp is on
+            if (addingLampSelected != null && mouseX > 0 && mouseY > 0
+                && mouseX < width - cellSize && mouseY < height - cellSize) {
+
+                // We get the right type of Lamp;
+                Type lampType = addingLampSelected.GetType();
+
+                // We get the right type of viewModel of the lamp
+                string path = "OptiLight.ViewModel." + addingLampSelected.viewModel;
+                Type lampTypeVM = Type.GetType(path, true);
+
+                // We create an instance of the lamp and create a lampViewModel
+                object[] args = { mouseX, mouseY };
+                object[] argsVM = { (Lamp) Activator.CreateInstance(lampType, args) };
+                LampViewModel lampVM = (LampViewModel) Activator.CreateInstance(lampTypeVM, argsVM);
+
+                // We add the lamp
+                undoRedoController.AddAndExecute(new AddLamp(Lamps, lampVM));
             }
         }
 
@@ -189,7 +227,7 @@ namespace OptiLight.ViewModel {
             return Mouse.GetPosition(canvas);
         }
 
-        // Ved ikke rigtig hvad denne gør!?
+        // Helper method going up the three
         private static T FindParentOfType<T>(DependencyObject o) {
             dynamic parent = VisualTreeHelper.GetParent(o);
             return parent.GetType().IsAssignableFrom(typeof(T)) ? parent : FindParentOfType<T>(parent);
