@@ -56,7 +56,7 @@ namespace OptiLight.ViewModel {
             // Lamps created from the start
             //It generates a collection of LampViewModels
             Lamps = new ObservableCollection<LampViewModel>() {
-                 new RoundLampViewModel(new Model.RoundLamp(50,50))
+                 new RoundLampViewModel(new Model.RoundLamp())
             };
             HighlightedLamps = new ObservableCollection<LampViewModel> { };
 
@@ -228,8 +228,11 @@ namespace OptiLight.ViewModel {
                 Type lampTypeVM = Type.GetType(path, true);
 
                 // We create an instance of the lamp and create a lampViewModel
-                object[] args = { mouseX, mouseY };
-                object[] argsVM = { (Lamp) Activator.CreateInstance(lampType, args) };
+                Lamp lamp = (Lamp)Activator.CreateInstance(lampType);
+                lamp.X = mouseX;
+                lamp.Y = mouseY;
+
+                object[] argsVM = { lamp };
                 LampViewModel lampVM = (LampViewModel) Activator.CreateInstance(lampTypeVM, argsVM);
 
                 // We add the lamp
