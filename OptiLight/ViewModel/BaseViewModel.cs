@@ -76,7 +76,7 @@ namespace OptiLight.ViewModel {
             NewDrawingCommand = new RelayCommand(NewDrawing);
             LoadDrawingCommand = new RelayCommand(LoadDrawing);
             SaveDrawingCommand = new RelayCommand(SaveDrawing);
-        }
+        
             LightSwitchCommand = new RelayCommand(LightSwitch);
             LightSwitchCommand = new RelayCommand(LightSwitch);
         }
