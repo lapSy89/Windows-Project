@@ -32,37 +32,9 @@
             </ListBoxItem>
         </ListBox>
         <ScrollViewer VerticalScrollBarVisibility="Auto" VerticalAlignment="Stretch" DockPanel.Dock="Bottom">
-            <DataGrid x:Name="lampControl" ItemsSource="{Binding lampTypes}" AutoGenerateColumns="False" 
-                      SelectionUnit="FullRow" SelectionMode="Single" CanUserAddRows="False" 
-                      CanUserDeleteRows="False" CanUserResizeColumns="False" HeadersVisibility="None">
-                <DataGrid.Columns>
-                    <DataGridTemplateColumn Width="SizeToCells" IsReadOnly="True">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <Image Source="{Binding img}"
-                                RenderOptions.BitmapScalingMode="HighQuality"
-                                Stretch="Fill"
-                                Width="40"
-                                Height="40"
-                                VerticalAlignment="Center"
-                                Margin="0,0,0,0"
-                                HorizontalAlignment="Left" />
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Width="*" IsReadOnly="True">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <AccessText Text="{Binding name}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                </DataGrid.Columns>
-            </DataGrid>
-            <!--<ListBox HorizontalContentAlignment="Stretch" >-->
-                <!-- The button is binding to the AddLampCommand from the MainViewModel
-            
-            <Button Background="Transparent" BorderBrush="Transparent" HorizontalContentAlignment="Left"
+            <ListBox HorizontalContentAlignment="Stretch" ItemsSource="{Binding lampTypes}">
+                <!-- The button is binding to the AddLampCommand from the MainViewModel -->
+                <Button Background="Transparent" BorderBrush="Transparent" HorizontalContentAlignment="Left"
                         Command="{Binding AddRoundCommand}">
                     <Label>
                         <StackPanel Orientation="Horizontal">
@@ -74,11 +46,11 @@
                                 VerticalAlignment="Center"
                                 Margin="0,0,0,0"
                                 HorizontalAlignment="Left" />
-                            <AccessText Text="{Binding name}" VerticalAlignment="Center"/>
+                            <AccessText Text="Round Lamp" VerticalAlignment="Center"/>
                         </StackPanel>
                     </Label>
-                </Button>-->
-                <!--<Button Background="Transparent" BorderBrush="Transparent" HorizontalContentAlignment="Left"
+                </Button>
+                <Button Background="Transparent" BorderBrush="Transparent" HorizontalContentAlignment="Left"
                          Command="{Binding AddSquareCommand}">
                     <Label>
                         <StackPanel Orientation="Horizontal">
@@ -109,8 +81,8 @@
                             <AccessText Text="Rectangular Lamp" VerticalAlignment="Center"/>
                         </StackPanel>
                     </Label>
-                </Button>-->
-            <!--</ListBox>-->
+                </Button>
+            </ListBox>
         </ScrollViewer>
     </DockPanel>
 </UserControl>
