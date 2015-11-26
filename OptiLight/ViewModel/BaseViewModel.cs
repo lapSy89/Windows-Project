@@ -89,11 +89,6 @@ namespace OptiLight.ViewModel {
                 } else {
                     lamp.IsTurnedOn = false;
                 }
-                System.Console.WriteLine(lightsOn);
-
-                //Does not work correctly because it will flip lights if new lamps are added
-                //There needs to be a global lights off variable
-                //lamp.IsTurnedOn = !lamp.IsTurnedOn;
             }
             lightsOn = !lightsOn;
         }
