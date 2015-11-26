@@ -39,7 +39,7 @@
             <Rectangle.ToolTip>
                 <ToolTip DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Self}}">
                     <StackPanel>
-                        <TextBlock FontWeight="Bold" Text="{Binding name, StringFormat='Type: {0}'}"/>
+                        <TextBlock FontWeight="Bold" Text="{Binding Name, StringFormat='Type: {0}'}"/>
                         <TextBlock Text="{Binding Width, StringFormat='Width: {0}'}"/>
                         <TextBlock Text="{Binding Height, StringFormat='Height: {0}'}"/>
                         <StackPanel Orientation="Horizontal">

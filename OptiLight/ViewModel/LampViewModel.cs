@@ -14,6 +14,7 @@ namespace OptiLight.ViewModel {
         public double Y { get { return Lamp.Y; } set { Lamp.Y = value; RaisePropertyChanged();} }
         public double Width { get { return Lamp.Width; } set { Lamp.Width = value; RaisePropertyChanged(); } }
         public double Height { get { return Lamp.Height; } set { Lamp.Height = value; RaisePropertyChanged(); } }
+        public string Name { get { return Lamp.name; } }
 
 
         public Thickness Radius { get { return new Thickness(Lamp.Vertical, Lamp.Horizontal, Lamp.Vertical, Lamp.Horizontal); }
