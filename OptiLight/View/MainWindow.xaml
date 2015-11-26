@@ -32,7 +32,6 @@
               Modifiers="Control" 
               Command="{Binding PasteCommand}" />
     </Window.InputBindings>
-    
     <!-- Overall layout for the Window-->
     <DockPanel>
         <!-- RibbonMenu layout -->

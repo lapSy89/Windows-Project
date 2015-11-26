@@ -50,7 +50,7 @@
                         </Grid>
                     </ItemsPanelTemplate>
                 </RibbonGroup.ItemsPanel>
-                <RibbonToggleButton Label="Toggle Light" LargeImageSource="/Resources/switch7.png" HorizontalAlignment="Center"/>
+                <RibbonToggleButton Label="Toggle Light" LargeImageSource="/Resources/switch7.png" HorizontalAlignment="Center" Command="{Binding LightSwitchCommand}"/>
             </RibbonGroup>
             <RibbonGroup Header="Grid Options">
                 <RibbonToggleButton Label="Show Grid" LargeImageSource="/Resources/grid.png" Command="{Binding toggleGridVisibilityCommand}"/>

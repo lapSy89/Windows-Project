@@ -9,6 +9,7 @@ using System.Linq;
 using OptiLight.Model;
 using System.Collections.Generic;
 using System.Windows;
+using System;
 
 namespace OptiLight.ViewModel {
     //Base viewModel
@@ -24,8 +25,11 @@ namespace OptiLight.ViewModel {
 
         // All the single lamps, all the single lamps, all the single lamps, all the single lamps, throw your light up!
         public static ObservableCollection<LampViewModel> Lamps { get; set; }
+        public static ObservableCollection<LampViewModel> HighlightedLamps { get; set; }
 
         public DialogViews dialogWindow { get; set; } // Dialog windows for New, Open and Save
+
+        public bool lightsOn = true;
 
         public ICommand UndoCommand { get; }
         public ICommand RedoCommand { get; }
@@ -43,7 +47,7 @@ namespace OptiLight.ViewModel {
         public ICommand LoadDrawingCommand { get; }
 
         public ICommand RemoveLampCommand { get; }
-
+        public ICommand LightSwitchCommand { get; }
         //Constructor 
         public BaseViewModel() {
 
@@ -61,11 +65,27 @@ namespace OptiLight.ViewModel {
             AddSquareCommand = new RelayCommand(AddSquareLamp);
 
             RemoveLampCommand = new RelayCommand(RemoveLamp, LampsAreSelected);
-
             NewDrawingCommand = new RelayCommand(NewDrawing);
             LoadDrawingCommand = new RelayCommand(LoadDrawing);
             SaveDrawingCommand = new RelayCommand(SaveDrawing);
-          
+            LightSwitchCommand = new RelayCommand(LightSwitch);
+        }
+
+        private void LightSwitch() {
+            foreach (var lamp in Lamps) {
+
+                if (lightsOn) {
+                    lamp.IsTurnedOn = true;
+                } else {
+                    lamp.IsTurnedOn = false;
+                }
+                System.Console.WriteLine(lightsOn);
+                
+                //Does not work correctly because it will flip lights if new lamps are added
+                //There needs to be a global lights off variable
+                //lamp.IsTurnedOn = !lamp.IsTurnedOn;
+            }
+            lightsOn = !lightsOn;
         }
 
         // Method for making a new drawing
@@ -151,7 +171,10 @@ namespace OptiLight.ViewModel {
         //TODO LAMBDA EXPRESSION INSTEAD
         public void UnSelectAllLamps() {
             foreach(var lamp in Lamps) {
-                if (lamp.IsSelected) lamp.IsSelected = false;
+                if (lamp.IsSelected) {
+                    lamp.IsSelected = false;
+                    HighlightedLamps.Remove(lamp);
+                }
             }
         }
 

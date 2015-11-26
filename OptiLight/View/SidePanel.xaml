@@ -8,11 +8,21 @@
              d:DesignHeight="300" Width="182.101">
 
     <DockPanel>
+
+        <DataGrid DockPanel.Dock="Bottom" x:Name="shapesControl" Height="140" ItemsSource="{Binding HighlightedLamps}" HeadersVisibility="Column" AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Binding="{Binding Width}" Header="Width" Width="*"/>
+                <DataGridTextColumn Binding="{Binding Height}" Header="Height" Width="*"/>
+                <DataGridTextColumn Binding="{Binding Radius.Top}" Header="Vertical" Width="*"/>
+                <DataGridTextColumn Binding="{Binding Radius.Left}" Header="Horizontal" Width="*"/>
+            </DataGrid.Columns>
+        </DataGrid>
+<!--
         <ListBox DockPanel.Dock="Bottom">
             <ListBoxItem Margin="0,5,0,0">
                 <StackPanel Orientation="Horizontal">
                     <AccessText Text="Brightness: "/>
-                    <excd:IntegerUpDown Value="25" Increment="1" Maximum="100" FormatString="G0"/>
+                    <excd:IntegerUpDown Value="{Binding Width}" Increment="1" Maximum="100" FormatString="G0"/>
                     <AccessText Text=" Watt"/>
                 </StackPanel>
             </ListBoxItem>
@@ -25,12 +35,13 @@
             </ListBoxItem>
             <ListBoxItem Margin="0,5,0,5">
                 <StackPanel Orientation="Horizontal">
-                    <AccessText Text="Radius:       "/>
-                    <excd:IntegerUpDown Value="{Binding Radius}" Increment="1" Maximum="100" FormatString="G0"/>
+                    <AccessText Text="{Binding Path=LampViewModel.Radius,ElementName=window}"/>
+                    <excd:IntegerUpDown Value="{Binding Path=LampViewModel.Radius,ElementName=window}" Increment="1" Maximum="100" FormatString="G0"/>
                     <AccessText Text=" cm"/>
                 </StackPanel>
             </ListBoxItem>
         </ListBox>
+-->
         <ScrollViewer VerticalScrollBarVisibility="Auto" VerticalAlignment="Stretch" DockPanel.Dock="Bottom">
             <ListBox HorizontalContentAlignment="Stretch">
                 <!-- The button is binding to the AddLampCommand from the MainViewModel -->
@@ -83,6 +94,7 @@
                     </Label>
                 </Button>
             </ListBox>
+            
         </ScrollViewer>
     </DockPanel>
 </UserControl>

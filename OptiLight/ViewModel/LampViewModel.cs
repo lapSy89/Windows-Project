@@ -13,7 +13,9 @@ namespace OptiLight.ViewModel {
         public double Y { get { return Lamp.Y; } set { Lamp.Y = value; RaisePropertyChanged();} }
         public double Width { get { return Lamp.Width; } set { Lamp.Width = value; RaisePropertyChanged(); } }
         public double Height { get { return Lamp.Height; } set { Lamp.Height = value; RaisePropertyChanged(); } }
-        public Thickness Radius { get { return new Thickness(Lamp.Radius); } set { Lamp.Radius = value.Top; RaisePropertyChanged(); } }
+
+        
+        public Thickness Radius { get { return new Thickness(Lamp.Vertical, Lamp.Horizontal, Lamp.Vertical, Lamp.Horizontal); } set { Lamp.Vertical = value.Top; Lamp.Horizontal = value.Left; RaisePropertyChanged(); } }
 
         //Determines whether a lamp is selected or not
         private bool isSelected;
@@ -22,10 +24,19 @@ namespace OptiLight.ViewModel {
             set { this.isSelected = value; RaisePropertyChanged(); RaisePropertyChanged(() => SelectedColor); }
         }
 
+        private bool isTurnedOn = false;
+        public bool IsTurnedOn {
+            get { return this.isTurnedOn; }
+            set { this.isTurnedOn = value; RaisePropertyChanged();RaisePropertyChanged(() => TurnedOnColor); }
+        }
+
         //Colors
         public Brush SelectedColor => IsSelected ? Brushes.Blue : Brushes.Transparent;
+        public Color TurnedOnColor => IsTurnedOn ? Colors.Transparent : Colors.Yellow;
+   
+
         //The base means that it inherits 
-        public LampViewModel(Lamp lamp) : base() {
+        public LampViewModel(Lamp lamp){
             Lamp = lamp;
         }
     }

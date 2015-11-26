@@ -13,6 +13,9 @@ namespace OptiLight.Model {
         public double Y { get; set; } = 100;
         public double Width { get; set; } = 50;
         public double Height { get; set; } = 50;
-        public double Radius { get; set; } = -20;
+        public double Radius { get; set; } = -100;
+
+        public double Vertical { get; set; } = -100;
+        public double Horizontal { get; set; } = -100;
     }
 }
