@@ -4,7 +4,6 @@ using OptiLight.View;
 using OptiLight.Serialization;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
-using System;
 using System.Collections;
 using System.Collections.ObjectModel;
 using System.Collections.Generic;
@@ -77,24 +76,25 @@ namespace OptiLight.ViewModel {
             NewDrawingCommand = new RelayCommand(NewDrawing);
             LoadDrawingCommand = new RelayCommand(LoadDrawing);
             SaveDrawingCommand = new RelayCommand(SaveDrawing);
+        }
             LightSwitchCommand = new RelayCommand(LightSwitch);
             LightSwitchCommand = new RelayCommand(LightSwitch);
         }
 
         private void LightSwitch() {
             foreach (var lamp in Lamps) {
-
+          
                 if (lightsOn) {
                     lamp.IsTurnedOn = true;
                 } else {
                     lamp.IsTurnedOn = false;
                 }
                 System.Console.WriteLine(lightsOn);
-                
+
                 //Does not work correctly because it will flip lights if new lamps are added
                 //There needs to be a global lights off variable
                 //lamp.IsTurnedOn = !lamp.IsTurnedOn;
-        }
+            }
             lightsOn = !lightsOn;
         }
 
@@ -115,6 +115,7 @@ namespace OptiLight.ViewModel {
                 Lamps.Clear();
             }
         }
+
 
         // Method for saving drawing
         private void SaveDrawing() {
@@ -166,7 +167,7 @@ namespace OptiLight.ViewModel {
 
         // Method for adding lamps
         private void AddNewLamp(IList selectedAddingLamp) {
-
+            
             // We get the selected lamp from the View
             Lamp selectedLamp = selectedAddingLamp.Cast<Lamp>().ToList().First();
 

@@ -27,8 +27,6 @@ namespace OptiLight.ViewModel {
         public int width { get; set; }
         public int height { get; set; }
 
-
-
         // The possible commands
         public ICommand LampPressedCommand { get; }
         public ICommand MouseDownCanvasCommand { get; }
@@ -151,19 +149,27 @@ namespace OptiLight.ViewModel {
                 var newX = initialLampPosition.X + offsetX;
                 var newY = initialLampPosition.Y + offsetY;
 
-                if (newX > 0 && newY > 0 && newX < width-cellSize && newY < height-cellSize){
-                    if (snapActive){
+                if (newX > 0 && newY > 0 && newX < width - cellSize && newY < height - cellSize)
+                {
+                    if (snapActive)
+                    {
                         var extraX = newX % cellSize;
                         var extraY = newY % cellSize;
 
-                        if (extraX > cellSize / 2) {
-                            newX = newX - extraX + 0.5 * cellSize;
-                        } else {
+                        if (extraX > cellSize / 2)
+                        {
                             newX = newX - extraX + 0.5 * cellSize;
                         }
-                        if (extraY > cellSize / 2) {
+                        else
+                        {
+                            newX = newX - extraX + 0.5 * cellSize;
+                        }
+                        if (extraY > cellSize / 2)
+                        {
                             newY = newY - extraY + 0.5 * cellSize;
-                        } else {
+                        }
+                        else
+                        {
                             newY = newY - extraY + 0.5 * cellSize;
                         }
                     }
