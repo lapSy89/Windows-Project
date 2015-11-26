@@ -29,9 +29,9 @@ namespace OptiLight.Model {
 
         //The list with the different lamp types 
         public static List<Lamp> lampTypes { get; } = new List<Lamp>() {
-            new RectangleLamp(50, 50),
-            new RoundLamp(50, 50),
-            new SquareLamp(50, 50)
+            new RectangleLamp(),
+            new RoundLamp(),
+            new SquareLamp()
         };
  
     }
