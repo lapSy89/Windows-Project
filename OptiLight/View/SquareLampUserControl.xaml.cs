@@ -22,7 +22,7 @@ namespace OptiLight.View
     {
         public SquareLampUserControl()
         {
-            InitializeComponent();
+            this.InitializeComponent();
         }
     }
 }

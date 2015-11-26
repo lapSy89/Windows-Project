@@ -11,9 +11,16 @@
              d:DesignHeight="50" d:DesignWidth="50">
     <Grid>
         <Rectangle Fill="{Binding SelectedColor}" Opacity = "0.7" Margin="-2,-2,-52,-2"/>
-        <Rectangle Fill="Gray" Margin="0,0,-50,0">
-            
+        <Rectangle  Opacity = "0.7" Margin="-50,-125,-100,-125" Stroke="#FF000000" StrokeThickness="1" StrokeDashArray="4 4" IsHitTestVisible="False">
+            <Rectangle.Fill>
+                <RadialGradientBrush GradientOrigin="0.5,0.5" Center="0.5,0.5"
+                                     RadiusX="0.5" RadiusY="0.5">
+                    <GradientStop Color="{Binding TurnedOnColor}" Offset="0.1"/>
+                    <GradientStop Color="Transparent" Offset="1.7"/>
+                </RadialGradientBrush>
+            </Rectangle.Fill>
         </Rectangle>
+        
         <Rectangle Margin="0,0,-50,0">
             <Rectangle.Fill>
                 <LinearGradientBrush StartPoint="0,1" EndPoint="0,0">

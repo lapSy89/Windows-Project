@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Windows;
 using OptiLight.Model;
 //using LampLibrary; // LampLibrary DLL
+using System;
 
 namespace OptiLight.ViewModel {
     //Base viewModel
@@ -25,10 +26,13 @@ namespace OptiLight.ViewModel {
 
         // All the single lamps, all the single lamps, all the single lamps, all the single lamps, throw your light up!
         public static ObservableCollection<LampViewModel> Lamps { get; set; }
+        public static ObservableCollection<LampViewModel> HighlightedLamps { get; set; }
 
         public static List<Lamp> lampTypess = new List<Lamp>();
 
         public DialogViews dialogWindow { get; set; } // Dialog windows for New, Open and Save
+
+        public bool lightsOn = true;
 
         public ICommand UndoCommand { get; }
         public ICommand RedoCommand { get; }
@@ -46,7 +50,7 @@ namespace OptiLight.ViewModel {
         public ICommand LoadDrawingCommand { get; }
 
         public ICommand RemoveLampCommand { get; }
-
+        public ICommand LightSwitchCommand { get; }
         //Constructor 
         public BaseViewModel() {
 
@@ -64,11 +68,27 @@ namespace OptiLight.ViewModel {
             AddSquareCommand = new RelayCommand(AddSquareLamp);
 
             RemoveLampCommand = new RelayCommand(RemoveLamp, LampsAreSelected);
-
             NewDrawingCommand = new RelayCommand(NewDrawing);
             LoadDrawingCommand = new RelayCommand(LoadDrawing);
             SaveDrawingCommand = new RelayCommand(SaveDrawing);
+            LightSwitchCommand = new RelayCommand(LightSwitch);
+        }
+
+        private void LightSwitch() {
+            foreach (var lamp in Lamps) {
           
+                if (lightsOn) {
+                    lamp.IsTurnedOn = true;
+                } else {
+                    lamp.IsTurnedOn = false;
+                }
+                System.Console.WriteLine(lightsOn);
+                
+                //Does not work correctly because it will flip lights if new lamps are added
+                //There needs to be a global lights off variable
+                //lamp.IsTurnedOn = !lamp.IsTurnedOn;
+        }
+            lightsOn = !lightsOn;
         }
 
         // Method for making a new drawing
@@ -114,18 +134,18 @@ namespace OptiLight.ViewModel {
                 if(lamps.Count == 0) {
                     dialogWindow.popUpError();
                 } else {
-                    // Clear the board for loading new lamps
-                    Lamps.Clear();
-                    // Inserting lamps into array of lamps
-                    lamps.Select(lamp => lamp is RoundLamp ?
-                        (LampViewModel)new RoundLampViewModel(lamp)
-                    : lamp is SquareLamp ?
-                        (LampViewModel)new SquareLampViewModel(lamp)
-                    : new RectangleLampViewModel(lamp)).ToList().ForEach(lamp => Lamps.Add(lamp));
-                    clearWorkspace();
-                }
-                
+                // Clear the board for loading new lamps
+                Lamps.Clear();
+                // Inserting lamps into array of lamps
+                lamps.Select(lamp => lamp is RoundLamp ?
+                    (LampViewModel)new RoundLampViewModel(lamp)
+                : lamp is SquareLamp ?
+                    (LampViewModel)new SquareLampViewModel(lamp)
+                : new RectangleLampViewModel(lamp)).ToList().ForEach(lamp => Lamps.Add(lamp));
+                clearWorkspace();
             }
+                
+        }
         }
 
         // We clear the workspace for loading or new workspace
@@ -160,7 +180,10 @@ namespace OptiLight.ViewModel {
         //TODO LAMBDA EXPRESSION INSTEAD
         public void UnSelectAllLamps() {
             foreach(var lamp in Lamps) {
-                if (lamp.IsSelected) lamp.IsSelected = false;
+                if (lamp.IsSelected) {
+                    lamp.IsSelected = false;
+                    HighlightedLamps.Remove(lamp);
+                }
             }
         }
 
@@ -194,20 +217,20 @@ namespace OptiLight.ViewModel {
             if (lamps.Count() == 0) {
                 // Do nothing when the paste data isn't correct
             } else {
-                // All the lamps are turned into viewmodels
-                List<LampViewModel> lampsVM = lamps.Select(lamp => lamp is RoundLamp ?
+            // All the lamps are turned into viewmodels
+            List<LampViewModel> lampsVM = lamps.Select(lamp => lamp is RoundLamp ?
                         (LampViewModel)new RoundLampViewModel(lamp)
-                    : lamp is SquareLamp ?
-                        (LampViewModel)new SquareLampViewModel(lamp)
-                    : new RectangleLampViewModel(lamp)).ToList();
+                : lamp is SquareLamp ?
+                    (LampViewModel)new SquareLampViewModel(lamp)
+                : new RectangleLampViewModel(lamp)).ToList();
 
-                // All the lamps are added to the collection and their coordinates are changed
-                foreach (var lamp in lampsVM) {
-                    lamp.X = lamp.X + 50;
-                    lamp.Y = lamp.Y + 50;
-                    undoRedoController.AddAndExecute(new AddLamp(Lamps, lamp));
-                }
-            }            
+            // All the lamps are added to the collection and their coordinates are changed
+            foreach (var lamp in lampsVM) {
+                lamp.X = lamp.X + 50;
+                lamp.Y = lamp.Y + 50;
+                undoRedoController.AddAndExecute(new AddLamp(Lamps, lamp));
+            }
         }
     }
+}
 }

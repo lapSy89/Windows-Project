@@ -4,8 +4,6 @@ using System.Windows.Input;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Controls;
-using OptiLight.Model;
-//using LampLibrary; // LampLibrary DLL
 
 namespace OptiLight.ViewModel {
 
@@ -26,6 +24,8 @@ namespace OptiLight.ViewModel {
         public int width { get; set; }
         public int height { get; set; }
 
+
+
         // The possible commands
         public ICommand LampPressedCommand { get; }
         public ICommand MouseDownCanvasCommand { get; }
@@ -45,10 +45,9 @@ namespace OptiLight.ViewModel {
             // Lamps created from the start
             //It generates a collection of LampViewModels
             Lamps = new ObservableCollection<LampViewModel>() {
-                 new RoundLampViewModel(new RoundLamp() { X = 50, Y = 50, Width = 50, Height = 50, Radius = -20}),
-                 new RectangleLampViewModel(new RectangleLamp() { X = 100, Y = 50, Width = 50, Height = 50 }),
-                 new SquareLampViewModel(new SquareLamp() { X = 200, Y = 100, Width = 50, Height = 50})
+                 new RoundLampViewModel(new Model.RoundLamp())
             };
+            HighlightedLamps = new ObservableCollection<LampViewModel> { };
 
             // Commands are defined as relay commands
             LampPressedCommand = new RelayCommand<MouseButtonEventArgs>(LampPressed);
@@ -85,6 +84,7 @@ namespace OptiLight.ViewModel {
             initialLampPosition = new Point(Lamp.X, Lamp.Y);
             initialMousePosition = MousePosition;
 
+            HighlightedLamps.Add(Lamp);
             Lamp.IsSelected = true;
             e.MouseDevice.Target.CaptureMouse();
         }

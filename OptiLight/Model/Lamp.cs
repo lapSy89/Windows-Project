@@ -8,14 +8,15 @@ namespace OptiLight.Model {
     [XmlInclude(typeof(RectangleLamp))]
 
     public abstract class Lamp {
-
+       
         // Standard x value for placing lamp in Grid with method for setting and getting
         public double X { get; set; } = 100;
         public double Y { get; set; } = 100;
         public double Width { get; set; } = 50;
         public double Height { get; set; } = 50;
-        public double Radius { get; set; } = -20;
-
+        public double Radius { get; set; } = -100;
+        public double Vertical { get; set; } = -100;
+        public double Horizontal { get; set; } = -100;
         //The name of the lamp type
         public abstract string name { get; }
 
@@ -25,5 +26,6 @@ namespace OptiLight.Model {
             new RoundLamp(),
             new SquareLamp()
         };
+ 
     }
 }
