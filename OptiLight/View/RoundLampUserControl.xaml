@@ -25,7 +25,7 @@
                 </MenuItem>
             </ContextMenu>
         </Grid.ContextMenu>
-
+       
         <!--Striped Line to indicate the light-->
         <Ellipse Margin="{Binding Radius}" Stroke="#FF000000" StrokeThickness="1" StrokeDashArray="4 4" Opacity="0.5" IsHitTestVisible="False">
             <Ellipse.Fill>
@@ -45,7 +45,7 @@
                 </RadialGradientBrush>
             </Ellipse.Fill>
         </Ellipse>
-        <Ellipse Fill="{Binding SelectedColor}" Opacity = "0.7" Margin="-2"/>
+        <Ellipse Fill="{Binding SelectedColor}" Opacity = "0.7" Margin="-2"/> 
         <Ellipse Width="{Binding Width}" Height="{Binding Width}">
             <Ellipse.Fill>
                 <RadialGradientBrush GradientOrigin="0.5,0.5" Center="0.5,0.5"
@@ -58,7 +58,20 @@
         <Ellipse Fill="DarkGray" Stroke="Transparent" StrokeThickness="4" Margin="10" />
         <Ellipse Fill="Black" Margin="24"/>
 
-        <Ellipse Fill="{Binding SelectedColor}" Opacity="0.2" >
+        <Ellipse Fill="{Binding SelectedColor}" Opacity="0.2">
+            <Ellipse.ToolTip>
+                <ToolTip DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Self}}">
+                    <StackPanel>
+                        <TextBlock FontWeight="Bold" Text="{Binding name, StringFormat='Type: {0}'}"/>
+                        <TextBlock Text="{Binding Width, StringFormat='Width: {0}'}"/>
+                        <TextBlock Text="{Binding Height, StringFormat='Height: {0}'}"/>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding X, StringFormat='Coords: ( {0} ,'}"/>
+                            <TextBlock Text="{Binding Y, StringFormat=' {0} )'}"/>
+                        </StackPanel>
+                    </StackPanel>
+                </ToolTip>
+            </Ellipse.ToolTip>
             <!-- Triggers for handeling the moving of a lamp -->
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="MouseDown">

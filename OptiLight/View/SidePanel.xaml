@@ -4,44 +4,34 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:excd="http://schemas.xceed.com/wpf/xaml/toolkit"
+             xmlns:diag="clr-namespace:System.Diagnostics;assembly=WindowsBase"
              mc:Ignorable="d" 
              d:DesignHeight="300" Width="182.101">
 
     <DockPanel>
-
-        <DataGrid DockPanel.Dock="Bottom" x:Name="shapesControl" Height="140" ItemsSource="{Binding HighlightedLamps}" HeadersVisibility="Column" AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False">
-            <DataGrid.Columns>
-                <DataGridTextColumn Binding="{Binding Width}" Header="Width" Width="*"/>
-                <DataGridTextColumn Binding="{Binding Height}" Header="Height" Width="*"/>
-                <DataGridTextColumn Binding="{Binding Radius.Top}" Header="Vertical" Width="*"/>
-                <DataGridTextColumn Binding="{Binding Radius.Left}" Header="Horizontal" Width="*"/>
-            </DataGrid.Columns>
-        </DataGrid>
-<!--
         <ListBox DockPanel.Dock="Bottom">
             <ListBoxItem Margin="0,5,0,0">
                 <StackPanel Orientation="Horizontal">
-                    <AccessText Text="Brightness: "/>
-                    <excd:IntegerUpDown Value="{Binding Width}" Increment="1" Maximum="100" FormatString="G0"/>
+                    <AccessText Text="Brigthness"/>
+                    <excd:IntegerUpDown Value="{Binding CurrentLampBrightness, Mode=TwoWay}" Increment="1" Maximum="100" FormatString="G0"/>
                     <AccessText Text=" Watt"/>
                 </StackPanel>
             </ListBoxItem>
             <ListBoxItem Margin="0,5,0,0">
                 <StackPanel Orientation="Horizontal">
                     <AccessText Text="Height:       "/>
-                    <excd:IntegerUpDown Value="25" Increment="1" Maximum="100" FormatString="G0" />
+                    <excd:IntegerUpDown Value="{Binding CurrentLampHeight, Mode=TwoWay}" Increment="1" Maximum="100" FormatString="G0" />
                     <AccessText Text=" cm"/>
                 </StackPanel>
             </ListBoxItem>
             <ListBoxItem Margin="0,5,0,5">
                 <StackPanel Orientation="Horizontal">
-                    <AccessText Text="{Binding Path=LampViewModel.Radius,ElementName=window}"/>
-                    <excd:IntegerUpDown Value="{Binding Path=LampViewModel.Radius,ElementName=window}" Increment="1" Maximum="100" FormatString="G0"/>
+                    <AccessText Text="Radius:       "/>
+                    <excd:IntegerUpDown Value="{Binding CurrentLampRadius, Mode=TwoWay}" Increment="1" Maximum="100" FormatString="G0"/>
                     <AccessText Text=" cm"/>
                 </StackPanel>
             </ListBoxItem>
         </ListBox>
--->
         <ScrollViewer VerticalScrollBarVisibility="Auto" VerticalAlignment="Stretch" DockPanel.Dock="Bottom">
             <DataGrid x:Name="AddLampControl"  ItemsSource="{Binding lampTypes}" AutoGenerateColumns="False" 
                 SelectionUnit="FullRow" SelectionMode="Single" CanUserAddRows="False" 
@@ -55,20 +45,20 @@
                                         Background="Transparent">
                                     <DockPanel>
                                         <Image Source="{Binding img}"
-                                            RenderOptions.BitmapScalingMode="HighQuality"
-                                            Stretch="Fill"
+                                RenderOptions.BitmapScalingMode="HighQuality"
+                                Stretch="Fill"
                                             Width="50"
                                             Height="50"
-                                            VerticalAlignment="Center"
-                                            Margin="0,0,0,0"
+                                VerticalAlignment="Center"
+                                Margin="0,0,0,0"
                                             HorizontalAlignment="Left" 
                                             DockPanel.Dock="Left"/>
                                         <AccessText Text="{Binding name}" 
-                                            VerticalAlignment="Center" 
+                                 VerticalAlignment="Center"
                                             HorizontalAlignment="Center" 
                                             DockPanel.Dock="Right"/>
                                     </DockPanel>
-                                </Button>
+                </Button>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>

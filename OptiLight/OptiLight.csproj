@@ -117,12 +117,14 @@
     <Compile Include="Command\MoveLamp.cs" />
     <Compile Include="Command\RemoveLamp.cs" />
     <Compile Include="Command\UndoRedoController.cs" />
+    <Compile Include="Model\Canvas.cs" />
     <Compile Include="Model\Lamp.cs" />
     <Compile Include="Model\RectangleLamp.cs" />
     <Compile Include="Model\RoundLamp.cs" />
     <Compile Include="Model\SquareLamp.cs" />
     <Compile Include="Serialization\XML.cs" />
     <Compile Include="ViewModel\BaseViewModel.cs" />
+    <Compile Include="ViewModel\CanvasViewModel.cs" />
     <Compile Include="View\DialogViews.cs" />
     <Compile Include="ViewModel\RoundLampViewModel.cs" />
     <Compile Include="ViewModel\RectangleLampViewModel.cs" />
