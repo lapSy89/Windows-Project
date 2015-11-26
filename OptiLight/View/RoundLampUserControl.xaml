@@ -17,7 +17,8 @@
                         <Image Source="/Resources/delete97.png"/>
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header = "Copy" Command="{Binding CopyCommand}"> <!-- Change to Binding -->
+                <MenuItem Header = "Copy" Command="{Binding CopyCommand}">
+                    <!-- Change to Binding -->
                     <MenuItem.Icon>
                         <Image Source="/Resources/copy.png"/>
                     </MenuItem.Icon>
@@ -25,11 +26,21 @@
             </ContextMenu>
         </Grid.ContextMenu>
        
-        <Ellipse Margin="{Binding Radius}">
+        <!--Striped Line to indicate the light-->
+        <Ellipse Margin="{Binding Radius}" Stroke="#FF000000" StrokeThickness="1" StrokeDashArray="4 4" Opacity="0.5" IsHitTestVisible="False">
             <Ellipse.Fill>
                 <RadialGradientBrush GradientOrigin="0.5,0.5" Center="0.5,0.5"
                                      RadiusX="0.5" RadiusY="0.5">
-                    <GradientStop Color="Yellow" Offset="0.5"/>
+                    <GradientStop Color="{Binding TurnedOnColor}" Offset="0.3"/>
+                    <GradientStop Color="Transparent" Offset="1.7"/>
+                </RadialGradientBrush>
+            </Ellipse.Fill>
+        </Ellipse>
+        <Ellipse Margin="-20">
+            <Ellipse.Fill>
+                <RadialGradientBrush GradientOrigin="0.5,0.5" Center="0.5,0.5"
+                                     RadiusX="0.5" RadiusY="0.5">
+                    <GradientStop Color="{Binding TurnedOnColor}" Offset="0.5"/>
                     <GradientStop Color="Transparent" Offset="1"/>
                 </RadialGradientBrush>
             </Ellipse.Fill>

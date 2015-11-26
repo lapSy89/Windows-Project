@@ -18,7 +18,7 @@ namespace OptiLight.View
     /// <summary>
     /// Interaction logic for Ribbon.xaml
     /// </summary>
-    public partial class RibbonMenu
+    public partial class RibbonMenu : UserControl
     {
         public RibbonMenu()
         {
