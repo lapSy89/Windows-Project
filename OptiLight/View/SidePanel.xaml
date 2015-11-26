@@ -40,7 +40,8 @@
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate >
                                 <Button Command="{Binding DataContext.AddLampCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"
-                                        CommandParameter="{Binding ElementName=AddLampControl, Path=SelectedItems}">
+                                        CommandParameter="{Binding ElementName=AddLampControl, Path=SelectedItems}"
+                                        Background="Transparent">
                                     <DockPanel>
                                         <Image Source="{Binding img}"
                                             RenderOptions.BitmapScalingMode="HighQuality"
@@ -61,59 +62,10 @@
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
                 </DataGrid.Columns>
+                <DataGrid.Resources>
+                    <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}" Color="{Binding AddingColor}"/>
+                </DataGrid.Resources>
             </DataGrid>
-            <!--<ListBox HorizontalContentAlignment="Stretch" >-->
-                <!-- The button is binding to the AddLampCommand from the MainViewModel
-            
-            <Button Background="Transparent" BorderBrush="Transparent" HorizontalContentAlignment="Left"
-                        Command="{Binding AddRoundCommand}">
-                    <Label>
-                        <StackPanel Orientation="Horizontal">
-                            <Image Source="/Resources/lamp_off.png"
-                                RenderOptions.BitmapScalingMode="HighQuality"
-                                Stretch="Fill"
-                                Width="32"
-                                Height="32"
-                                VerticalAlignment="Center"
-                                Margin="0,0,0,0"
-                                HorizontalAlignment="Left" />
-                            <AccessText Text="{Binding name}" VerticalAlignment="Center"/>
-                        </StackPanel>
-                    </Label>
-                </Button>-->
-                <!--<Button Background="Transparent" BorderBrush="Transparent" HorizontalContentAlignment="Left"
-                         Command="{Binding AddSquareCommand}">
-                    <Label>
-                        <StackPanel Orientation="Horizontal">
-                            <Image Source="/Resources/lamp_on.png"
-                                 RenderOptions.BitmapScalingMode="HighQuality"
-                                 Stretch="Fill"
-                                 Width="32"
-                                 Height="32"
-                                 VerticalAlignment="Center"
-                                 Margin="0,0,0,0"
-                                 HorizontalAlignment="Center" />
-                            <AccessText Text="Square Lamp" VerticalAlignment="Center"/>
-                        </StackPanel>
-                    </Label>
-                </Button>
-                <Button Background="Transparent" BorderBrush="Transparent" HorizontalContentAlignment="Left"
-                        Command="{Binding AddRectangleCommand}">
-                    <Label>
-                        <StackPanel Orientation="Horizontal">
-                            <Image Source="/Resources/lamp_on.png"
-                           RenderOptions.BitmapScalingMode="Fant"
-                           Stretch="Fill"
-                           Width="32"
-                           Height="32"
-                           VerticalAlignment="Top"
-                           Margin="0,0,0,0"
-                           HorizontalAlignment="Center" />
-                            <AccessText Text="Rectangular Lamp" VerticalAlignment="Center"/>
-                        </StackPanel>
-                    </Label>
-                </Button>-->
-            <!--</ListBox>-->
         </ScrollViewer>
     </DockPanel>
 </UserControl>
