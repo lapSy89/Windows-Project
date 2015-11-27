@@ -45,20 +45,20 @@
                                         Background="Transparent">
                                     <DockPanel>
                                         <Image Source="{Binding img}"
-                                RenderOptions.BitmapScalingMode="HighQuality"
-                                Stretch="Fill"
+                                            RenderOptions.BitmapScalingMode="HighQuality"
+                                            Stretch="Fill"
                                             Width="50"
                                             Height="50"
-                                VerticalAlignment="Center"
-                                Margin="0,0,0,0"
+                                            VerticalAlignment="Center"
+                                            Margin="0,0,0,0"
                                             HorizontalAlignment="Left" 
                                             DockPanel.Dock="Left"/>
                                         <AccessText Text="{Binding name}" 
-                                 VerticalAlignment="Center"
+                                            VerticalAlignment="Center"
                                             HorizontalAlignment="Center" 
                                             DockPanel.Dock="Right"/>
                                     </DockPanel>
-                </Button>
+                                </Button>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
