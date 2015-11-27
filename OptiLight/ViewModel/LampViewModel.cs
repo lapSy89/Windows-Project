@@ -6,8 +6,7 @@ using OptiLight.Model;
 
 namespace OptiLight.ViewModel {
     public abstract class LampViewModel : BaseViewModel {
-    //TODO, consider not to use "RaisePropertyChanged(); but the Notify command instead
-    //Figure out where we would do this (This seems like the right place)
+
         public Lamp Lamp { get; set; }
 
         public double X { get { return Lamp.X; } set { Lamp.X = value; RaisePropertyChanged();} }
@@ -21,17 +20,18 @@ namespace OptiLight.ViewModel {
                                   set { Lamp.Vertical = value.Top; Lamp.Horizontal = value.Left; Lamp.Vertical = value.Bottom; Lamp.Horizontal = value.Right;
                                         RaisePropertyChanged(); } }
 
-        //Determines whether a lamp is selected or not
+        // Determines whether a lamp is selected or not
         private bool isSelected;
         public bool IsSelected{
             get { return this.isSelected; }
             set { this.isSelected = value; RaisePropertyChanged(); RaisePropertyChanged(() => SelectedColor); }
         }
 
+        // Determines whether a lamp is turned on or not
         private bool isTurnedOn = false;
         public bool IsTurnedOn {
             get { return this.isTurnedOn; }
-            set { this.isTurnedOn = value; RaisePropertyChanged();RaisePropertyChanged(() => TurnedOnColor); }
+            set { this.isTurnedOn = value; RaisePropertyChanged(); RaisePropertyChanged(() => TurnedOnColor); }
         }
 
         //Colors
@@ -39,7 +39,7 @@ namespace OptiLight.ViewModel {
         public Color TurnedOnColor => IsTurnedOn ? Colors.Transparent : Colors.Yellow;
    
 
-        //The base means that it inherits 
+        //The base means that it inherits Lamp
         public LampViewModel(Lamp lamp){
             Lamp = lamp;
         }

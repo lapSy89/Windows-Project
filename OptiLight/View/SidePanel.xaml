@@ -42,7 +42,7 @@
                             <DataTemplate >
                                 <Button Command="{Binding DataContext.AddLampCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"
                                         CommandParameter="{Binding ElementName=AddLampControl, Path=SelectedItems}"
-                                        Background="Transparent">
+                                        Background="Transparent" HorizontalContentAlignment="Stretch">
                                     <DockPanel>
                                         <Image Source="{Binding img}"
                                             RenderOptions.BitmapScalingMode="HighQuality"

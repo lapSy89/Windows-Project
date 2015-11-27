@@ -58,7 +58,6 @@ namespace OptiLight.ViewModel {
             Lamps = new ObservableCollection<LampViewModel>() {
                  new RoundLampViewModel(new Model.RoundLamp())
             };
-            HighlightedLamps = new ObservableCollection<LampViewModel> { };
 
             // Commands are defined as relay commands
             LampPressedCommand = new RelayCommand<MouseButtonEventArgs>(LampPressed);
@@ -95,7 +94,7 @@ namespace OptiLight.ViewModel {
             initialLampPosition = new Point(Lamp.X, Lamp.Y);
             initialMousePosition = MousePosition;
 
-            HighlightedLamps.Add(Lamp);
+            // The lamp now knows that it is selected
             Lamp.IsSelected = true;
 
             // Sending Lamp values for editing in sidebar
