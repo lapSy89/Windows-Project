@@ -25,12 +25,6 @@ namespace OptiLight.ViewModel {
         // Grid control variables
         private bool snapActive = false;
         public string gridVisibility { get; set; } = "Transparent";
-        public int cellSet { get { return cellSize; } set { cellSize = value; } }
-        public int cellSize { get; set; }
-        public int cellsX { get; set; }
-        public int cellsY { get; set; }
-        public int width { get; set; }
-        public int height { get; set; }
 
         // The possible commands
         public ICommand LampPressedCommand { get; }
@@ -42,16 +36,12 @@ namespace OptiLight.ViewModel {
 
         // Constructor - creates the initial lamps and initializes the commands
         public MainViewModel() : base() {
-            cellSet = 50; //Default cell size
-            cellsX = 14;
-            cellsY = 10;
-            width = cellSize * cellsX;
-            height = cellSize * cellsY;
 
             // Initialize Current values for editing selected lamp
             CurrentLampBrightness = 0;
             CurrentLampHeight = 0;
             CurrentLampRadius = 0;
+
 
             // Lamps created from the start
             //It generates a collection of LampViewModels
@@ -81,7 +71,7 @@ namespace OptiLight.ViewModel {
             }
             RaisePropertyChanged(() => gridVisibility);
         }
-
+        
         // Method for capturing the mouse on a lamp
         private void LampPressed(MouseButtonEventArgs e) {
             var Lamp = TargetLamp(e);
@@ -113,30 +103,30 @@ namespace OptiLight.ViewModel {
             var MousePosition = RelativeMousePosition(e);
 
             if (MousePosition.X > 0 && MousePosition.Y > 0
-                && MousePosition.X < width - cellSize
-                && MousePosition.Y < height - cellSize) {
+                && MousePosition.X < canvas.width - canvas.cellSize
+                && MousePosition.Y < canvas.height - canvas.cellSize) {
 
                 Lamp.X = initialLampPosition.X;
                 Lamp.Y = initialLampPosition.Y;
 
                 var offsetX = MousePosition.X - initialMousePosition.X;
                 var offsetY = MousePosition.Y - initialMousePosition.Y;
-            
-                if (snapActive) {
-                    var extraX = (Lamp.X + offsetX) % cellSize; 
-                    var extraY = (Lamp.Y + offsetY) % cellSize;
 
-                    if (extraX > cellSize/2) {
-                        offsetX = offsetX - extraX + 0.5 * cellSize;
+                if (snapActive) {
+                    var extraX = (Lamp.X + offsetX) % canvas.cellSize;
+                    var extraY = (Lamp.Y + offsetY) % canvas.cellSize;
+
+                    if (extraX > canvas.cellSize / 2) {
+                        offsetX = offsetX - extraX + 0.5 * canvas.cellSize;
                     }
                     else {
-                        offsetX = offsetX - extraX + 0.5 * cellSize;
+                        offsetX = offsetX - extraX + 0.5 * canvas.cellSize;
                     }
-                    if (extraY > cellSize/2) {
-                        offsetY = offsetY - extraY + 0.5 * cellSize;
+                    if (extraY > canvas.cellSize / 2) {
+                        offsetY = offsetY - extraY + 0.5 * canvas.cellSize;
                     }
                     else {
-                        offsetY = offsetY - extraY + 0.5 * cellSize;
+                        offsetY = offsetY - extraY + 0.5 * canvas.cellSize;
                     }
                 }
 
@@ -152,10 +142,8 @@ namespace OptiLight.ViewModel {
         // Method for moving the lamp. This is created as an on-the-go method, so that each "pixel" 
         // move of the lamp isn't saved in the undo-redo command. 
         // So when undo is pressed, the lamp is moved to it's original position before even moving.
-        private void LampMoved(MouseEventArgs e)
-        {
-            if (Mouse.Captured != null)
-            {
+        private void LampMoved(MouseEventArgs e){
+            if (Mouse.Captured != null) {
 
                 var Lamp = TargetLamp(e);
                 var MousePosition = RelativeMousePosition(e);
@@ -165,28 +153,24 @@ namespace OptiLight.ViewModel {
                 var newX = initialLampPosition.X + offsetX;
                 var newY = initialLampPosition.Y + offsetY;
 
-                if (newX > 0 && newY > 0 && newX < width - cellSize && newY < height - cellSize)
-                {
-                    if (snapActive)
-                    {
-                        var extraX = newX % cellSize;
-                        var extraY = newY % cellSize;
+                if (newX > 0 && newY > 0 &&
+                    newX < canvas.width - canvas.cellSize &&
+                    newY < canvas.height - canvas.cellSize) {
+                    if (snapActive) {
+                        var extraX = newX % canvas.cellSize;
+                        var extraY = newY % canvas.cellSize;
 
-                        if (extraX > cellSize / 2)
-                        {
-                            newX = newX - extraX + 0.5 * cellSize;
+                        if (extraX > canvas.cellSize / 2) {
+                            newX = newX - extraX + 0.5 * canvas.cellSize;
                         }
-                        else
-                        {
-                            newX = newX - extraX + 0.5 * cellSize;
+                        else {
+                            newX = newX - extraX + 0.5 * canvas.cellSize;
                         }
-                        if (extraY > cellSize / 2)
-                        {
-                            newY = newY - extraY + 0.5 * cellSize;
+                        if (extraY > canvas.cellSize / 2) {
+                            newY = newY - extraY + 0.5 * canvas.cellSize;
                         }
-                        else
-                        {
-                            newY = newY - extraY + 0.5 * cellSize;
+                        else {
+                            newY = newY - extraY + 0.5 * canvas.cellSize;
                         }
                     }
 
@@ -217,7 +201,7 @@ namespace OptiLight.ViewModel {
 
             // We add a lamp at the mouse position if add lamp is on
             if (addingLampSelected != null && mouseX > 0 && mouseY > 0
-                && mouseX < width - cellSize && mouseY < height - cellSize) {
+                && mouseX < canvas.width - canvas.cellSize && mouseY < canvas.height - canvas.cellSize) {
 
                 // We get the right type of Lamp;
                 Type lampType = addingLampSelected.GetType();
