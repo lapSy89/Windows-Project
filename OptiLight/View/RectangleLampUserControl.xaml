@@ -36,6 +36,19 @@
             
         </Rectangle>
         <Rectangle Fill="{Binding SelectedColor}" Opacity="0.2" Margin="0,0,-50,0">
+            <Rectangle.ToolTip>
+                <ToolTip DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Self}}">
+                    <StackPanel>
+                        <TextBlock FontWeight="Bold" Text="{Binding Name, StringFormat='Type: {0}'}"/>
+                        <TextBlock Text="{Binding Width, StringFormat='Width: {0}'}"/>
+                        <TextBlock Text="{Binding Height, StringFormat='Height: {0}'}"/>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding X, StringFormat='Coords: ( {0} ,'}"/>
+                            <TextBlock Text="{Binding Y, StringFormat=' {0} )'}"/>
+                        </StackPanel>
+                    </StackPanel>
+                </ToolTip>
+            </Rectangle.ToolTip>
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="MouseDown">
                     <cmd:EventToCommand Command="{Binding DataContext.LampPressedCommand, 

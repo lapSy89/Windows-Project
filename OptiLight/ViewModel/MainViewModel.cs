@@ -4,27 +4,33 @@ using System.Windows.Input;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Controls;
+using OptiLight.Model;
+using OptiLight.Command;
+using System;
+//using LampLibrary; // LampLibrary DLL
 
 namespace OptiLight.ViewModel {
 
     public class MainViewModel : BaseViewModel {
+
         // Global points created for having initials positions of Lamp and Mouse when a lamp is moved.
         private Point initialLampPosition;
         private Point initialMousePosition;
 
-        // The collection of the lamps
+        // Variables for showing and editing lamps (Brightness, Height and Radius)
+        private double currentLampBrightness;
+        private double currentLampHeight;
+        private double currentLampRadius;
 
         // Grid control variables
         private bool snapActive = false;
         public string gridVisibility { get; set; } = "Transparent";
-        public int cellSet { get { return cellSize; } set { System.Console.WriteLine(value); cellSize = value; } }
+        public int cellSet { get { return cellSize; } set { cellSize = value; } }
         public int cellSize { get; set; }
         public int cellsX { get; set; }
         public int cellsY { get; set; }
         public int width { get; set; }
         public int height { get; set; }
-
-
 
         // The possible commands
         public ICommand LampPressedCommand { get; }
@@ -41,6 +47,11 @@ namespace OptiLight.ViewModel {
             cellsY = 10;
             width = cellSize * cellsX;
             height = cellSize * cellsY;
+
+            // Initialize Current values for editing selected lamp
+            CurrentLampBrightness = 0;
+            CurrentLampHeight = 0;
+            CurrentLampRadius = 0;
 
             // Lamps created from the start
             //It generates a collection of LampViewModels
@@ -86,6 +97,13 @@ namespace OptiLight.ViewModel {
 
             HighlightedLamps.Add(Lamp);
             Lamp.IsSelected = true;
+
+            // Sending Lamp values for editing in sidebar
+            // TODO .X skal ændres!!!!!!!!!!!!!!!!
+            CurrentLampBrightness = Lamp.X;
+            CurrentLampHeight = Lamp.Y;
+            CurrentLampRadius = Lamp.X;
+
             e.MouseDevice.Target.CaptureMouse();
         }
 
@@ -132,19 +150,13 @@ namespace OptiLight.ViewModel {
             e.MouseDevice.Target.ReleaseMouseCapture();
         }
 
-
-
-        private void CanvasDown(MouseButtonEventArgs e) {
-            if (LampsAreSelected()) {
-                UnSelectAllLamps();
-            }
-        }
         // Method for moving the lamp. This is created as an on-the-go method, so that each "pixel" 
         // move of the lamp isn't saved in the undo-redo command. 
         // So when undo is pressed, the lamp is moved to it's original position before even moving.
-
-        private void LampMoved(MouseEventArgs e) {
-            if (Mouse.Captured != null){
+        private void LampMoved(MouseEventArgs e)
+        {
+            if (Mouse.Captured != null)
+            {
 
                 var Lamp = TargetLamp(e);
                 var MousePosition = RelativeMousePosition(e);
@@ -154,19 +166,27 @@ namespace OptiLight.ViewModel {
                 var newX = initialLampPosition.X + offsetX;
                 var newY = initialLampPosition.Y + offsetY;
 
-                if (newX > 0 && newY > 0 && newX < width-cellSize && newY < height-cellSize){
-                    if (snapActive){
+                if (newX > 0 && newY > 0 && newX < width - cellSize && newY < height - cellSize)
+                {
+                    if (snapActive)
+                    {
                         var extraX = newX % cellSize;
                         var extraY = newY % cellSize;
 
-                        if (extraX > cellSize / 2) {
-                            newX = newX - extraX + 0.5 * cellSize;
-                        } else {
+                        if (extraX > cellSize / 2)
+                        {
                             newX = newX - extraX + 0.5 * cellSize;
                         }
-                        if (extraY > cellSize / 2) {
+                        else
+                        {
+                            newX = newX - extraX + 0.5 * cellSize;
+                        }
+                        if (extraY > cellSize / 2)
+                        {
                             newY = newY - extraY + 0.5 * cellSize;
-                        } else {
+                        }
+                        else
+                        {
                             newY = newY - extraY + 0.5 * cellSize;
                         }
                     }
@@ -174,6 +194,49 @@ namespace OptiLight.ViewModel {
                     Lamp.X = newX;
                     Lamp.Y = newY;
                 }
+            }
+        }
+
+        // Method for clicking on the canvas - deselects all lamps
+        private void CanvasDown(MouseButtonEventArgs e) {
+
+            // We retrieve the mouse position
+            var MousePosition = Mouse.GetPosition((FrameworkElement)e.MouseDevice.Target);
+            double mouseX = MousePosition.X;
+            double mouseY = MousePosition.Y;
+
+            // We unselect all lamps
+            if (LampsAreSelected())
+            {
+                UnSelectAllLamps();
+            }
+
+            // Resetting sidebar values after canvas has been pressed and a lamp has been unselected
+            CurrentLampBrightness = 0;
+            CurrentLampRadius = 0;
+            CurrentLampHeight = 0;
+
+            // We add a lamp at the mouse position if add lamp is on
+            if (addingLampSelected != null && mouseX > 0 && mouseY > 0
+                && mouseX < width - cellSize && mouseY < height - cellSize) {
+
+                // We get the right type of Lamp;
+                Type lampType = addingLampSelected.GetType();
+
+                // We get the right type of viewModel of the lamp
+                string path = "OptiLight.ViewModel." + addingLampSelected.viewModel;
+                Type lampTypeVM = Type.GetType(path, true);
+
+                // We create an instance of the lamp and create a lampViewModel
+                Lamp lamp = (Lamp)Activator.CreateInstance(lampType);
+                lamp.X = mouseX;
+                lamp.Y = mouseY;
+
+                object[] argsVM = { lamp };
+                LampViewModel lampVM = (LampViewModel) Activator.CreateInstance(lampTypeVM, argsVM);
+
+                // We add the lamp
+                undoRedoController.AddAndExecute(new AddLamp(Lamps, lampVM));
             }
         }
 
@@ -185,14 +248,55 @@ namespace OptiLight.ViewModel {
         // Helper method for registration of the position of the mouse.
         private Point RelativeMousePosition(MouseEventArgs e) {
             var targetedElement = (FrameworkElement)e.MouseDevice.Target;
-            var canvas = FindParentOfType<Canvas>(targetedElement);
+            var canvas = FindParentOfType<System.Windows.Controls.Canvas>(targetedElement);
             return Mouse.GetPosition(canvas);
         }
 
-        // Ved ikke rigtig hvad denne gør!?
+        // Helper method going up the three
         private static T FindParentOfType<T>(DependencyObject o) {
             dynamic parent = VisualTreeHelper.GetParent(o);
             return parent.GetType().IsAssignableFrom(typeof(T)) ? parent : FindParentOfType<T>(parent);
+        }
+
+        // Method for getting/setting currentLampBrightness
+        public double CurrentLampBrightness {
+            get { return currentLampBrightness; }
+            set { currentLampBrightness = value;
+                // TODO .X skal ændres!!
+                if (Lamps != null && getCurrentLamp() != null) getCurrentLamp().X = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        // Method for getting/setting currentLampHeight
+        public double CurrentLampHeight {
+            get { return currentLampHeight; }
+            set { currentLampHeight = value;
+                // TODO .X skal ændres!!
+                if (Lamps != null && getCurrentLamp() != null) getCurrentLamp().Y = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        // Method for getting/setting currentLampRadius
+        public double CurrentLampRadius {
+            get { return currentLampRadius; }
+            set {
+                currentLampRadius = value;
+                // TODO .X skal ændres!!
+                if (Lamps != null && getCurrentLamp() != null) getCurrentLamp().X = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        // Method for getting current selected lamp.
+        private LampViewModel getCurrentLamp() {
+            foreach (LampViewModel lamp in Lamps) {
+                if(lamp.IsSelected) {
+                    return lamp;
+                }
+            }
+            return null;
         }
     }
 }
