@@ -125,6 +125,7 @@
     <Compile Include="Serialization\XML.cs" />
     <Compile Include="ViewModel\BaseViewModel.cs" />
     <Compile Include="ViewModel\CanvasViewModel.cs" />
+    <Compile Include="ViewModel\SidePanelViewModel.cs" />
     <Compile Include="View\DialogViews.cs" />
     <Compile Include="ViewModel\RoundLampViewModel.cs" />
     <Compile Include="ViewModel\RectangleLampViewModel.cs" />
