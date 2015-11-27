@@ -11,23 +11,23 @@ using System.Windows;
 using System.Windows.Media;
 using System.Windows.Input;
 using System.Linq;
+using System;
 //using LampLibrary; // LampLibrary DLL
 
 namespace OptiLight.ViewModel {
 
-    //Implements the Galasoft ViewModelBase
+    // Implements the Galasoft ViewModelBase
     public abstract class BaseViewModel : ViewModelBase {
         //CanvasViewModel 
         public static CanvasViewModel canvas { get; set; } = new CanvasViewModel();
 
-        //The undoRedoController is created only here once
+        // The undoRedoController is created only here once
         protected UndoRedoController undoRedoController = UndoRedoController.Instance;
 
         // All the single lamps, all the single lamps, all the single lamps, all the single lamps, throw your light up!
         public static ObservableCollection<LampViewModel> Lamps { get; set; }
-        public static ObservableCollection<LampViewModel> HighlightedLamps { get; set; }
 
-        // Contains a copy of all current types of lamps
+        // Contains a copy of all current types of lamps - used in the sidepanel
         public static List<Lamp> lampTypes { get; } = Lamp.lampTypes;
 
         // The currently selected lamp type to add represented. Null when none is selected.
@@ -40,6 +40,7 @@ namespace OptiLight.ViewModel {
         // Dialog windows for New, Load and Save
         public DialogViews dialogWindow { get; set; }
 
+        // Whether the global lights of the lamps are on of off
         public bool lightsOn = true;
 
         public ICommand UndoCommand { get; }
@@ -81,18 +82,6 @@ namespace OptiLight.ViewModel {
         
             LightSwitchCommand = new RelayCommand(LightSwitch);
             LightSwitchCommand = new RelayCommand(LightSwitch);
-        }
-
-        private void LightSwitch() {
-            foreach (var lamp in Lamps) {
-          
-                if (lightsOn) {
-                    lamp.IsTurnedOn = true;
-                } else {
-                    lamp.IsTurnedOn = false;
-                }
-            }
-            lightsOn = !lightsOn;
         }
 
         #region New / Save / Load
@@ -144,75 +133,32 @@ namespace OptiLight.ViewModel {
                     // Clear the board for loading new lamps
                     Lamps.Clear();
                     // Inserting lamps into array of lamps
-                    lamps.Select(lamp => lamp is RoundLamp ?
-                        (LampViewModel)new RoundLampViewModel(lamp)
-                    : lamp is SquareLamp ?
-                        (LampViewModel)new SquareLampViewModel(lamp)
-                    : new RectangleLampViewModel(lamp)).ToList().ForEach(lamp => Lamps.Add(lamp));
+                    foreach (Lamp lamp in lamps) {
+                        string path = "OptiLight.ViewModel." + lamp.viewModel;
+                        Type lampTypeVM = Type.GetType(path, true);
+                        object[] argsVM = { lamp };
+                        LampViewModel lampVM = (LampViewModel)Activator.CreateInstance(lampTypeVM, argsVM);
+                        Lamps.Add(lampVM);
+                    }
                     clearWorkspace();
                 }
-                
             }
         }
 
         // We clear the workspace for loading or new workspace
         private void clearWorkspace() {
             undoRedoController.ClearStacks();
+            addingLampSelected = null;
+            AddingColor = Colors.Transparent;
         }
 
         #endregion New / Save / Load
-
-        // Method for adding lamps
-        private void AddNewLamp(IList selectedAddingLamp) {
-            
-            // We get the selected lamp from the View
-            Lamp selectedLamp = selectedAddingLamp.Cast<Lamp>().ToList().First();
-
-            //We either choose a type of lamp to add or stop adding
-            if (addingLampSelected == null) {
-                AddingColor = Colors.DarkGray;
-                addingLampSelected = selectedLamp;
-            } else if (addingLampSelected.name.Equals(selectedLamp.name)) {
-                addingLampSelected = null;
-                AddingColor = Colors.Transparent;
-            } else {
-                addingLampSelected = selectedLamp;
-                AddingColor = Colors.DarkGray;
-        }
-        }
-
-        // We check whether we can remove lamps
-        // TODO LAMBDA EXPRESSION INSTEAD
-        // MAYBE NOT PUBLIC
-        public bool LampsAreSelected() {
-            foreach (var lamp in Lamps) {
-                if (lamp.IsSelected) return true;
-            }
-            return false;
-        }
-
-        // Unselects all lamps
-        //TODO LAMBDA EXPRESSION INSTEAD
-        public void UnSelectAllLamps() {
-            foreach(var lamp in Lamps) {
-                if (lamp.IsSelected) {
-                    lamp.IsSelected = false;
-                    HighlightedLamps.Remove(lamp);
-                }
-            }
-        }
-
-        // We remove the selected lamps
-        private void RemoveLamp() {
-            var selectedLamps = Lamps.Where(lamp => lamp.IsSelected).ToList();
-            undoRedoController.AddAndExecute(new RemoveLamp(Lamps,selectedLamps));
-        }
 
         #region Cut / Copy / Paste
 
         // The selected lamps are removed and moved to the clipboard as xml
         private async void Cut() {
-            var selectedLamps = Lamps.Where(lamp => lamp.IsSelected).ToList();
+            var selectedLamps = getSelectedLamps();
             undoRedoController.AddAndExecute(new RemoveLamp(Lamps,selectedLamps));
             var xml = await XML.Instance.AsyncSerializeToString(selectedLamps.Select(lamp => lamp.Lamp).ToList());
             Clipboard.SetText(xml);
@@ -220,8 +166,7 @@ namespace OptiLight.ViewModel {
 
         // The selected lamps are copied to clipboard as xml
         private async void Copy() {
-            var selectedLamps = Lamps.Where(lamp => lamp.IsSelected).ToList();
-            var xml = await XML.Instance.AsyncSerializeToString(selectedLamps.Select(lamp => lamp.Lamp).ToList());
+            var xml = await XML.Instance.AsyncSerializeToString(getSelectedLamps().Select(lamp => lamp.Lamp).ToList());
             Clipboard.SetText(xml);
         }
 
@@ -231,25 +176,78 @@ namespace OptiLight.ViewModel {
             var xml = Clipboard.GetText();
             List<Lamp> lamps = await XML.Instance.AsyncDeserializeFromString(xml);
 
-            if (lamps.Count() == 0) {
-                // Do nothing when the paste data isn't correct
-            } else {
+            // We only paste if there is something to paste which can be converted to lamps
+            if (lamps.Count() != 0) {
+                
                 // All the lamps are turned into viewmodels
-                List<LampViewModel> lampsVM = lamps.Select(lamp => lamp is RoundLamp ?
-                        (LampViewModel)new RoundLampViewModel(lamp)
-                    : lamp is SquareLamp ?
-                        (LampViewModel)new SquareLampViewModel(lamp)
-                    : new RectangleLampViewModel(lamp)).ToList();
+                foreach (Lamp lamp in lamps) {
+                    string path = "OptiLight.ViewModel." + lamp.viewModel;
+                    Type lampTypeVM = Type.GetType(path, true);
+                    object[] argsVM = { lamp };
+                    LampViewModel lampVM = (LampViewModel) Activator.CreateInstance(lampTypeVM, argsVM);
 
-                // All the lamps are added to the collection and their coordinates are changed
-                foreach (var lamp in lampsVM) {
-                    lamp.X = lamp.X + 50;
-                    lamp.Y = lamp.Y + 50;
-                    undoRedoController.AddAndExecute(new AddLamp(Lamps, lamp));
+                    // The lamp is added to the collection and their coordinates are changed
+                    lampVM.X = lampVM.X + 50;
+                    lampVM.Y = lampVM.Y + 50;
+                    undoRedoController.AddAndExecute(new AddLamp(Lamps, lampVM));
                 }
             }            
         }
 
         #endregion Cut / Copy / Paste
+
+        // Method for adding lamps
+        private void AddNewLamp(IList selectedAddingLamp) {
+
+            // We get the selected lamp from the View
+            Lamp selectedLamp = selectedAddingLamp.Cast<Lamp>().ToList().First();
+
+            //We either choose a type of lamp to add or stop adding
+            if (addingLampSelected == null) {
+                AddingColor = Colors.DarkGray;
+                addingLampSelected = selectedLamp;
+            }
+            else if (addingLampSelected.name.Equals(selectedLamp.name)) {
+                addingLampSelected = null;
+                AddingColor = Colors.Transparent;
+            }
+            else {
+                addingLampSelected = selectedLamp;
+                AddingColor = Colors.DarkGray;
+            }
+        }
+
+        // We remove the selected lamps
+        private void RemoveLamp() {
+            undoRedoController.AddAndExecute(new RemoveLamp(Lamps, getSelectedLamps()));
+        }
+
+        // Returns all selected lamps
+        public List<LampViewModel> getSelectedLamps() {
+            return Lamps.Where(lamp => lamp.IsSelected).ToList();
+        }
+
+        // We check whether we can remove lamps
+        public bool LampsAreSelected() {
+            foreach (var lamp in Lamps) {
+                if (lamp.IsSelected) return true;
+            }
+            return false;
+        }
+
+        // Unselects all lamps
+        public void UnSelectAllLamps() {
+            foreach (var lamp in Lamps) {
+                lamp.IsSelected = false;
+            }
+        }
+
+        // Method for turning all lamps on / off
+        private void LightSwitch() {
+            foreach (var lamp in Lamps) {
+                lamp.IsTurnedOn = lightsOn;
+            }
+            lightsOn = !lightsOn;
+        }
     }
 }

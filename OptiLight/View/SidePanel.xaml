@@ -20,15 +20,27 @@
             <ListBoxItem Margin="0,5,0,0">
                 <StackPanel Orientation="Horizontal">
                     <AccessText Text="Height:       "/>
-                    <excd:IntegerUpDown Value="{Binding CurrentLampHeight}" Increment="1" Maximum="100" FormatString="G0" UpdateValueOnEnterKey="True"/>
-                    <AccessText Text=" cm"/>
+                    <excd:DoubleUpDown Value="{Binding CurrentLampHeight}" Increment="0.2" Maximum="100" FormatString="G0" UpdateValueOnEnterKey="True"/>
+                    <AccessText Text=" m"/>
                 </StackPanel>
             </ListBoxItem>
             <ListBoxItem Margin="0,5,0,5">
                 <StackPanel Orientation="Horizontal">
                     <AccessText Text="Radius:       "/>
-                    <excd:IntegerUpDown Value="{Binding CurrentLampRadius}" Increment="1" Maximum="100" FormatString="G0" UpdateValueOnEnterKey="True"/>
-                    <AccessText Text=" cm"/>
+                    <StackPanel Orientation="Vertical">
+                        <AccessText Text="{Binding CurrentLampHoriRadius}" Width="30" TextAlignment="Center"/>
+                        <AccessText Text="cm" TextAlignment="Center"/>
+                    </StackPanel>
+                    <Image Source="/Resources/leftRightArrow.png"
+                           Width="20"/>
+                    <StackPanel Orientation="Vertical">
+                        <AccessText Text="{Binding CurrentLampVertRadius}" Width="30" TextAlignment="Center"/>
+                        <AccessText Text="cm" TextAlignment="Center"/>
+                    </StackPanel>
+                    <Image Source="/Resources/upDownArrow.png"
+                           Width="20"/>
+                    <!--<excd:IntegerUpDown Value="{Binding CurrentLampRadius}" Increment="1" Maximum="100" FormatString="G0" UpdateValueOnEnterKey="True"/>-->
+                    <!--<AccessText Text=" cm"/>-->
                 </StackPanel>
             </ListBoxItem>
         </ListBox>
@@ -42,7 +54,7 @@
                             <DataTemplate >
                                 <Button Command="{Binding DataContext.AddLampCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"
                                         CommandParameter="{Binding ElementName=AddLampControl, Path=SelectedItems}"
-                                        Background="Transparent">
+                                        Background="Transparent" HorizontalContentAlignment="Stretch">
                                     <DockPanel>
                                         <Image Source="{Binding img}"
                                             RenderOptions.BitmapScalingMode="HighQuality"

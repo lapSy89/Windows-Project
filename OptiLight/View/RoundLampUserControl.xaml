@@ -36,15 +36,6 @@
                 </RadialGradientBrush>
             </Ellipse.Fill>
         </Ellipse>
-        <Ellipse Margin="-20">
-            <Ellipse.Fill>
-                <RadialGradientBrush GradientOrigin="0.5,0.5" Center="0.5,0.5"
-                                     RadiusX="0.5" RadiusY="0.5">
-                    <GradientStop Color="{Binding TurnedOnColor}" Offset="0.5"/>
-                    <GradientStop Color="Transparent" Offset="1"/>
-                </RadialGradientBrush>
-            </Ellipse.Fill>
-        </Ellipse>
         <Ellipse Fill="{Binding SelectedColor}" Opacity = "0.7" Margin="-2"/> 
         <Ellipse Width="{Binding Width}" Height="{Binding Width}">
             <Ellipse.Fill>

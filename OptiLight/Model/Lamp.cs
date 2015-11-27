@@ -14,9 +14,12 @@ namespace OptiLight.Model {
         public double Y { get; set; } = 100;
         public double Width { get; set; } = 50;
         public double Height { get; set; } = 50;
-        public double Radius { get; set; } = -100;
         public double Vertical { get; set; } = -100;
         public double Horizontal { get; set; } = -100;
+
+        // Lamp light settings
+        public double Brightness { get; set; } = 30;
+        public double LampHeight { get; set; } = 2;
 
         // The name of the lamp type - used for displaying the name in the sidemenu
         public abstract string name { get; }
