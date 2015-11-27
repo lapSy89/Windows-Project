@@ -1,11 +1,16 @@
 ﻿using System.Windows;
-using System.Windows.Media;
 using OptiLight.Model;
 
 namespace OptiLight.ViewModel {
     public class CanvasViewModel : BaseViewModel {
-        //TODO, consider not to use "RaisePropertyChanged(); but the Notify command instead
-        public Model.Canvas Canvas { get; set; }
+
+        //We use the Singleton design pattern for our constructor
+        public static CanvasViewModel Instance { get; } = new CanvasViewModel();
+        private CanvasViewModel() {
+            Canvas = new Canvas();
+        }
+
+        public Canvas Canvas { get; set; }
         public bool snapActive { get; set; } = false;
         public string visibility {
             get { return Canvas.visibility; }
@@ -82,10 +87,5 @@ namespace OptiLight.ViewModel {
         //The Viewpoint is a rectangle, constructed from two Points (0, 0) and (cellSize, cellSize).
         public Rect viewport { get {
                 return new Rect(new Point(0, 0), new Point(Canvas.cellSize, Canvas.cellSize)); } }
-
-        //public static CanvasViewModel Instance { get; } = new CanvasViewModel();
-        public CanvasViewModel() {
-            Canvas = new Model.Canvas();
-        }
     }
 }
