@@ -11,6 +11,7 @@ using System.Windows;
 using System.Windows.Media;
 using System.Windows.Input;
 using System.Linq;
+using System;
 //using LampLibrary; // LampLibrary DLL
 
 namespace OptiLight.ViewModel {
@@ -132,20 +133,23 @@ namespace OptiLight.ViewModel {
                     // Clear the board for loading new lamps
                     Lamps.Clear();
                     // Inserting lamps into array of lamps
-                    lamps.Select(lamp => lamp is RoundLamp ?
-                        (LampViewModel)new RoundLampViewModel(lamp)
-                    : lamp is SquareLamp ?
-                        (LampViewModel)new SquareLampViewModel(lamp)
-                    : new RectangleLampViewModel(lamp)).ToList().ForEach(lamp => Lamps.Add(lamp));
+                    foreach (Lamp lamp in lamps) {
+                        string path = "OptiLight.ViewModel." + lamp.viewModel;
+                        Type lampTypeVM = Type.GetType(path, true);
+                        object[] argsVM = { lamp };
+                        LampViewModel lampVM = (LampViewModel)Activator.CreateInstance(lampTypeVM, argsVM);
+                        Lamps.Add(lampVM);
+                    }
                     clearWorkspace();
                 }
-                
             }
         }
 
         // We clear the workspace for loading or new workspace
         private void clearWorkspace() {
             undoRedoController.ClearStacks();
+            addingLampSelected = null;
+            AddingColor = Colors.Transparent;
         }
 
         #endregion New / Save / Load
@@ -154,7 +158,7 @@ namespace OptiLight.ViewModel {
 
         // The selected lamps are removed and moved to the clipboard as xml
         private async void Cut() {
-            var selectedLamps = Lamps.Where(lamp => lamp.IsSelected).ToList();
+            var selectedLamps = getSelectedLamps();
             undoRedoController.AddAndExecute(new RemoveLamp(Lamps,selectedLamps));
             var xml = await XML.Instance.AsyncSerializeToString(selectedLamps.Select(lamp => lamp.Lamp).ToList());
             Clipboard.SetText(xml);
@@ -162,8 +166,7 @@ namespace OptiLight.ViewModel {
 
         // The selected lamps are copied to clipboard as xml
         private async void Copy() {
-            var selectedLamps = Lamps.Where(lamp => lamp.IsSelected).ToList();
-            var xml = await XML.Instance.AsyncSerializeToString(selectedLamps.Select(lamp => lamp.Lamp).ToList());
+            var xml = await XML.Instance.AsyncSerializeToString(getSelectedLamps().Select(lamp => lamp.Lamp).ToList());
             Clipboard.SetText(xml);
         }
 
@@ -173,21 +176,20 @@ namespace OptiLight.ViewModel {
             var xml = Clipboard.GetText();
             List<Lamp> lamps = await XML.Instance.AsyncDeserializeFromString(xml);
 
-            if (lamps.Count() == 0) {
-                // Do nothing when the paste data isn't correct
-            } else {
+            // We only paste if there is something to paste which can be converted to lamps
+            if (lamps.Count() != 0) {
+                
                 // All the lamps are turned into viewmodels
-                List<LampViewModel> lampsVM = lamps.Select(lamp => lamp is RoundLamp ?
-                        (LampViewModel)new RoundLampViewModel(lamp)
-                    : lamp is SquareLamp ?
-                        (LampViewModel)new SquareLampViewModel(lamp)
-                    : new RectangleLampViewModel(lamp)).ToList();
+                foreach (Lamp lamp in lamps) {
+                    string path = "OptiLight.ViewModel." + lamp.viewModel;
+                    Type lampTypeVM = Type.GetType(path, true);
+                    object[] argsVM = { lamp };
+                    LampViewModel lampVM = (LampViewModel) Activator.CreateInstance(lampTypeVM, argsVM);
 
-                // All the lamps are added to the collection and their coordinates are changed
-                foreach (var lamp in lampsVM) {
-                    lamp.X = lamp.X + 50;
-                    lamp.Y = lamp.Y + 50;
-                    undoRedoController.AddAndExecute(new AddLamp(Lamps, lamp));
+                    // The lamp is added to the collection and their coordinates are changed
+                    lampVM.X = lampVM.X + 50;
+                    lampVM.Y = lampVM.Y + 50;
+                    undoRedoController.AddAndExecute(new AddLamp(Lamps, lampVM));
                 }
             }            
         }
