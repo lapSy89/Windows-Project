@@ -20,7 +20,8 @@ namespace OptiLight.ViewModel {
         // Variables for showing and editing lamps (Brightness, Height and Radius)
         private double currentLampBrightness;
         private double currentLampHeight;
-        private double currentLampRadius;
+        private double currentLampVertRadius;
+        private double currentLampHoriRadius;
 
         // Grid control variables
         private bool snapActive = false;
@@ -51,7 +52,8 @@ namespace OptiLight.ViewModel {
             // Initialize Current values for editing selected lamp
             CurrentLampBrightness = 0;
             CurrentLampHeight = 0;
-            CurrentLampRadius = 0;
+            CurrentLampVertRadius = 0;
+            CurrentLampHoriRadius = 0;
 
             // Lamps created from the start
             //It generates a collection of LampViewModels
@@ -100,9 +102,10 @@ namespace OptiLight.ViewModel {
 
             // Sending Lamp values for editing in sidebar
             // TODO .X skal ændres!!!!!!!!!!!!!!!!
-            CurrentLampBrightness = Lamp.X;
-            CurrentLampHeight = Lamp.Y;
-            CurrentLampRadius = Lamp.X;
+            CurrentLampBrightness = Lamp.Brightness;
+            CurrentLampHeight = Lamp.LampHeight;
+            CurrentLampVertRadius = Lamp.Vertical;
+            CurrentLampHoriRadius = Lamp.Horizontal;
 
             e.MouseDevice.Target.CaptureMouse();
         }
@@ -213,8 +216,9 @@ namespace OptiLight.ViewModel {
 
             // Resetting sidebar values after canvas has been pressed and a lamp has been unselected
             CurrentLampBrightness = 0;
-            CurrentLampRadius = 0;
             CurrentLampHeight = 0;
+            CurrentLampVertRadius = 0;
+            CurrentLampHoriRadius = 0;
 
             // We add a lamp at the mouse position if add lamp is on
             if (addingLampSelected != null && mouseX > 0 && mouseY > 0
@@ -262,8 +266,11 @@ namespace OptiLight.ViewModel {
         public double CurrentLampBrightness {
             get { return currentLampBrightness; }
             set { currentLampBrightness = value;
-                // TODO .X skal ændres!!
-                if (Lamps != null && getCurrentLamp() != null) getCurrentLamp().X = value;
+                if (Lamps != null && getCurrentLamp() != null) {
+                    getCurrentLamp().Brightness = value;
+                    CurrentLampVertRadius = getCurrentLamp().Vertical;
+                    CurrentLampHoriRadius = getCurrentLamp().Horizontal;
+                }
                 RaisePropertyChanged();
             }
         }
@@ -272,19 +279,29 @@ namespace OptiLight.ViewModel {
         public double CurrentLampHeight {
             get { return currentLampHeight; }
             set { currentLampHeight = value;
-                // TODO .X skal ændres!!
-                if (Lamps != null && getCurrentLamp() != null) getCurrentLamp().Y = value;
+                if (Lamps != null && getCurrentLamp() != null) {
+                    getCurrentLamp().LampHeight = value;
+                    CurrentLampVertRadius = getCurrentLamp().Vertical;
+                    CurrentLampHoriRadius = getCurrentLamp().Horizontal;
+                }
                 RaisePropertyChanged();
             }
         }
 
-        // Method for getting/setting currentLampRadius
-        public double CurrentLampRadius {
-            get { return currentLampRadius; }
+        // Method for getting/setting currentLampVertRadius
+        public double CurrentLampVertRadius {
+            get { return currentLampVertRadius; }
             set {
-                currentLampRadius = value;
-                // TODO .X skal ændres!!
-                if (Lamps != null && getCurrentLamp() != null) getCurrentLamp().X = value;
+                currentLampVertRadius = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        // Method for getting/setting currentLampHoriRadius
+        public double CurrentLampHoriRadius {
+            get { return currentLampHoriRadius; }
+            set {
+                currentLampHoriRadius = value;
                 RaisePropertyChanged();
             }
         }

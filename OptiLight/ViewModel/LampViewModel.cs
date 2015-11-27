@@ -15,15 +15,28 @@ namespace OptiLight.ViewModel {
         public double Width { get { return Lamp.Width; } set { Lamp.Width = value; RaisePropertyChanged(); } }
         public double Height { get { return Lamp.Height; } set { Lamp.Height = value; RaisePropertyChanged(); } }
         public string Name { get { return Lamp.name; } }
+        public double Vertical { get { return Lamp.Vertical; } set { Lamp.Vertical = value; RaisePropertyChanged(); } }
+        public double Horizontal { get { return Lamp.Horizontal; } set { Lamp.Horizontal = value; RaisePropertyChanged(); } }
 
 
-        public Thickness Radius { get { return new Thickness(Lamp.Vertical, Lamp.Horizontal, Lamp.Vertical, Lamp.Horizontal); }
-                                  set { Lamp.Vertical = value.Top; Lamp.Horizontal = value.Left; Lamp.Vertical = value.Bottom; Lamp.Horizontal = value.Right;
+        public Thickness Radius { get { return new Thickness(Vertical, Horizontal, Vertical, Horizontal); }
+                                  set { Vertical = value.Top; Horizontal = value.Left; Vertical = value.Bottom; Horizontal = value.Right;
                                         RaisePropertyChanged(); } }
 
-        public double RadiusVert { get { return Lamp.Vertical; } }
-        public double RadiusHori { get { return Lamp.Horizontal; } }
-
+        // Values for displaying in sidebar
+        public double Brightness { get { return Lamp.Brightness; }
+                                   set { Lamp.Brightness = value;
+                                         changeLightRadius();
+                                         RaisePropertyChanged();
+                                         RaisePropertyChanged(() => Radius); }
+        }
+        public double LampHeight { get { return Lamp.LampHeight; }
+                                   set { Lamp.LampHeight = value;
+                                         changeLightRadius();
+                                         RaisePropertyChanged();
+                                         RaisePropertyChanged(() => Radius);
+            }
+        }
 
         //Determines whether a lamp is selected or not
         private bool isSelected;
@@ -42,6 +55,11 @@ namespace OptiLight.ViewModel {
         public Brush SelectedColor => IsSelected ? Brushes.Blue : Brushes.Transparent;
         public Color TurnedOnColor => IsTurnedOn ? Colors.Transparent : Colors.Yellow;
    
+        //Change lightradius
+        public void changeLightRadius() {
+            Vertical = LampHeight * (-50);
+            Horizontal = LampHeight * (-50);
+        }
 
         //The base means that it inherits 
         public LampViewModel(Lamp lamp){
