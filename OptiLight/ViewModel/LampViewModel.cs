@@ -21,6 +21,10 @@ namespace OptiLight.ViewModel {
                                   set { Lamp.Vertical = value.Top; Lamp.Horizontal = value.Left; Lamp.Vertical = value.Bottom; Lamp.Horizontal = value.Right;
                                         RaisePropertyChanged(); } }
 
+        public double RadiusVert { get { return Lamp.Vertical; } }
+        public double RadiusHori { get { return Lamp.Horizontal; } }
+
+
         //Determines whether a lamp is selected or not
         private bool isSelected;
         public bool IsSelected{

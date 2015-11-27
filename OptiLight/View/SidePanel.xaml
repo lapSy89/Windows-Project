@@ -13,21 +13,21 @@
             <ListBoxItem Margin="0,5,0,0">
                 <StackPanel Orientation="Horizontal">
                     <AccessText Text="Brigthness"/>
-                    <excd:IntegerUpDown Value="{Binding CurrentLampBrightness, Mode=TwoWay}" Increment="1" Maximum="100" FormatString="G0"/>
+                    <excd:IntegerUpDown Value="{Binding CurrentLampBrightness}" Increment="1" Maximum="100" FormatString="G0" UpdateValueOnEnterKey="True"/>
                     <AccessText Text=" Watt"/>
                 </StackPanel>
             </ListBoxItem>
             <ListBoxItem Margin="0,5,0,0">
                 <StackPanel Orientation="Horizontal">
                     <AccessText Text="Height:       "/>
-                    <excd:IntegerUpDown Value="{Binding CurrentLampHeight, Mode=TwoWay}" Increment="1" Maximum="100" FormatString="G0" />
+                    <excd:IntegerUpDown Value="{Binding CurrentLampHeight}" Increment="1" Maximum="100" FormatString="G0" UpdateValueOnEnterKey="True"/>
                     <AccessText Text=" cm"/>
                 </StackPanel>
             </ListBoxItem>
             <ListBoxItem Margin="0,5,0,5">
                 <StackPanel Orientation="Horizontal">
                     <AccessText Text="Radius:       "/>
-                    <excd:IntegerUpDown Value="{Binding CurrentLampRadius, Mode=TwoWay}" Increment="1" Maximum="100" FormatString="G0"/>
+                    <excd:IntegerUpDown Value="{Binding CurrentLampRadius}" Increment="1" Maximum="100" FormatString="G0" UpdateValueOnEnterKey="True"/>
                     <AccessText Text=" cm"/>
                 </StackPanel>
             </ListBoxItem>
