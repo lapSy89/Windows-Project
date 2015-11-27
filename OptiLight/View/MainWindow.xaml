@@ -46,19 +46,24 @@
             </Grid.ColumnDefinitions>
    
             <!-- SidePanel layout (comes from SidePanel.xaml -->
-            <View:SidePanel/>
-         
-            <!-- Drawing window -->
-            <ScrollViewer HorizontalScrollBarVisibility="Visible" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
-                          VerticalScrollBarVisibility="Visible" Grid.Column="1">
-                <Grid Height="{Binding height}" Width="{Binding width}">
+            <View:SidePanel Grid.Column="0"/>
 
+
+
+            <!-- Drawing window -->
+            <ScrollViewer HorizontalScrollBarVisibility="Visible" VerticalAlignment="Center" HorizontalAlignment="Center"
+                          VerticalScrollBarVisibility="Visible" Grid.Column="1">
+                
+                
+                <Grid Height="{Binding height}" Width="{Binding width}">
+                    
+                   
                     <Border BorderBrush="Black" 
                         BorderThickness="2"
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch"
                         Background="LightGray"/>
-
+                   
                     <Rectangle Height="{Binding height}"  Width="{Binding width}" Stroke="Black" StrokeThickness="0">
                         <Rectangle.Fill>
                             <DrawingBrush Stretch="None" TileMode="Tile"
@@ -99,10 +104,14 @@
                         </i:Interaction.Triggers>
                          
                     </Rectangle>
- 
-                    <ItemsControl ItemsSource="{Binding Lamps}"/>
+
+                    <ItemsControl ItemsSource="{Binding Lamps}">
+    
+                    </ItemsControl>
                 </Grid>
             </ScrollViewer>
+          
         </Grid>
+       
     </DockPanel>
 </Window>
