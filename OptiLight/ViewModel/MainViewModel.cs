@@ -131,10 +131,16 @@ namespace OptiLight.ViewModel {
                     }
                 }
 
-                // The move command is only added to the undo/redo stack if the lamp is moved and not when
-                // it is just selected
-                if (offsetX != 0 || offsetY != 0) {
-                    this.undoRedoController.AddAndExecute(new Command.MoveLamp(Lamp, offsetX, offsetY));
+                //Check if new position is within the canvas, before the move is accepted
+                if (Lamp.X + offsetX > 0 &&
+                    Lamp.Y + offsetY > 0 &&
+                    Lamp.X + offsetX < canvas.width - canvas.cellSize && 
+                    Lamp.Y + offsetY < canvas.height - canvas.cellSize) { 
+                    // The move command is only added to the undo/redo stack if the lamp is moved and not when
+                    // it is just selected
+                    if (offsetX != 0 || offsetY != 0) {
+                        this.undoRedoController.AddAndExecute(new Command.MoveLamp(Lamp, offsetX, offsetY));
+                    }
                 }
             }
             e.MouseDevice.Target.ReleaseMouseCapture();

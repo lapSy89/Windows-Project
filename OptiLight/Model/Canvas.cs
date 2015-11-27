@@ -1,4 +1,6 @@
 ﻿using System.Xml.Serialization;
+using System.Windows.Media;
+using System.Windows;
 
 namespace OptiLight.Model {
 

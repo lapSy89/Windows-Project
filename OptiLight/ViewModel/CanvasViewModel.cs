@@ -1,6 +1,6 @@
 ﻿using System.Windows;
-using OptiLight.Model;
 using System.Windows.Media;
+using OptiLight.Model;
 
 namespace OptiLight.ViewModel {
     public class CanvasViewModel : BaseViewModel {
@@ -16,6 +16,9 @@ namespace OptiLight.ViewModel {
                 RaisePropertyChanged();
                 RaisePropertyChanged(() => corner1);
                 RaisePropertyChanged(() => corner2);
+                RaisePropertyChanged(() => Canvas.height);
+                RaisePropertyChanged(() => Canvas.width);
+                RaisePropertyChanged(() => viewport);
             }
         }
 
@@ -58,7 +61,10 @@ namespace OptiLight.ViewModel {
         public Point corner1 { get { return (new Point(0, Canvas.cellSize)); } }
         public Point corner2 { get { return (new Point(Canvas.cellSize, Canvas.cellSize)); } }
 
-        //public ViewPort vp
+        //Creates a viewpoint, the size of a cell, as defined by the Canvas.
+        //The Viewpoint is a rectangle, constructed from two Points (0, 0) and (cellSize, cellSize).
+        public Rect viewport { get {
+                return new Rect(new Point(0, 0), new Point(Canvas.cellSize, Canvas.cellSize)); } }
 
         //public static CanvasViewModel Instance { get; } = new CanvasViewModel();
         public CanvasViewModel() {

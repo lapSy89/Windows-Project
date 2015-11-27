@@ -65,7 +65,7 @@
                     <Rectangle Height="{Binding canvas.height}"  Width="{Binding canvas.width}" Stroke="Black" StrokeThickness="0">
                         <Rectangle.Fill>
                             <DrawingBrush Stretch="None" TileMode="Tile"
-                            Viewport="0,0 50,50" ViewportUnits="Absolute">
+                            Viewport="{Binding canvas.viewport}" ViewportUnits="Absolute">
                                 <!-- ^^^^^^^^^^^ set the size of the tile-->
                                 <DrawingBrush.Drawing>
                                     <GeometryDrawing>
