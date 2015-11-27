@@ -100,9 +100,9 @@
                         <TextBlock Grid.Column="0" Grid.Row="0" Text="Cell Size" VerticalAlignment="Center"/>
                         <TextBlock Grid.Column="0" Grid.Row="1" Text="Height" VerticalAlignment="Center"/>
                         <TextBlock Grid.Column="0" Grid.Row="2" Text="Width" VerticalAlignment="Center"/>
-                        <RibbonTextBox Grid.Column="1" Grid.Row="0" Text="{Binding cellSet}" />
-                        <RibbonTextBox Grid.Column="1" Grid.Row="1" Text="{Binding cellsY}"/>
-                        <RibbonTextBox Grid.Column="1" Grid.Row="2" Text="{Binding cellsX}"/>
+                        <RibbonTextBox Grid.Column="1" Grid.Row="0" Text="{Binding canvas.cellSize}" />
+                        <RibbonTextBox Grid.Column="1" Grid.Row="1" Text="{Binding canvas.cellsY}"/>
+                        <RibbonTextBox Grid.Column="1" Grid.Row="2" Text="{Binding canvas.cellsX}"/>
                     </Grid>
                 </RibbonControlGroup>
             </RibbonGroup>
