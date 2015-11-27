@@ -23,9 +23,6 @@ namespace OptiLight.ViewModel {
         private double currentLampVertRadius;
         private double currentLampHoriRadius;
 
-        // Grid control variables
-        private bool snapActive = false;
-        public string gridVisibility { get; set; } = "Transparent";
 
         // The possible commands
         public ICommand LampPressedCommand { get; }
@@ -62,16 +59,11 @@ namespace OptiLight.ViewModel {
 
         public void toggleSnapping()
         {
-            snapActive = !snapActive;
+            canvas.snapActive = !canvas.snapActive;
         }
     
         public void toggleVisibility() {
-            if (gridVisibility.Equals("Black")) {
-                gridVisibility = "Transparent";
-            } else if (gridVisibility.Equals("Transparent")) {
-                gridVisibility = "Black";
-            }
-            RaisePropertyChanged(() => gridVisibility);
+            canvas.toggleVisibility();
         }
         
         // Method for capturing the mouse on a lamp
@@ -86,8 +78,9 @@ namespace OptiLight.ViewModel {
             initialLampPosition = new Point(Lamp.X, Lamp.Y);
             initialMousePosition = MousePosition;
 
-            // The lamp now knows that it is selected
+            // The lamp now knows that it is selected and the sidepanel is showed
             Lamp.IsSelected = true;
+            ShowSidePanelBox = Visibility.Visible;
 
             // Sending Lamp values for editing in sidebar
             // TODO .X skal ændres!!!!!!!!!!!!!!!!
@@ -115,7 +108,7 @@ namespace OptiLight.ViewModel {
                 var offsetX = MousePosition.X - initialMousePosition.X;
                 var offsetY = MousePosition.Y - initialMousePosition.Y;
 
-                if (snapActive) {
+                if (canvas.snapActive) {
                     var extraX = (Lamp.X + offsetX) % canvas.cellSize;
                     var extraY = (Lamp.Y + offsetY) % canvas.cellSize;
 
@@ -165,7 +158,7 @@ namespace OptiLight.ViewModel {
                 if (newX > 0 && newY > 0 &&
                     newX < canvas.width - canvas.cellSize &&
                     newY < canvas.height - canvas.cellSize) {
-                    if (snapActive) {
+                    if (canvas.snapActive) {
                         var extraX = newX % canvas.cellSize;
                         var extraY = newY % canvas.cellSize;
 
@@ -201,6 +194,7 @@ namespace OptiLight.ViewModel {
             if (LampsAreSelected())
             {
                 UnSelectAllLamps();
+                ShowSidePanelBox = Visibility.Collapsed;
             }
 
             // Resetting sidebar values after canvas has been pressed and a lamp has been unselected

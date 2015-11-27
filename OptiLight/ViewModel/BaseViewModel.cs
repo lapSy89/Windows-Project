@@ -34,8 +34,18 @@ namespace OptiLight.ViewModel {
         public Lamp addingLampSelected { get; set; }
 
         // The color of the selected lamp in the side menu - either transparent or darkgray
-        private Color addingColor;
-        public Color AddingColor { get { return addingColor; } set { addingColor = value; RaisePropertyChanged(); } }
+        private Color addingColor = Colors.Transparent;
+        public Color AddingColor {
+            get { return addingColor; }
+            set { addingColor = value; RaisePropertyChanged(); }
+        }
+
+        // The visisbility of the box in the sidepanel
+        private Visibility showSidePanelBox = Visibility.Collapsed;
+        public Visibility ShowSidePanelBox {
+            get { return showSidePanelBox; }
+            set { showSidePanelBox = value; RaisePropertyChanged(); }
+        }
 
         // Dialog windows for New, Load and Save
         public DialogViews dialogWindow { get; set; }
@@ -61,9 +71,6 @@ namespace OptiLight.ViewModel {
 
         //Constructor 
         public BaseViewModel() {
-
-            //The initial color of the sidepanal
-            AddingColor = Colors.Transparent;
 
             UndoCommand = new RelayCommand(undoRedoController.Undo, undoRedoController.CanUndo);
             RedoCommand = new RelayCommand(undoRedoController.Redo, undoRedoController.CanRedo);

@@ -9,7 +9,7 @@
              d:DesignHeight="300" Width="182.101">
 
     <DockPanel>
-        <ListBox DockPanel.Dock="Bottom">
+        <ListBox DockPanel.Dock="Bottom" Visibility="{Binding ShowSidePanelBox}">
             <ListBoxItem Margin="0,5,0,0">
                 <StackPanel Orientation="Horizontal">
                     <AccessText Text="Brigthness"/>
