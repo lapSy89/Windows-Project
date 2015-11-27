@@ -79,7 +79,7 @@
                                         </GeometryDrawing.Geometry>
                                         <GeometryDrawing.Pen>
                                             <!-- set color and thickness of lines -->
-                                            <Pen Thickness="0.4" Brush="{Binding gridVisibility}"/>
+                                            <Pen Thickness="0.4" Brush="{Binding canvas.visibility}"/>
                                         </GeometryDrawing.Pen>
                                     </GeometryDrawing>
                                 </DrawingBrush.Drawing>

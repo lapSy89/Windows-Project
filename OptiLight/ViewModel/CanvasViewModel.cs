@@ -6,13 +6,30 @@ namespace OptiLight.ViewModel {
     public class CanvasViewModel : BaseViewModel {
         //TODO, consider not to use "RaisePropertyChanged(); but the Notify command instead
         public Model.Canvas Canvas { get; set; }
+        public bool snapActive { get; set; } = false;
+        public string visibility {
+            get { return Canvas.visibility; }
+            set {
+                Canvas.visibility = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        public void toggleVisibility() {
+            if (visibility.Equals("Transparent")) {
+                visibility = "Black";
+            }
+            else if (visibility.Equals("Black")) {
+                visibility = "Transparent";
+            }
+        }
 
         public int cellSize {
             get { return Canvas.cellSize; }
             set {
                 Canvas.cellSize = value;
                 Canvas.height = Canvas.cellsY * value;
-                Canvas.width = cellsX * value;
+                Canvas.width = Canvas.cellsX * value;
                 RaisePropertyChanged();
                 RaisePropertyChanged(() => corner1);
                 RaisePropertyChanged(() => corner2);
