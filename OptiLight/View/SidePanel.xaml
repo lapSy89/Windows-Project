@@ -28,13 +28,13 @@
                 <StackPanel Orientation="Horizontal">
                     <AccessText Text="Radius:       "/>
                     <StackPanel Orientation="Vertical">
-                        <AccessText Text="{Binding CurrentLampHoriRadius}" Width="30" TextAlignment="Center"/>
+                        <AccessText Text="{Binding CurrentLampHoriRadius}"  Width="30" TextAlignment="Center"/>
                         <AccessText Text="cm" TextAlignment="Center"/>
                     </StackPanel>
                     <Image Source="/Resources/leftRightArrow.png"
                            Width="20"/>
                     <StackPanel Orientation="Vertical">
-                        <AccessText Text="{Binding CurrentLampVertRadius}" Width="30" TextAlignment="Center"/>
+                        <AccessText Text="{Binding CurrentLampVertRadius}" Width="30" TextAlignment="Center" MaxWidth="30"/>
                         <AccessText Text="cm" TextAlignment="Center"/>
                     </StackPanel>
                     <Image Source="/Resources/upDownArrow.png"

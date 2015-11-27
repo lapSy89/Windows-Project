@@ -279,7 +279,7 @@ namespace OptiLight.ViewModel {
 
         // Method for getting/setting currentLampVertRadius
         public double CurrentLampVertRadius {
-            get { return currentLampVertRadius; }
+            get { return Math.Round(currentLampVertRadius*(-1),0); }
             set {
                 currentLampVertRadius = value;
                 RaisePropertyChanged();
@@ -288,7 +288,7 @@ namespace OptiLight.ViewModel {
 
         // Method for getting/setting currentLampHoriRadius
         public double CurrentLampHoriRadius {
-            get { return currentLampHoriRadius; }
+            get { return Math.Round(currentLampHoriRadius*(-1),0); }
             set {
                 currentLampHoriRadius = value;
                 RaisePropertyChanged();

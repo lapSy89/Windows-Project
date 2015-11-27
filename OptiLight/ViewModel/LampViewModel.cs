@@ -57,8 +57,23 @@ namespace OptiLight.ViewModel {
    
         //Change lightradius
         public void changeLightRadius() {
-            Vertical = LampHeight * (-50);
-            Horizontal = LampHeight * (-50);
+            Vertical = LampHeight * Brightness * (-1.6667);
+            Horizontal = LampHeight * Brightness * (-1.6667);
+            YellowOffset = (Brightness / LampHeight) * 0.02;
+            TransparentOffset = (Brightness / LampHeight) * 0.1133;
+        }
+
+        //Offsets
+        private double yellowOffset = 0.3;
+        public double YellowOffset {
+            get { return yellowOffset; }
+            set { yellowOffset = value; RaisePropertyChanged(); }
+        }
+
+        private double transparentOffset = 1.7;
+        public double TransparentOffset {
+            get { return transparentOffset; }
+            set { transparentOffset = value; RaisePropertyChanged(); }
         }
 
         //The base means that it inherits Lamp
