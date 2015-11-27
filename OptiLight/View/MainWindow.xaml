@@ -51,7 +51,7 @@
             <!-- Drawing window -->
             <ScrollViewer HorizontalScrollBarVisibility="Visible" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
                           VerticalScrollBarVisibility="Visible" Grid.Column="1">
-                <Grid Height="{Binding height}" Width="{Binding width}">
+                <Grid Height="{Binding canvas.height}" Width="{Binding canvas.width}">
 
                     <Border BorderBrush="Black" 
                         BorderThickness="2"
@@ -59,7 +59,7 @@
                         VerticalAlignment="Stretch"
                         Background="LightGray"/>
 
-                    <Rectangle Height="{Binding height}"  Width="{Binding width}" Stroke="Black" StrokeThickness="0">
+                    <Rectangle Height="{Binding canvas.height}"  Width="{Binding canvas.width}" Stroke="Black" StrokeThickness="0">
                         <Rectangle.Fill>
                             <DrawingBrush Stretch="None" TileMode="Tile"
                             Viewport="0,0 50,50" ViewportUnits="Absolute">
@@ -70,8 +70,8 @@
                                             <GeometryGroup>
                                                 <!-- Draws two lines, to represent grid (X,Y Coordinates)
                                                      Change "50" to the Grid Size Variable, Emil-->
-                                                <LineGeometry StartPoint="0,0" EndPoint="0,50" />
-                                                <LineGeometry StartPoint="0,50" EndPoint="50,50" />
+                                                <LineGeometry StartPoint="0,0" EndPoint="{Binding canvas.corner1}" />
+                                                <LineGeometry StartPoint="{Binding canvas.corner1}" EndPoint="{Binding canvas.corner2}" />
                                             </GeometryGroup>
                                         </GeometryDrawing.Geometry>
                                         <GeometryDrawing.Pen>

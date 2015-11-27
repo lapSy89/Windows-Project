@@ -17,6 +17,8 @@ namespace OptiLight.ViewModel {
 
     //Implements the Galasoft ViewModelBase
     public abstract class BaseViewModel : ViewModelBase {
+        //CanvasViewModel 
+        public static CanvasViewModel canvas { get; set; } = new CanvasViewModel();
 
         //The undoRedoController is created only here once
         protected UndoRedoController undoRedoController = UndoRedoController.Instance;
