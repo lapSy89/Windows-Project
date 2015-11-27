@@ -78,8 +78,9 @@ namespace OptiLight.ViewModel {
             initialLampPosition = new Point(Lamp.X, Lamp.Y);
             initialMousePosition = MousePosition;
 
-            // The lamp now knows that it is selected
+            // The lamp now knows that it is selected and the sidepanel is showed
             Lamp.IsSelected = true;
+            ShowSidePanelBox = Visibility.Visible;
 
             // Sending Lamp values for editing in sidebar
             // TODO .X skal ændres!!!!!!!!!!!!!!!!
@@ -193,6 +194,7 @@ namespace OptiLight.ViewModel {
             if (LampsAreSelected())
             {
                 UnSelectAllLamps();
+                ShowSidePanelBox = Visibility.Collapsed;
             }
 
             // Resetting sidebar values after canvas has been pressed and a lamp has been unselected
