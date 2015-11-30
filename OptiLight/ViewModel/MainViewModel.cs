@@ -45,7 +45,7 @@ namespace OptiLight.ViewModel {
             // Lamps created from the start
             //It generates a collection of LampViewModels
             Lamps = new ObservableCollection<LampViewModel>() {
-                 new RoundLampViewModel(new Model.RoundLamp())
+                 new RectangleLampViewModel(new RectangleLamp())
             };
 
             // Commands are defined as relay commands
@@ -86,8 +86,8 @@ namespace OptiLight.ViewModel {
             // TODO .X skal ændres!!!!!!!!!!!!!!!!
             CurrentLampBrightness = Lamp.Brightness;
             CurrentLampHeight = Lamp.LampHeight;
-            CurrentLampVertRadius = Lamp.Vertical;
-            CurrentLampHoriRadius = Lamp.Horizontal;
+            CurrentLampVertRadius = (Lamp.VerticalUp + Lamp.VerticalDown) / 2;
+            CurrentLampHoriRadius = (Lamp.HorizontalLeft + Lamp.HorizontalRight) / 2;
 
             e.MouseDevice.Target.CaptureMouse();
         }
@@ -251,8 +251,8 @@ namespace OptiLight.ViewModel {
             set { currentLampBrightness = value;
                 if (Lamps != null && getCurrentLamp() != null) {
                     getCurrentLamp().Brightness = value;
-                    CurrentLampVertRadius = getCurrentLamp().Vertical;
-                    CurrentLampHoriRadius = getCurrentLamp().Horizontal;
+                    CurrentLampVertRadius = (getCurrentLamp().VerticalUp + getCurrentLamp().VerticalDown) / 2;
+                    CurrentLampHoriRadius = (getCurrentLamp().HorizontalLeft + getCurrentLamp().VerticalUp) / 2;
                 }
                 RaisePropertyChanged();
             }
@@ -264,8 +264,8 @@ namespace OptiLight.ViewModel {
             set { currentLampHeight = value;
                 if (Lamps != null && getCurrentLamp() != null) {
                     getCurrentLamp().LampHeight = value;
-                    CurrentLampVertRadius = getCurrentLamp().Vertical;
-                    CurrentLampHoriRadius = getCurrentLamp().Horizontal;
+                    CurrentLampVertRadius = (getCurrentLamp().VerticalUp + getCurrentLamp().VerticalDown) / 2;
+                    CurrentLampHoriRadius = (getCurrentLamp().HorizontalLeft + getCurrentLamp().VerticalUp) / 2;
                 }
                 RaisePropertyChanged();
             }

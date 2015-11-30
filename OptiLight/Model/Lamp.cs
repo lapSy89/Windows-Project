@@ -14,8 +14,14 @@ namespace OptiLight.Model {
         public double Y { get; set; } = 100;
         public double Width { get; set; } = 50;
         public double Height { get; set; } = 50;
-        public double Vertical { get; set; } = -100;
-        public double Horizontal { get; set; } = -100;
+        public abstract double VerticalUp { get; set; }
+        public abstract double VerticalDown { get; set; }
+        public abstract double HorizontalLeft { get; set; }
+        public abstract double HorizontalRight { get; set; }
+        public abstract double VerticalUpConstant { get; }
+        public abstract double VerticalDownConstant { get; }
+        public abstract double HorizontalLeftConstant { get; }
+        public abstract double HorizontalRightConstant { get; }
 
         // Lamp light settings
         public double Brightness { get; set; } = 30;

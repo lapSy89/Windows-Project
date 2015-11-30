@@ -10,18 +10,38 @@
              Canvas.Left="{Binding X}" Canvas.Top="{Binding Y}" Width="{Binding Width}" Height="{Binding Height}"
              d:DesignHeight="50" d:DesignWidth="50">
     <Grid>
-        <Rectangle Fill="{Binding SelectedColor}" Opacity = "0.7" Margin="-2,-2,-52,-2"/>
-        <Rectangle  Opacity = "0.7" Margin="-50,-125,-100,-125" Stroke="#FF000000" StrokeThickness="1" StrokeDashArray="4 4" IsHitTestVisible="False">
+        <Rectangle Fill="{Binding SelectedColor}" Opacity = "0.7" Margin="-27,-2,-27,-2"/>
+        <Rectangle  Opacity = "0.5" Margin="{Binding Radius}" Stroke="#FF000000" StrokeThickness="1" 
+                    StrokeDashArray="4 4" IsHitTestVisible="False" HorizontalAlignment="Right" Width="250">
             <Rectangle.Fill>
                 <RadialGradientBrush GradientOrigin="0.5,0.5" Center="0.5,0.5"
                                      RadiusX="0.5" RadiusY="0.5">
-                    <GradientStop Color="{Binding TurnedOnColor}" Offset="0.1"/>
+                    <GradientStop Color="{Binding TurnedOnColor}" Offset="{Binding YellowOffset}"/>
+                    <GradientStop Color="Transparent" Offset="{Binding TransparentOffset}"/>
+                </RadialGradientBrush>
+            </Rectangle.Fill>
+        </Rectangle>
+
+        <!--
+        **************************************************************
+        *                                                            *
+        *    NICOLAI SE HER!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!  *
+        *                                                            *
+        **************************************************************
+        <Rectangle Fill="{Binding SelectedColor}" Opacity = "0.7" Margin="-27,-2,-27,-2"/>
+        <Rectangle  Opacity = "0.5" Margin="-100,-125,-100,-125" Stroke="#FF000000" StrokeThickness="1" 
+                    StrokeDashArray="4 4" IsHitTestVisible="False" HorizontalAlignment="Right" Width="250">
+            <Rectangle.Fill>
+                <RadialGradientBrush GradientOrigin="0.5,0.5" Center="0.5,0.5"
+                                     RadiusX="0.5" RadiusY="0.5">
+                    <GradientStop Color="Yellow" Offset="0.3"/>
                     <GradientStop Color="Transparent" Offset="1.7"/>
                 </RadialGradientBrush>
             </Rectangle.Fill>
         </Rectangle>
-        
-        <Rectangle Margin="0,0,-50,0">
+        -->
+
+        <Rectangle Margin="-25,0,-25,0">
             <Rectangle.Fill>
                 <LinearGradientBrush StartPoint="0,1" EndPoint="0,0">
                     <GradientStop Color="Beige" Offset="0"/>
@@ -35,7 +55,7 @@
             This only bounds to the outer part of the lamp, need to add triggers to inner circle also -->
             
         </Rectangle>
-        <Rectangle Fill="{Binding SelectedColor}" Opacity="0.2" Margin="0,0,-50,0">
+        <Rectangle Fill="{Binding SelectedColor}" Opacity="0.2" Margin="-25,0,-25,0">
             <Rectangle.ToolTip>
                 <ToolTip DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Self}}">
                     <StackPanel>

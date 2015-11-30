@@ -10,12 +10,12 @@
              Canvas.Left="{Binding X}" Canvas.Top="{Binding Y}" Width="{Binding Width}" Height="{Binding Height}"
              d:DesignHeight="50" d:DesignWidth="50">
     <Grid>
-        <Rectangle  Opacity = "0.7" Margin="-100,-100,-100,-100" Stroke="#FF000000" StrokeThickness="1" StrokeDashArray="4 4" IsHitTestVisible="False">
+        <Rectangle  Opacity = "0.5" Margin="{Binding Radius}" Stroke="#FF000000" StrokeThickness="1" StrokeDashArray="4 4" IsHitTestVisible="False">
             <Rectangle.Fill>
                 <RadialGradientBrush GradientOrigin="0.5,0.5" Center="0.5,0.5"
                                      RadiusX="0.5" RadiusY="0.5">
-                    <GradientStop Color="{Binding TurnedOnColor}" Offset="0.1"/>
-                    <GradientStop Color="Transparent" Offset="1.7"/>
+                    <GradientStop Color="{Binding TurnedOnColor}" Offset="{Binding YellowOffset}"/>
+                    <GradientStop Color="Transparent" Offset="{Binding TransparentOffset}"/>
                 </RadialGradientBrush>
             </Rectangle.Fill>
         </Rectangle>

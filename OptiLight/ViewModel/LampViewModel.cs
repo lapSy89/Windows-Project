@@ -14,12 +14,19 @@ namespace OptiLight.ViewModel {
         public double Width { get { return Lamp.Width; } set { Lamp.Width = value; RaisePropertyChanged(); } }
         public double Height { get { return Lamp.Height; } set { Lamp.Height = value; RaisePropertyChanged(); } }
         public string Name { get { return Lamp.name; } }
-        public double Vertical { get { return Lamp.Vertical; } set { Lamp.Vertical = value; RaisePropertyChanged(); } }
-        public double Horizontal { get { return Lamp.Horizontal; } set { Lamp.Horizontal = value; RaisePropertyChanged(); } }
+        public double VerticalUp { get { return Lamp.VerticalUp; } set { Lamp.VerticalUp = value; RaisePropertyChanged(); } }
+        public double VerticalDown { get { return Lamp.VerticalDown; } set { Lamp.VerticalDown = value; RaisePropertyChanged(); } }
+        public double HorizontalLeft { get { return Lamp.HorizontalLeft; } set { Lamp.HorizontalLeft = value; RaisePropertyChanged(); } }
+        public double HorizontalRight { get { return Lamp.HorizontalRight; } set { Lamp.HorizontalRight = value; RaisePropertyChanged(); } }
+        public double VerticalUpConstant { get { return Lamp.VerticalUpConstant; } }
+        public double VerticalDownConstant { get { return Lamp.VerticalDownConstant; } }
+        public double HorizontalLeftConstant { get { return Lamp.HorizontalLeftConstant; } }
+        public double HorizontalRightConstant { get { return Lamp.HorizontalRightConstant; } }
 
 
-        public Thickness Radius { get { return new Thickness(Vertical, Horizontal, Vertical, Horizontal); }
-                                  set { Vertical = value.Top; Horizontal = value.Left; Vertical = value.Bottom; Horizontal = value.Right;
+        public Thickness Radius { get { return new Thickness(HorizontalLeft, VerticalUp, HorizontalRight, VerticalDown); }
+                                  set {
+                HorizontalLeft = value.Left; VerticalUp = value.Top; HorizontalRight = value.Right; VerticalDown = value.Bottom;
                                         RaisePropertyChanged(); } }
 
         // Values for displaying in sidebar
@@ -57,8 +64,10 @@ namespace OptiLight.ViewModel {
    
         //Change lightradius
         public void changeLightRadius() {
-            Vertical = LampHeight * Brightness * (-1.6667);
-            Horizontal = LampHeight * Brightness * (-1.6667);
+            VerticalUp = Brightness * LampHeight * VerticalUpConstant;
+            VerticalDown = Brightness * LampHeight * VerticalDownConstant;
+            HorizontalLeft = Brightness * LampHeight * HorizontalLeftConstant;
+            HorizontalRight = Brightness * LampHeight * HorizontalRightConstant;
             YellowOffset = (Brightness / LampHeight) * 0.02;
             TransparentOffset = (Brightness / LampHeight) * 0.1133;
         }
