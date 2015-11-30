@@ -4,14 +4,22 @@ using OptiLight.Model;
 namespace OptiLight.ViewModel {
     public class CanvasViewModel : BaseViewModel {
 
-        //We use the Singleton design pattern for our constructor
+        // The canvas from the the Model
+        public Canvas Canvas { get; set; }
+
+        // We use the Singleton design pattern for our constructor
         public static CanvasViewModel Instance { get; } = new CanvasViewModel();
         private CanvasViewModel() {
             Canvas = new Canvas();
         }
 
-        public Canvas Canvas { get; set; }
-        public bool snapActive { get; set; } = false;
+        // Variable for whether the snapping is active or not
+        private bool snapActive = false;
+        public bool SnapActive {
+            get { return snapActive; }
+            set { snapActive = value; RaisePropertyChanged(); }
+        }
+
         public string visibility {
             get { return Canvas.visibility; }
             set {

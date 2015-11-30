@@ -48,7 +48,7 @@ namespace OptiLight.ViewModel {
 
         public void toggleSnapping()
         {
-            canvas.snapActive = !canvas.snapActive;
+            canvas.SnapActive = !canvas.SnapActive;
         }
     
         public void toggleVisibility() {
@@ -107,7 +107,7 @@ namespace OptiLight.ViewModel {
                 var newX = initialLampPosition.X + offsetX;
                 var newY = initialLampPosition.Y + offsetY;
 
-                    if (canvas.snapActive) {
+                    if (canvas.SnapActive) {
                     var extraX = (newX + Lamp.Width / 2) % canvas.cellSize;
                     var extraY = (newY + Lamp.Height / 2) % canvas.cellSize;
 
@@ -159,7 +159,7 @@ namespace OptiLight.ViewModel {
                 var newY = initialLampPosition.Y + offsetY;
 
                 //Calculate coordinates according to specified grid, if snapping is active
-                    if (canvas.snapActive) {
+                    if (canvas.SnapActive) {
                     var extraX = (newX + Lamp.Width  / 2) % canvas.cellSize;
                     var extraY = (newY + Lamp.Height / 2) % canvas.cellSize;
 
