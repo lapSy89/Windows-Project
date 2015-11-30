@@ -37,7 +37,6 @@
                 </MenuItem>
             </ContextMenu>
         </Grid.ContextMenu>
-        <Rectangle Fill="{Binding SelectedColor}" Opacity = "0.7" Margin="-27,-2,-27,-2"/>
         <Rectangle  Opacity = "0.5" Margin="{Binding Radius}" Stroke="#FF000000" StrokeThickness="1" 
                     StrokeDashArray="4 4" IsHitTestVisible="False" HorizontalAlignment="Right" Width="250">
             <Rectangle.Fill>
@@ -55,7 +54,7 @@
         *    NICOLAI SE HER!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!  *
         *                                                            *
         **************************************************************
-        <Rectangle Fill="{Binding SelectedColor}" Opacity = "0.7" Margin="-27,-2,-27,-2"/>
+        <Rectangle Fill="{Binding SelectedColor}" Opacity = "0.7" Margin="8,-2,-42,-2"/>
         <Rectangle  Opacity = "0.5" Margin="-100,-125,-100,-125" Stroke="#FF000000" StrokeThickness="1" 
                     StrokeDashArray="4 4" IsHitTestVisible="False" HorizontalAlignment="Right" Width="250">
             <Rectangle.Fill>
@@ -67,8 +66,8 @@
             </Rectangle.Fill>
         </Rectangle>
         -->
-        
-        <Rectangle Margin="-25,0,-25,0">
+
+        <Rectangle Margin="10,0,-40,0">
             <Rectangle.Fill>
                 <LinearGradientBrush StartPoint="0,1" EndPoint="0,0">
                     <GradientStop Color="Beige" Offset="0"/>
@@ -80,9 +79,9 @@
             </Rectangle.Fill>
             <!-- Triggers for handeling the moving of a lamp 
             This only bounds to the outer part of the lamp, need to add triggers to inner circle also -->
-            
+
         </Rectangle>
-        <Rectangle Fill="{Binding SelectedColor}" Opacity="0.2" Margin="-25,0,-25,0">
+        <Rectangle Fill="{Binding SelectedColor}" Opacity="0.2" Margin="10,0,-40,0">
             <Rectangle.ToolTip>
                 <ToolTip DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Self}}">
                     <StackPanel>
