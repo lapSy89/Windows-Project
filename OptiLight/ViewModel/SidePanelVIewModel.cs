@@ -48,8 +48,8 @@ namespace OptiLight.ViewModel {
                 if (Lamps != null && LampsAreSelected()) {
                     LampViewModel lamp = getSelectedLamps()[0];
                     lamp.Brightness = value;
-                    CurrentLampVertRadius = lamp.Vertical;
-                    CurrentLampHoriRadius = lamp.Horizontal;
+                    CurrentLampVertRadius = (lamp.VerticalUp + lamp.VerticalDown) / 2;
+                    CurrentLampHoriRadius = (lamp.HorizontalLeft + lamp.HorizontalRight) / 2;
                 }
                 RaisePropertyChanged();
             }
@@ -63,8 +63,8 @@ namespace OptiLight.ViewModel {
                 if (Lamps != null && LampsAreSelected()) {
                     LampViewModel lamp = getSelectedLamps()[0];
                     lamp.LampHeight = value;
-                    CurrentLampVertRadius = lamp.Vertical;
-                    CurrentLampHoriRadius = lamp.Horizontal;
+                    CurrentLampVertRadius = (lamp.VerticalUp + lamp.VerticalDown) / 2;
+                    CurrentLampHoriRadius = (lamp.HorizontalLeft + lamp.HorizontalRight) / 2;
                 }
                 RaisePropertyChanged();
             }
