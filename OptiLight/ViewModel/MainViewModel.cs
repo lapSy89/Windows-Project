@@ -88,58 +88,84 @@ namespace OptiLight.ViewModel {
         // the lamps new position is definedand saved to the lamp.
         // The method is only allowed if the lamp was pressed before releasing.
         private void LampReleased(MouseButtonEventArgs e) {
+            var Lamp = TargetLamp(e);
+            var MousePosition = RelativeMousePosition(e);
 
-                var Lamp = TargetLamp(e);
-                var MousePosition = RelativeMousePosition(e);
+            Lamp.X = initialLampPosition.X;
+            Lamp.Y = initialLampPosition.Y;
 
-            //Check if mouse is within the canvas, otherwise a release of a 
-                if (MousePosition.X > 0 && MousePosition.Y > 0
-                && MousePosition.X < canvas.width
-                && MousePosition.Y < canvas.height) {
+            var offsetX = MousePosition.X - initialMousePosition.X;
+            var offsetY = MousePosition.Y - initialMousePosition.Y;
 
-                    Lamp.X = initialLampPosition.X;
-                    Lamp.Y = initialLampPosition.Y;
+            //Calculate the new lamp coordinates, based on initial position and the offset
+            var newX = initialLampPosition.X + offsetX;
+            var newY = initialLampPosition.Y + offsetY;
 
-                    var offsetX = MousePosition.X - initialMousePosition.X;
-                    var offsetY = MousePosition.Y - initialMousePosition.Y;
+            if (canvas.snapActive) {
+                //"+ Lamp.[Width/Heigh] / 2" is to adjust coordinates from top-left corner to lamp center
+                var extraX = (newX + Lamp.Width  / 2) % canvas.cellSize;
+                var extraY = (newY + Lamp.Height / 2) % canvas.cellSize;
 
-                //Calculate the new lamp coordinates, based on initial position and the offset
-                var newX = initialLampPosition.X + offsetX;
-                var newY = initialLampPosition.Y + offsetY;
+                if (extraX < canvas.cellSize / 2) {
+                    newX = newX - extraX;
+                } else {
+                    newX = newX - extraX + canvas.cellSize;
+                }
+                if (extraY < canvas.cellSize / 2) {
+                    newY = newY - extraY;
+                } else {
+                    newY = newY - extraY + canvas.cellSize;
+                }
 
-                    if (canvas.snapActive) {
-                    var extraX = (newX + Lamp.Width / 2) % canvas.cellSize;
-                    var extraY = (newY + Lamp.Height / 2) % canvas.cellSize;
-
-                    if (extraX < canvas.cellSize / 2) {
-                        newX = newX - extraX;
-                        }
-                    else {
-                        newX = newX - extraX + canvas.cellSize;
-                        }
-                    if (extraY < canvas.cellSize / 2) {
-                        newY = newY - extraY;
+                if (newX < 0) {
+                    newX = canvas.cellSize - Lamp.Width / 2;
+                    while (newX < 0) {
+                        newX += canvas.cellSize;
                     }
-                    else {
-                        newY = newY - extraY + canvas.cellSize;
+                } else if (newX + Lamp.Width > canvas.width) {
+                    newX = canvas.width - canvas.cellSize - Lamp.Width/2;
+                    while (newX + Lamp.Width > canvas.width) {
+                        newX -= canvas.cellSize;
                     }
                 }
 
-                    //Check if new position is within the canvas, before the move is accepted
-                if (newX >= 0 
-                    && newY >= 0 
-                    && newX + Lamp.Width <= canvas.width 
-                    && newY + Lamp.Height <= canvas.height) {
-
-                        // The move command is only added to the undo/redo stack if the lamp is moved and not when
-                        // it is just selected
-                        if (offsetX != 0 || offsetY != 0) {
-                        this.undoRedoController.AddAndExecute(new Command.MoveLamp(Lamp, (newX-initialLampPosition.X), (newY-initialLampPosition.Y)));
-                        }
+                if (newY < 0) {
+                    newY = canvas.cellSize - Lamp.Height / 2;
+                    while (newY < 0) {
+                        newY += canvas.cellSize;
                     }
                 }
-                e.MouseDevice.Target.ReleaseMouseCapture();
+                else if (newY + Lamp.Height > canvas.height) {
+                    newY = canvas.height - canvas.cellSize - Lamp.Height / 2;
+                    while (newY + Lamp.Height > canvas.height) {
+                        newY -= canvas.cellSize;
+                    }
+                }
+            } else {
+                //Check if new position is within the canvas, before the move is accepted
+                if (newX < 0) {
+                    newX = 0;
+                }
+                else if (newX + Lamp.Width > canvas.width) {
+                    newX = canvas.width - Lamp.Width;
+                }
+
+                if (newY < 0) {
+                    newY = 0;
+                }
+                else if (newY + Lamp.Height >= canvas.height) {
+                    newY = canvas.height - Lamp.Height;
+                }
             }
+
+            // The move command is only added to the undo/redo stack if the lamp is moved and not when
+            // it is just selected
+            if (offsetX != 0 || offsetY != 0) {
+                this.undoRedoController.AddAndExecute(new Command.MoveLamp(Lamp, (newX-initialLampPosition.X), (newY-initialLampPosition.Y)));
+            }
+
+            e.MouseDevice.Target.ReleaseMouseCapture();
+        }
 
         // Method for moving the lamp. This is created as an on-the-go method, so that each "pixel" 
         // move of the lamp isn't saved in the undo-redo command. 
@@ -159,31 +185,69 @@ namespace OptiLight.ViewModel {
                 var newY = initialLampPosition.Y + offsetY;
 
                 //Calculate coordinates according to specified grid, if snapping is active
-                    if (canvas.snapActive) {
-                    var extraX = (newX + Lamp.Width  / 2) % canvas.cellSize;
+                if (canvas.snapActive) {
+                    //"+ Lamp.[Width/Heigh] / 2" is to adjust coordinates from top-left corner to lamp center
+                    var extraX = (newX + Lamp.Width / 2) % canvas.cellSize;
                     var extraY = (newY + Lamp.Height / 2) % canvas.cellSize;
 
                     if (extraX < canvas.cellSize / 2) {
                         newX = newX - extraX;
-                        }
-                        else {
+                    }
+                    else {
                         newX = newX - extraX + canvas.cellSize;
-                        }
+                    }
                     if (extraY < canvas.cellSize / 2) {
                         newY = newY - extraY;
-                        }
-                        else {
+                    }
+                    else {
                         newY = newY - extraY + canvas.cellSize;
+                    }
+
+                    if (newX < 0) {
+                        newX = canvas.cellSize - Lamp.Width / 2;
+                        while (newX < 0) {
+                            newX += canvas.cellSize;
+                        }
+                    }
+                    else if (newX + Lamp.Width > canvas.width) {
+                        newX = canvas.width - canvas.cellSize - Lamp.Width / 2;
+                        while (newX + Lamp.Width > canvas.width) {
+                            newX -= canvas.cellSize;
                         }
                     }
 
-                if (newX >= 0 && newY >= 0 
-                    && newX + Lamp.Width  <= canvas.width 
-                    && newY + Lamp.Height <= canvas.height) {
-
-                    Lamp.X = newX;
-                    Lamp.Y = newY;
+                    if (newY < 0) {
+                        newY = canvas.cellSize - Lamp.Height / 2;
+                        while (newY < 0) {
+                            newY += canvas.cellSize;
+                        }
+                    }
+                    else if (newY + Lamp.Height > canvas.height) {
+                        newY = canvas.height - canvas.cellSize - Lamp.Height / 2;
+                        while (newY + Lamp.Height > canvas.height) {
+                            newY -= canvas.cellSize;
+                        }
+                    }
                 }
+                else {
+                    //Check if new position is within the canvas, before the move is accepted
+                    if (newX < 0) {
+                        newX = 0;
+                    }
+                    else if (newX + Lamp.Width > canvas.width) {
+                        newX = canvas.width - Lamp.Width;
+                    }
+
+                    if (newY < 0) {
+                        newY = 0;
+                    }
+                    else if (newY + Lamp.Height >= canvas.height) {
+                        newY = canvas.height - Lamp.Height;
+                    }
+                }
+
+                Lamp.X = newX;
+                Lamp.Y = newY;
             }
         }
 
