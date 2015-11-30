@@ -10,17 +10,29 @@
              Canvas.Left="{Binding X}" Canvas.Top="{Binding Y}" Width="{Binding Width}" Height="{Binding Width}"
              d:DesignHeight="{Binding Radius}" d:DesignWidth="{Binding Radius}">
     <Grid>
+        <!--The context menu (right click menu) of the lamp-->
         <Grid.ContextMenu>
             <ContextMenu>
+                <MenuItem Header = "Copy" Command="{Binding CopyCommand}">
+                    <MenuItem.Icon>
+                        <Image Source="/Resources/copy.png"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header = "Cut" Command="{Binding CutCommand}">
+                    <MenuItem.Icon>
+                        <Image Source="/Resources/Cut.png"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <Separator/>
+                <MenuItem Header = "Switch Light" Command="{Binding SwitchLampLightCommand}">
+                    <MenuItem.Icon>
+                        <Image Source="/Resources/LightContextMenu.png"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <Separator/>
                 <MenuItem Header="Delete" Command="{Binding RemoveLampCommand}">
                     <MenuItem.Icon>
                         <Image Source="/Resources/delete97.png"/>
-                    </MenuItem.Icon>
-                </MenuItem>
-                <MenuItem Header = "Copy" Command="{Binding CopyCommand}">
-                    <!-- Change to Binding -->
-                    <MenuItem.Icon>
-                        <Image Source="/Resources/copy.png"/>
                     </MenuItem.Icon>
                 </MenuItem>
             </ContextMenu>

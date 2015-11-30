@@ -3,13 +3,12 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:View="clr-namespace:OptiLight.View"
         xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
-          xmlns:cmd="clr-namespace:GalaSoft.MvvmLight.Command;assembly=GalaSoft.MvvmLight.Platform"
+        xmlns:cmd="clr-namespace:GalaSoft.MvvmLight.Command;assembly=GalaSoft.MvvmLight.Platform"
         xmlns:ViewModel="clr-namespace:OptiLight.ViewModel"
         Title="Optilight" Height="700" Width="900"
         Icon="pack://application:,,,/Resources/lampicon.ico"
-        DataContext="{Binding Source={StaticResource Locator}, Path=Main}"
-        >
-    
+        DataContext="{Binding Source={StaticResource Locator}, Path=Main}">
+
     <!-- Key bindings-->
     <Window.InputBindings>
         <KeyBinding Key="Delete"
@@ -54,8 +53,23 @@
             <ScrollViewer HorizontalScrollBarVisibility="Visible" VerticalAlignment="Center" HorizontalAlignment="Center"
                           VerticalScrollBarVisibility="Visible" Grid.Column="1">
                 <Grid Height="{Binding canvas.height}" Width="{Binding canvas.width}">
+                    <!--Context menu of the canvas-->
+                    <Grid.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Header = "Paste" Command="{Binding PasteCommand}">
+                                <MenuItem.Icon>
+                                    <Image Source="/Resources/paste.png"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
+                            <Separator/>
+                            <MenuItem Header = "Switch Light" Command="{Binding LightSwitchCommand}">
+                                <MenuItem.Icon>
+                                    <Image Source="/Resources/LightContextMenu.png"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
+                        </ContextMenu>
+                    </Grid.ContextMenu>
 
-                   
                     <Border BorderBrush="Black" 
                         BorderThickness="2"
                         HorizontalAlignment="Stretch"

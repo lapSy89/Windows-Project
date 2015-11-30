@@ -18,10 +18,12 @@ namespace OptiLight.ViewModel {
 
     // Implements the Galasoft ViewModelBase
     public abstract class BaseViewModel : ViewModelBase {
-        //CanvasViewModel 
-        public static CanvasViewModel canvas { get; set; } = new CanvasViewModel();
 
-        // The undoRedoController is created only here once
+        //We initialize the other viewModels as singletons
+        public CanvasViewModel canvas { get; } = CanvasViewModel.Instance;
+        public SidePanelViewModel sidePanel { get; } = SidePanelViewModel.Instance;
+
+        // The undoRedoController is initialized as a singleton
         protected UndoRedoController undoRedoController = UndoRedoController.Instance;
 
         // All the single lamps, all the single lamps, all the single lamps, all the single lamps, throw your light up!
@@ -29,23 +31,6 @@ namespace OptiLight.ViewModel {
 
         // Contains a copy of all current types of lamps - used in the sidepanel
         public static List<Lamp> lampTypes { get; } = Lamp.lampTypes;
-
-        // The currently selected lamp type to add represented. Null when none is selected.
-        public Lamp addingLampSelected { get; set; }
-
-        // The color of the selected lamp in the side menu - either transparent or darkgray
-        private Color addingColor = Colors.Transparent;
-        public Color AddingColor {
-            get { return addingColor; }
-            set { addingColor = value; RaisePropertyChanged(); }
-        }
-
-        // The visisbility of the box in the sidepanel
-        private Visibility showSidePanelBox = Visibility.Collapsed;
-        public Visibility ShowSidePanelBox {
-            get { return showSidePanelBox; }
-            set { showSidePanelBox = value; RaisePropertyChanged(); }
-        }
 
         // Dialog windows for New, Load and Save
         public DialogViews dialogWindow { get; set; }
@@ -68,6 +53,7 @@ namespace OptiLight.ViewModel {
         public ICommand LoadDrawingCommand { get; }
 
         public ICommand LightSwitchCommand { get; }
+        public ICommand SwitchLampLightCommand { get; }
 
         //Constructor 
         public BaseViewModel() {
@@ -88,7 +74,7 @@ namespace OptiLight.ViewModel {
             SaveDrawingCommand = new RelayCommand(SaveDrawing);
         
             LightSwitchCommand = new RelayCommand(LightSwitch);
-            LightSwitchCommand = new RelayCommand(LightSwitch);
+            SwitchLampLightCommand = new RelayCommand(singleLampLightSwitch, LampsAreSelected);
         }
 
         #region New / Save / Load
@@ -155,8 +141,8 @@ namespace OptiLight.ViewModel {
         // We clear the workspace for loading or new workspace
         private void clearWorkspace() {
             undoRedoController.ClearStacks();
-            addingLampSelected = null;
-            AddingColor = Colors.Transparent;
+            sidePanel.addingLampSelected = null;
+            sidePanel.AddingColor = Colors.Transparent;
         }
 
         #endregion New / Save / Load
@@ -166,7 +152,7 @@ namespace OptiLight.ViewModel {
         // The selected lamps are removed and moved to the clipboard as xml
         private async void Cut() {
             var selectedLamps = getSelectedLamps();
-            undoRedoController.AddAndExecute(new RemoveLamp(Lamps,selectedLamps));
+            RemoveLamp();
             var xml = await XML.Instance.AsyncSerializeToString(selectedLamps.Select(lamp => lamp.Lamp).ToList());
             Clipboard.SetText(xml);
         }
@@ -203,6 +189,8 @@ namespace OptiLight.ViewModel {
 
         #endregion Cut / Copy / Paste
 
+        #region Add / Remove
+
         // Method for adding lamps
         private void AddNewLamp(IList selectedAddingLamp) {
 
@@ -210,24 +198,31 @@ namespace OptiLight.ViewModel {
             Lamp selectedLamp = selectedAddingLamp.Cast<Lamp>().ToList().First();
 
             //We either choose a type of lamp to add or stop adding
-            if (addingLampSelected == null) {
-                AddingColor = Colors.DarkGray;
-                addingLampSelected = selectedLamp;
+            if (sidePanel.addingLampSelected == null) {
+                sidePanel.AddingColor = Colors.DarkGray;
+                sidePanel.addingLampSelected = selectedLamp;
             }
-            else if (addingLampSelected.name.Equals(selectedLamp.name)) {
-                addingLampSelected = null;
-                AddingColor = Colors.Transparent;
+            else if (sidePanel.addingLampSelected.name.Equals(selectedLamp.name)) {
+                sidePanel.addingLampSelected = null;
+                sidePanel.AddingColor = Colors.Transparent;
             }
             else {
-                addingLampSelected = selectedLamp;
-                AddingColor = Colors.DarkGray;
+                sidePanel.addingLampSelected = selectedLamp;
+                sidePanel.AddingColor = Colors.DarkGray;
             }
         }
 
         // We remove the selected lamps
         private void RemoveLamp() {
-            undoRedoController.AddAndExecute(new RemoveLamp(Lamps, getSelectedLamps()));
+            LampViewModel lamp = getSelectedLamps()[0];
+            lamp.IsSelected = false;
+            sidePanel.ShowSidePanelBox = Visibility.Collapsed;
+            undoRedoController.AddAndExecute(new RemoveLamp(Lamps, new List<LampViewModel>(){lamp}));
         }
+
+        #endregion Add / Remove
+
+        #region Select / Deselect
 
         // Returns all selected lamps
         public List<LampViewModel> getSelectedLamps() {
@@ -249,6 +244,10 @@ namespace OptiLight.ViewModel {
             }
         }
 
+        #endregion Select / Deselect
+
+        #region Light Switch
+
         // Method for turning all lamps on / off
         private void LightSwitch() {
             foreach (var lamp in Lamps) {
@@ -256,5 +255,13 @@ namespace OptiLight.ViewModel {
             }
             lightsOn = !lightsOn;
         }
+
+        // Method that switches the light of a single lamp
+        private void singleLampLightSwitch() {
+            getSelectedLamps()[0].IsTurnedOn = !getSelectedLamps()[0].IsTurnedOn;
+        }
+
+        #endregion Light Switch
+
     }
 }
