@@ -274,7 +274,7 @@ namespace OptiLight.ViewModel {
 
         #endregion Light Switch
 
-        #region Grid
+        #region Grid Snap / Show
 
         public void toggleSnapping() {
             canvas.SnapActive = !canvas.SnapActive;

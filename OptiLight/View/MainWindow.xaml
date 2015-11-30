@@ -46,6 +46,12 @@
         <KeyBinding Key="S"
               Command="{Binding toggleGridVisibilityCommand}" />
     </Window.InputBindings>
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="KeyDown">
+            <cmd:EventToCommand Command="{Binding DataContext.ArrowKeyPressedCommand, 
+                        RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" PassEventArgsToCommand="True"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
     <!-- Overall layout for the Window-->
     <DockPanel>
         <!-- RibbonMenu layout -->

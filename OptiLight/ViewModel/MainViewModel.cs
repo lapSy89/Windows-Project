@@ -25,6 +25,9 @@ namespace OptiLight.ViewModel {
         public ICommand LampMovedCommand { get; }
         public ICommand MouseDownCanvasCommand { get; }
 
+        // The possible arrowkey commands
+        public ICommand ArrowKeyPressedCommand { get; }
+
         // Constructor - creates the initial lamps and initializes the commands
         public MainViewModel() : base() {
             // Lamps created from the start
@@ -38,6 +41,8 @@ namespace OptiLight.ViewModel {
             LampReleasedCommand = new RelayCommand<MouseButtonEventArgs>(LampReleased);
             LampMovedCommand = new RelayCommand<MouseEventArgs>(LampMoved);
             MouseDownCanvasCommand = new RelayCommand<MouseButtonEventArgs>(CanvasDown);
+
+            ArrowKeyPressedCommand = new RelayCommand<KeyEventArgs>(ArrowKeyPressed);
         }
 
         #region Lamp Pressed / Released / Moved
@@ -286,7 +291,25 @@ namespace OptiLight.ViewModel {
 
         #endregion Canvas Pressed
 
-        // Helping method for attaching the mouse to a lamp
+        #region Arrowkey Presses
+
+        private void ArrowKeyPressed(KeyEventArgs e) {
+            if (e != null) {
+                if (e.Key == Key.Up) {
+                    Console.WriteLine("Up");
+                } else if (e.Key == Key.Down) {
+                    Console.WriteLine("Down");
+                } else if (e.Key == Key.Left) {
+                    Console.WriteLine("Left");
+                } else if (e.Key == Key.Right) {
+                    Console.WriteLine("Right");
+                }
+            }
+        }
+
+        #endregion Arrowkey Presses
+
+            // Helping method for attaching the mouse to a lamp
         private LampViewModel TargetLamp(MouseEventArgs e) {
             var targetedElement = (FrameworkElement)e.MouseDevice.Target;
             return (LampViewModel)targetedElement.DataContext;
