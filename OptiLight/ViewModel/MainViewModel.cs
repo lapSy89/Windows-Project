@@ -48,7 +48,7 @@ namespace OptiLight.ViewModel {
 
         public void toggleSnapping()
         {
-            canvas.snapActive = !canvas.snapActive;
+            canvas.SnapActive = !canvas.SnapActive;
         }
     
         public void toggleVisibility() {
@@ -88,40 +88,40 @@ namespace OptiLight.ViewModel {
         // the lamps new position is definedand saved to the lamp.
         // The method is only allowed if the lamp was pressed before releasing.
         private void LampReleased(MouseButtonEventArgs e) {
-            var Lamp = TargetLamp(e);
-            var MousePosition = RelativeMousePosition(e);
+                var Lamp = TargetLamp(e);
+                var MousePosition = RelativeMousePosition(e);
 
-            Lamp.X = initialLampPosition.X;
-            Lamp.Y = initialLampPosition.Y;
+                    Lamp.X = initialLampPosition.X;
+                    Lamp.Y = initialLampPosition.Y;
 
-            var offsetX = MousePosition.X - initialMousePosition.X;
-            var offsetY = MousePosition.Y - initialMousePosition.Y;
+                    var offsetX = MousePosition.X - initialMousePosition.X;
+                    var offsetY = MousePosition.Y - initialMousePosition.Y;
 
-            //Calculate the new lamp coordinates, based on initial position and the offset
-            var newX = initialLampPosition.X + offsetX;
-            var newY = initialLampPosition.Y + offsetY;
+                //Calculate the new lamp coordinates, based on initial position and the offset
+                var newX = initialLampPosition.X + offsetX;
+                var newY = initialLampPosition.Y + offsetY;
 
             if (canvas.snapActive) {
                 //"+ Lamp.[Width/Heigh] / 2" is to adjust coordinates from top-left corner to lamp center
                 var extraX = (newX + Lamp.Width  / 2) % canvas.cellSize;
-                var extraY = (newY + Lamp.Height / 2) % canvas.cellSize;
+                    var extraY = (newY + Lamp.Height / 2) % canvas.cellSize;
 
-                if (extraX < canvas.cellSize / 2) {
-                    newX = newX - extraX;
+                    if (extraX < canvas.cellSize / 2) {
+                        newX = newX - extraX;
                 } else {
-                    newX = newX - extraX + canvas.cellSize;
-                }
-                if (extraY < canvas.cellSize / 2) {
-                    newY = newY - extraY;
+                        newX = newX - extraX + canvas.cellSize;
+                        }
+                    if (extraY < canvas.cellSize / 2) {
+                        newY = newY - extraY;
                 } else {
-                    newY = newY - extraY + canvas.cellSize;
-                }
+                        newY = newY - extraY + canvas.cellSize;
+                    }
 
                 if (newX < 0) {
                     newX = canvas.cellSize - Lamp.Width / 2;
                     while (newX < 0) {
                         newX += canvas.cellSize;
-                    }
+                }
                 } else if (newX + Lamp.Width > canvas.width) {
                     newX = canvas.width - canvas.cellSize - Lamp.Width/2;
                     while (newX + Lamp.Width > canvas.width) {
@@ -142,7 +142,7 @@ namespace OptiLight.ViewModel {
                     }
                 }
             } else {
-                //Check if new position is within the canvas, before the move is accepted
+                    //Check if new position is within the canvas, before the move is accepted
                 if (newX < 0) {
                     newX = 0;
                 }
@@ -158,14 +158,14 @@ namespace OptiLight.ViewModel {
                 }
             }
 
-            // The move command is only added to the undo/redo stack if the lamp is moved and not when
-            // it is just selected
-            if (offsetX != 0 || offsetY != 0) {
-                this.undoRedoController.AddAndExecute(new Command.MoveLamp(Lamp, (newX-initialLampPosition.X), (newY-initialLampPosition.Y)));
-            }
+                        // The move command is only added to the undo/redo stack if the lamp is moved and not when
+                        // it is just selected
+                        if (offsetX != 0 || offsetY != 0) {
+                        this.undoRedoController.AddAndExecute(new Command.MoveLamp(Lamp, (newX-initialLampPosition.X), (newY-initialLampPosition.Y)));
+                        }
 
-            e.MouseDevice.Target.ReleaseMouseCapture();
-        }
+                e.MouseDevice.Target.ReleaseMouseCapture();
+            }
 
         // Method for moving the lamp. This is created as an on-the-go method, so that each "pixel" 
         // move of the lamp isn't saved in the undo-redo command. 
@@ -192,16 +192,16 @@ namespace OptiLight.ViewModel {
 
                     if (extraX < canvas.cellSize / 2) {
                         newX = newX - extraX;
-                    }
-                    else {
+                        }
+                        else {
                         newX = newX - extraX + canvas.cellSize;
-                    }
+                        }
                     if (extraY < canvas.cellSize / 2) {
                         newY = newY - extraY;
-                    }
-                    else {
+                        }
+                        else {
                         newY = newY - extraY + canvas.cellSize;
-                    }
+                        }
 
                     if (newX < 0) {
                         newX = canvas.cellSize - Lamp.Width / 2;
@@ -246,10 +246,10 @@ namespace OptiLight.ViewModel {
                     }
                 }
 
-                Lamp.X = newX;
-                Lamp.Y = newY;
+                    Lamp.X = newX;
+                    Lamp.Y = newY;
+                }
             }
-        }
 
         #endregion Lamp Pressed / Released / Moved
 
