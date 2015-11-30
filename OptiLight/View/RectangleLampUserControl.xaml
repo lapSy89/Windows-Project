@@ -54,8 +54,9 @@
         *    NICOLAI SE HER!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!  *
         *                                                            *
         **************************************************************
-        <Rectangle Fill="{Binding SelectedColor}" Opacity = "0.7" Margin="8,-2,-42,-2"/>
-        <Rectangle  Opacity = "0.5" Margin="-100,-125,-100,-125" Stroke="#FF000000" StrokeThickness="1" 
+        
+        <Rectangle Fill="{Binding SelectedColor}" Opacity = "0.7" Margin="-2,-2,-2,-2"/>
+        <Rectangle  Opacity = "0.5" Margin="-76,-125,-74,-125" Stroke="#FF000000" StrokeThickness="1" 
                     StrokeDashArray="4 4" IsHitTestVisible="False" HorizontalAlignment="Right" Width="250">
             <Rectangle.Fill>
                 <RadialGradientBrush GradientOrigin="0.5,0.5" Center="0.5,0.5"
@@ -66,8 +67,11 @@
             </Rectangle.Fill>
         </Rectangle>
         -->
+        
+        
+        
 
-        <Rectangle Margin="10,0,-40,0">
+        <Rectangle Margin="0,0,0,0">
             <Rectangle.Fill>
                 <LinearGradientBrush StartPoint="0,1" EndPoint="0,0">
                     <GradientStop Color="Beige" Offset="0"/>
@@ -81,7 +85,7 @@
             This only bounds to the outer part of the lamp, need to add triggers to inner circle also -->
 
         </Rectangle>
-        <Rectangle Fill="{Binding SelectedColor}" Opacity="0.2" Margin="10,0,-40,0">
+        <Rectangle Fill="{Binding SelectedColor}" Opacity="0.2" Margin="0,0,0,0">
             <Rectangle.ToolTip>
                 <ToolTip DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Self}}">
                     <StackPanel>
