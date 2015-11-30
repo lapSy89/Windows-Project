@@ -8,7 +8,7 @@
              xmlns:local="clr-namespace:OptiLight.View"
              mc:Ignorable="d" 
              Canvas.Left="{Binding X}" Canvas.Top="{Binding Y}" Width="{Binding Width}" Height="{Binding Height}"
-             d:DesignHeight="50" d:DesignWidth="50">
+             d:DesignHeight="50" d:DesignWidth="100">
     <Grid>
         <!--The context menu (right click menu) of the lamp-->
         <Grid.ContextMenu>

@@ -12,8 +12,8 @@ namespace OptiLight.Model {
         // Standard x value for placing lamp in Grid with method for setting and getting
         public double X { get; set; } = 100;
         public double Y { get; set; } = 100;
-        public double Width { get; set; } = 50;
-        public double Height { get; set; } = 50;
+        public abstract double Width { get; set; }
+        public abstract double Height { get; set; }
         public abstract double VerticalUp { get; set; }
         public abstract double VerticalDown { get; set; }
         public abstract double HorizontalLeft { get; set; }

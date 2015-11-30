@@ -1,5 +1,8 @@
 ﻿namespace OptiLight.Model {
     public class RoundLamp : Lamp {
+
+        public override double Height { get; set; } = 50;
+        public override double Width { get; set; } = 50;
         public override double VerticalUp { get; set; } = -100;
         public override double VerticalDown { get; set; } = -100;
         public override double HorizontalLeft { get; set; } = -100;
