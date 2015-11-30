@@ -51,11 +51,21 @@
                         </Grid>
                     </ItemsPanelTemplate>
                 </RibbonGroup.ItemsPanel>
-                <RibbonToggleButton Label="Toggle Light" LargeImageSource="/Resources/switch7.png" HorizontalAlignment="Center" Command="{Binding LightSwitchCommand}"/>
+                <RibbonToggleButton Label="Toggle Light" 
+                                    LargeImageSource="/Resources/switch7.png"
+                                    HorizontalAlignment="Center" 
+                                    Command="{Binding LightSwitchCommand}"
+                                    IsChecked="{Binding LightsOn, Mode=OneWay}"/>
             </RibbonGroup>
             <RibbonGroup Header="Grid Options">
-                <RibbonToggleButton Label="Show Grid" LargeImageSource="/Resources/grid.png" Command="{Binding toggleGridVisibilityCommand}"/>
-                <RibbonToggleButton Label="Grip Snapping" LargeImageSource="/Resources/lock111.png" Command="{Binding toggleSnappingCommand}" IsChecked="{Binding canvas.SnapActive, Mode=OneWay}"/>
+                <RibbonToggleButton Label="Show Grid" 
+                                    LargeImageSource="/Resources/grid.png" 
+                                    Command="{Binding toggleGridVisibilityCommand}"
+                                    IsChecked="{Binding canvas.GridVisible, Mode=OneWay}"/>
+                <RibbonToggleButton Label="Grip Snapping" 
+                                    LargeImageSource="/Resources/lock111.png" 
+                                    Command="{Binding toggleSnappingCommand}" 
+                                    IsChecked="{Binding canvas.SnapActive, Mode=OneWay}"/>
             </RibbonGroup>
         </RibbonTab>
         <RibbonTab Header="Lamp" KeyTip="O">
@@ -107,8 +117,14 @@
                 </RibbonControlGroup>
             </RibbonGroup>
             <RibbonGroup Header="Grid Options">
-                <RibbonToggleButton Label="Show Grid" LargeImageSource="/Resources/grid.png" Command="{Binding toggleGridVisibilityCommand}"/>
-                <RibbonToggleButton Label="Grip Snapping" LargeImageSource="/Resources/lock111.png" Command="{Binding toggleSnappingCommand}" IsChecked="{Binding canvas.SnapActive, Mode=OneWay}"/>
+                <RibbonToggleButton Label="Show Grid" 
+                                    LargeImageSource="/Resources/grid.png" 
+                                    Command="{Binding toggleGridVisibilityCommand}"
+                                    IsChecked="{Binding canvas.GridVisible, Mode=OneWay}"/>
+                <RibbonToggleButton Label="Grip Snapping" 
+                                    LargeImageSource="/Resources/lock111.png" 
+                                    Command="{Binding toggleSnappingCommand}" 
+                                    IsChecked="{Binding canvas.SnapActive, Mode=OneWay}"/>
             </RibbonGroup>
         </RibbonTab>
     </Ribbon>

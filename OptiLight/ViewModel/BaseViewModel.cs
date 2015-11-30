@@ -36,7 +36,11 @@ namespace OptiLight.ViewModel {
         public DialogViews dialogWindow { get; set; }
 
         // Whether the global lights of the lamps are on of off
-        public bool lightsOn = true;
+        private bool lightsOn = true;
+        public bool LightsOn {
+            get { return lightsOn; }
+            set { lightsOn = value; RaisePropertyChanged(); }
+        }
 
         public ICommand UndoCommand { get; }
         public ICommand RedoCommand { get; }
@@ -54,6 +58,9 @@ namespace OptiLight.ViewModel {
 
         public ICommand LightSwitchCommand { get; }
         public ICommand SwitchLampLightCommand { get; }
+
+        public ICommand toggleSnappingCommand { get; }
+        public ICommand toggleGridVisibilityCommand { get; }
 
         //Constructor 
         public BaseViewModel() {
@@ -75,6 +82,9 @@ namespace OptiLight.ViewModel {
         
             LightSwitchCommand = new RelayCommand(LightSwitch);
             SwitchLampLightCommand = new RelayCommand(singleLampLightSwitch, LampsAreSelected);
+
+            toggleSnappingCommand = new RelayCommand(toggleSnapping);
+            toggleGridVisibilityCommand = new RelayCommand(toggleVisibility);
         }
 
         #region New / Save / Load
@@ -251,17 +261,30 @@ namespace OptiLight.ViewModel {
         // Method for turning all lamps on / off
         private void LightSwitch() {
             foreach (var lamp in Lamps) {
-                lamp.IsTurnedOn = lightsOn;
+                lamp.IsTurnedOn = LightsOn;
             }
-            lightsOn = !lightsOn;
+            LightsOn = !LightsOn;
         }
 
         // Method that switches the light of a single lamp
         private void singleLampLightSwitch() {
-            getSelectedLamps()[0].IsTurnedOn = !getSelectedLamps()[0].IsTurnedOn;
+            LampViewModel lamp = getSelectedLamps()[0];
+            undoRedoController.AddAndExecute(new ToggleLightOnLamp(lamp, !lamp.IsTurnedOn));
         }
 
         #endregion Light Switch
+
+        #region Grid
+
+        public void toggleSnapping() {
+            canvas.SnapActive = !canvas.SnapActive;
+        }
+
+        public void toggleVisibility() {
+            canvas.toggleVisibility();
+        }
+
+        #endregion Grid
 
     }
 }
