@@ -216,9 +216,22 @@ namespace OptiLight.ViewModel {
                     object[] argsVM = { lamp };
                     LampViewModel lampVM = (LampViewModel) Activator.CreateInstance(lampTypeVM, argsVM);
 
+                    // We place the lamp 50 pixels down and right of the original lamp
+                    // but only if it is inside the canvas
+                    var newPosX = lampVM.X + 50;
+                    var newPosY = lampVM.Y + 50;
+
+                    if (newPosX + lampVM.Width > canvas.width) {
+                        newPosX = canvas.width - lampVM.Width;
+                    }
+
+                    if (newPosY + lampVM.Height > canvas.height) {
+                        newPosY = canvas.height - lampVM.Height;
+                    }
+
                     // The lamp is added to the collection and their coordinates are changed
-                    lampVM.X = lampVM.X + 50;
-                    lampVM.Y = lampVM.Y + 50;
+                    lampVM.X = newPosX;
+                    lampVM.Y = newPosY;
                     undoRedoController.AddAndExecute(new AddLamp(Lamps, lampVM));
                 }
             }            
@@ -240,7 +253,7 @@ namespace OptiLight.ViewModel {
 
             //We either choose a type of lamp to add or stop adding
             if (sidePanel.addingLampSelected == null) {
-                sidePanel.AddingColor = Colors.DarkGray;
+                sidePanel.AddingColor = Colors.RosyBrown;
                 sidePanel.addingLampSelected = selectedLamp;
             }
             else if (sidePanel.addingLampSelected.name.Equals(selectedLamp.name)) {
@@ -249,7 +262,7 @@ namespace OptiLight.ViewModel {
             }
             else {
                 sidePanel.addingLampSelected = selectedLamp;
-                sidePanel.AddingColor = Colors.DarkGray;
+                sidePanel.AddingColor = Colors.RosyBrown;
             }
         }
 

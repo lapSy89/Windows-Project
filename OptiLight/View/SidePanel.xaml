@@ -92,6 +92,7 @@
                 <!--Here we bind the background color of a selected cell-->
                 <DataGrid.Resources>
                     <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}" Color="{Binding sidePanel.AddingColor}"/>
+                    <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="{Binding sidePanel.AddingColor}"/>
                 </DataGrid.Resources>
             </DataGrid>
         </ScrollViewer>

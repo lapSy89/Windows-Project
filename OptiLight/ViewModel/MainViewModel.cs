@@ -335,15 +335,5 @@ namespace OptiLight.ViewModel {
             dynamic parent = VisualTreeHelper.GetParent(o);
             return parent.GetType().IsAssignableFrom(typeof(T)) ? parent : FindParentOfType<T>(parent);
         }
-
-        // Method for getting current selected lamp.
-        private LampViewModel getCurrentLamp() {
-            foreach (LampViewModel lamp in Lamps) {
-                if(lamp.IsSelected) {
-                    return lamp;
-                }
-            }
-            return null;
-        }
     }
 }
