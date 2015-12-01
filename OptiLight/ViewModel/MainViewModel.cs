@@ -13,12 +13,16 @@ namespace OptiLight.ViewModel {
 
     public class MainViewModel : BaseViewModel {
 
+        // The number of pixels a lamp moves with a WASD key press
+        private const int ATOMICLENGTH = 10;
+
         // Points created for having initials positions of Lamp and Mouse when a lamp is moved.
         private Point initialLampPosition;
         private Point initialMousePosition;
 
         // Is true if a lamp is pressed by the mouse - this way lamp released is only called if this is true
         private bool lampIsPressed { get; set; } = false;
+        private bool lampIsKeyMoved { get; set; } = false;
 
         // The possible Mouse commands
         public ICommand LampPressedCommand { get; }
@@ -85,27 +89,27 @@ namespace OptiLight.ViewModel {
                 var Lamp = TargetLamp(e);
                 var MousePosition = RelativeMousePosition(e);
 
-            //Set lamp coordinates to the position it was at when originally pressed
-                    Lamp.X = initialLampPosition.X;
-                    Lamp.Y = initialLampPosition.Y;
+                //Set lamp coordinates to the position it was at when originally pressed
+                Lamp.X = initialLampPosition.X;
+                Lamp.Y = initialLampPosition.Y;
 
-            //Calculate the movement from the relative mouse position
-                    var offsetX = MousePosition.X - initialMousePosition.X;
-                    var offsetY = MousePosition.Y - initialMousePosition.Y;
+                //Calculate the movement from the relative mouse position
+                var offsetX = MousePosition.X - initialMousePosition.X;
+                var offsetY = MousePosition.Y - initialMousePosition.Y;
 
-                //Calculate the new lamp coordinates, based on initial position and the offset
-            var newX = movement(initialLampPosition.X, offsetX, Lamp.Width, canvas.width);
-            var newY = movement(initialLampPosition.Y, offsetY, Lamp.Height, canvas.height);
+                // The move command is only added to the undo/redo stack if the lamp is moved and not when
+                // it is just selected
+                if (offsetX != 0 || offsetY != 0) {
+                    //Calculate the new lamp coordinates, based on initial position and the offset
+                    var newX = movement(initialLampPosition.X, offsetX, Lamp.Width, canvas.width);
+                    var newY = movement(initialLampPosition.Y, offsetY, Lamp.Height, canvas.height);
 
-                        // The move command is only added to the undo/redo stack if the lamp is moved and not when
-                        // it is just selected
-                        if (offsetX != 0 || offsetY != 0) {
                     this.undoRedoController.AddAndExecute(new Command.MoveLamp(Lamp, (newX - initialLampPosition.X), (newY - initialLampPosition.Y)));
-                        }
+                }
                 e.MouseDevice.Target.ReleaseMouseCapture();
                 lampIsPressed = false;
             }
-            }
+        }
 
         // Method for moving the lamp. This is created as an on-the-go method, so that each "pixel" 
         // move of the lamp isn't saved in the undo-redo command. 
@@ -143,29 +147,25 @@ namespace OptiLight.ViewModel {
 
                 if (extra < canvas.cellSize / 2) {
                     newPos = newPos - extra;
-                        }
-                        else {
+                } else {
                     newPos = newPos - extra + canvas.cellSize;
-                    }
+                }
 
                 if (newPos < 0) {
                     newPos = padding - objectDimension / 2;
-                        }
-                else if (newPos + objectDimension > canvasDimension) {
+                } else if (newPos + objectDimension > canvasDimension) {
                     newPos = canvasDimension - padding - objectDimension / 2;
-                    }
                 }
-                else {
-                    //Check if new position is within the canvas, before the move is accepted
+            } else {
+                //Check if new position is within the canvas, before the move is accepted
                 if (newPos < 0) {
                     newPos = 0;
-                    }
-                else if (newPos + objectDimension > canvasDimension) {
+                } else if (newPos + objectDimension > canvasDimension) {
                     newPos = canvasDimension - objectDimension;
-                    }
-                    }
-            return newPos;
                 }
+            }
+            return newPos;
+        }
 
         //Auxiliary function to calculate minimum distance to canvas edge
         //when snapping is active
@@ -234,16 +234,19 @@ namespace OptiLight.ViewModel {
             if (e != null && LampsAreSelected()) {
                 LampViewModel Lamp = getSelectedLamps()[0];
 
-                // move but not with undo redo
+                if (!lampIsKeyMoved) {
+                    initialLampPosition = new Point(Lamp.X, Lamp.Y);
+                    lampIsKeyMoved = true;
+                }
 
                 if (e.Key.Equals(Key.W)) {
-                    
+                    Lamp.Y = keyMovement(Lamp.Y, Lamp.Height, canvas.height, -1.0);
                 } else if (e.Key.Equals(Key.A)) {
-                    
+                    Lamp.X = keyMovement(Lamp.X, Lamp.Width, canvas.width, -1.0);
                 } else if (e.Key.Equals(Key.S)) {
-                    
+                    Lamp.Y = keyMovement(Lamp.Y, Lamp.Height, canvas.height, 1.0);
                 } else if (e.Key.Equals(Key.D)) {
-                    
+                    Lamp.X = keyMovement(Lamp.X, Lamp.Width, canvas.width, 1.0);
                 }
             }
         }
@@ -253,16 +256,62 @@ namespace OptiLight.ViewModel {
             if (e != null && LampsAreSelected()) {
                 LampViewModel Lamp = getSelectedLamps()[0];
 
-                if (e.Key.Equals(Key.W)) {
-                    this.undoRedoController.AddAndExecute(new Command.MoveLamp(Lamp, 0.0, -10.0));
-                } else if (e.Key.Equals(Key.A)) {
-                    this.undoRedoController.AddAndExecute(new Command.MoveLamp(Lamp, -10.0, 0.0));
-                } else if (e.Key.Equals(Key.S)) {
-                    this.undoRedoController.AddAndExecute(new Command.MoveLamp(Lamp, 0.0, 10.0));
-                } else if (e.Key.Equals(Key.D)) {
-                    this.undoRedoController.AddAndExecute(new Command.MoveLamp(Lamp, 10.0, 0.0));
+                double offsetX = Lamp.X - initialLampPosition.X;
+                double offsetY = Lamp.Y - initialLampPosition.Y;
+
+
+                
+
+                if (offsetX != 0 || offsetY != 0) {
+                    Lamp.X = initialLampPosition.X;
+                    Lamp.Y = initialLampPosition.Y;
+                    this.undoRedoController.AddAndExecute(new Command.MoveLamp(Lamp, offsetX, offsetY));
+                    lampIsKeyMoved = false; ;
                 }
             }
+        }
+
+        private double keyMovement(double initPos, double objectDimension, double canvasDimension, double direction) {
+            double stepSize;
+            if (canvas.SnapActive) {
+                stepSize = canvas.cellSize;
+            } else {
+                stepSize = ATOMICLENGTH;
+            }
+
+            var newPos = initPos + stepSize * direction;
+
+            if (canvas.SnapActive) {
+                //Calculate default padding to the edge of the canvas 
+                //This value will change if snapping is active, according to cellSize
+                var padding = objectDimension / 2;
+
+                //"newX + paddingX" is to adjust coordinates from top-left corner to lamp center
+                var extra = (newPos + padding) % canvas.cellSize;
+
+                //Calculate a new padding, according to lamp size and cell size
+                padding = snapPadding(objectDimension);
+
+                if (extra < canvas.cellSize / 2) {
+                    newPos = newPos - extra;
+                } else {
+                    newPos = newPos - extra + canvas.cellSize;
+                }
+
+                if (newPos < 0) {
+                    newPos = padding - objectDimension / 2;
+                } else if (newPos + objectDimension > canvasDimension) {
+                    newPos = canvasDimension - padding - objectDimension / 2;
+                }
+            } else {
+                //Check if new position is within the canvas, before the move is accepted
+                if (newPos < 0) {
+                    newPos = 0;
+                } else if (newPos + objectDimension > canvasDimension) {
+                    newPos = canvasDimension - objectDimension;
+                }
+            }
+            return newPos;
         }
 
         #endregion WASDkey Pressesd / Released
