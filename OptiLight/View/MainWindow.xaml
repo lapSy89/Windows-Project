@@ -39,6 +39,9 @@
         <KeyBinding Key="S"
               Modifiers="Control" 
               Command="{Binding SaveDrawingCommand}" />
+        <KeyBinding Key="S"
+              Modifiers="Control+Shift"
+              Command="{Binding SaveAsDrawingCommand}"/>
         <KeyBinding Key="L"
               Command="{Binding LightSwitchCommand}" />
         <KeyBinding Key="G"

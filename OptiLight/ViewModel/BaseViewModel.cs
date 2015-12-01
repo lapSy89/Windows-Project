@@ -35,6 +35,9 @@ namespace OptiLight.ViewModel {
         // Dialog windows for New, Load and Save
         public DialogViews dialogWindow { get; set; }
 
+        // Path for saving the file, if file is already saved.
+        private static string savedPath = null;
+
         // Whether the global lights of the lamps are on of off
         private bool lightsOn = true;
         public bool LightsOn {
@@ -55,6 +58,7 @@ namespace OptiLight.ViewModel {
         public ICommand NewDrawingCommand { get; }
         public ICommand SaveDrawingCommand { get; }
         public ICommand LoadDrawingCommand { get; }
+        public ICommand SaveAsDrawingCommand { get; }
 
         public ICommand LightSwitchCommand { get; }
         public ICommand SwitchLampLightCommand { get; }
@@ -79,6 +83,7 @@ namespace OptiLight.ViewModel {
             NewDrawingCommand = new RelayCommand(NewDrawing);
             LoadDrawingCommand = new RelayCommand(LoadDrawing);
             SaveDrawingCommand = new RelayCommand(SaveDrawing);
+            SaveAsDrawingCommand = new RelayCommand(SaveAsDrawing);
         
             LightSwitchCommand = new RelayCommand(LightSwitch);
             SwitchLampLightCommand = new RelayCommand(singleLampLightSwitch, LampsAreSelected);
@@ -98,10 +103,14 @@ namespace OptiLight.ViewModel {
                     // Deleting lamps
                     clearWorkspace();
                     Lamps.Clear();
+                    savedPath = null;
+                    undoRedoController.drawingIsSaved = true;
                 }
             } else {
                 clearWorkspace();
                 Lamps.Clear();
+                savedPath = null;
+                undoRedoController.drawingIsSaved = true;
             }
         }
 
@@ -109,17 +118,33 @@ namespace OptiLight.ViewModel {
         // Method for saving drawing
         private void SaveDrawing() {
             // Path for saving the file
+            if (savedPath == null) {
+                string savePath = dialogWindow.SaveFile();
+                if (savePath != null) {
+                    // Saving the file.
+                    XML.Instance.AsyncSaveToFile(Lamps.Select(x => x.Lamp).ToList(), savePath);
+                    savedPath = savePath;
+                    undoRedoController.drawingIsSaved = true;
+                }
+            } else {
+                XML.Instance.AsyncSaveToFile(Lamps.Select(x => x.Lamp).ToList(), savedPath);
+                undoRedoController.drawingIsSaved = true;
+            }
+        }
+
+        // Method for saving as drawing
+        private void SaveAsDrawing() {
             string savePath = dialogWindow.SaveFile();
             if (savePath != null) {
-                // Saving the file.
                 XML.Instance.AsyncSaveToFile(Lamps.Select(x => x.Lamp).ToList(), savePath);
+                savedPath = savePath;
             }
         }
 
         // Method for loading drawing
         private async void LoadDrawing() {
             string loadPath;
-            if (undoRedoController.CanUndo() || undoRedoController.CanRedo()) {
+            if (!undoRedoController.drawingIsSaved) {
                 loadPath = dialogWindow.OpenFile(true);  
             } else {
                 loadPath = dialogWindow.OpenFile(false);
@@ -135,6 +160,8 @@ namespace OptiLight.ViewModel {
                 } else {
                     // Clear the board for loading new lamps
                     Lamps.Clear();
+                    savedPath = loadPath;
+                    undoRedoController.drawingIsSaved = true;
                     // Inserting lamps into array of lamps
                     foreach (Lamp lamp in lamps) {
                         string path = "OptiLight.ViewModel." + lamp.viewModel;
@@ -189,9 +216,22 @@ namespace OptiLight.ViewModel {
                     object[] argsVM = { lamp };
                     LampViewModel lampVM = (LampViewModel) Activator.CreateInstance(lampTypeVM, argsVM);
 
+                    // We place the lamp 50 pixels down and right of the original lamp
+                    // but only if it is inside the canvas
+                    var newPosX = lampVM.X + 50;
+                    var newPosY = lampVM.Y + 50;
+
+                    if (newPosX + lampVM.Width > canvas.width) {
+                        newPosX = canvas.width - lampVM.Width;
+                    }
+
+                    if (newPosY + lampVM.Height > canvas.height) {
+                        newPosY = canvas.height - lampVM.Height;
+                    }
+
                     // The lamp is added to the collection and their coordinates are changed
-                    lampVM.X = lampVM.X + 50;
-                    lampVM.Y = lampVM.Y + 50;
+                    lampVM.X = newPosX;
+                    lampVM.Y = newPosY;
                     undoRedoController.AddAndExecute(new AddLamp(Lamps, lampVM));
                 }
             }            
@@ -213,7 +253,7 @@ namespace OptiLight.ViewModel {
 
             //We either choose a type of lamp to add or stop adding
             if (sidePanel.addingLampSelected == null) {
-                sidePanel.AddingColor = Colors.DarkGray;
+                sidePanel.AddingColor = Colors.RosyBrown;
                 sidePanel.addingLampSelected = selectedLamp;
             }
             else if (sidePanel.addingLampSelected.name.Equals(selectedLamp.name)) {
@@ -222,7 +262,7 @@ namespace OptiLight.ViewModel {
             }
             else {
                 sidePanel.addingLampSelected = selectedLamp;
-                sidePanel.AddingColor = Colors.DarkGray;
+                sidePanel.AddingColor = Colors.RosyBrown;
             }
         }
 
@@ -280,10 +320,12 @@ namespace OptiLight.ViewModel {
 
         #region Grid Snap / Show
 
+        // Method for turning the grid on / off
         public void toggleSnapping() {
             canvas.SnapActive = !canvas.SnapActive;
         }
 
+        // Method for making the grid visible or not
         public void toggleVisibility() {
             canvas.toggleVisibility();
         }

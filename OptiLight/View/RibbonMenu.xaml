@@ -15,6 +15,7 @@
                 <RibbonButton SmallImageSource="/Resources/new_file.png" Command="{Binding NewDrawingCommand}"/>
                 <RibbonButton SmallImageSource="/Resources/folder.png" Command="{Binding LoadDrawingCommand}"/>
                 <RibbonButton SmallImageSource="/Resources/save.png" Command="{Binding SaveDrawingCommand}"/>
+                <RibbonButton SmallImageSource="/Resources/saveas.png" Command="{Binding SaveAsDrawingCommand}"/>
                 <RibbonButton SmallImageSource="/Resources/arrow1_left.png" Command="{Binding UndoCommand}" />
                 <RibbonButton SmallImageSource="/Resources/arrow1_right.png" Command="{Binding RedoCommand}" />
                 <RibbonButton SmallImageSource="/Resources/Cut.png" Command="{Binding CutCommand}"/>
@@ -27,6 +28,7 @@
                 <RibbonApplicationMenuItem Header="New File" ImageSource="/Resources/new_file.png" Command="{Binding NewDrawingCommand}"/>
                 <RibbonApplicationMenuItem Header="Open File" ImageSource="/Resources/folder.png" Command="{Binding LoadDrawingCommand}"/>
                 <RibbonApplicationMenuItem Header="Save File" ImageSource="/Resources/save.png" Command="{Binding SaveDrawingCommand}"/>
+                <RibbonApplicationMenuItem Header="Save As" ImageSource="/Resources/saveas.png" Command="{Binding SaveAsDrawingCommand}"/>
             </RibbonApplicationMenu>
         </Ribbon.ApplicationMenu>
         <RibbonTab Header="Home" KeyTip="H">
@@ -34,6 +36,7 @@
                 <RibbonButton Label="New" LargeImageSource="/Resources/new_file.png" Command="{Binding NewDrawingCommand}"/>
                 <RibbonButton Label="Open" LargeImageSource="/Resources/folder.png" Command="{Binding LoadDrawingCommand}"/>
                 <RibbonButton Label="Save" LargeImageSource="/Resources/save.png" Command="{Binding SaveDrawingCommand}"/>
+                <RibbonButton Label="Save As" LargeImageSource="/Resources/saveas.png" Command="{Binding SaveAsDrawingCommand}"/>
             </RibbonGroup>
             <RibbonGroup Header="Edit">
                 <RibbonButton Label="Undo" SmallImageSource="/Resources/arrow1_left.png" Command="{Binding UndoCommand}"/>
@@ -66,31 +69,6 @@
                                     LargeImageSource="/Resources/lock111.png" 
                                     Command="{Binding toggleSnappingCommand}" 
                                     IsChecked="{Binding canvas.SnapActive, Mode=OneWay}"/>
-            </RibbonGroup>
-        </RibbonTab>
-        <RibbonTab Header="Lamp" KeyTip="O">
-            <RibbonGroup>
-                <RibbonControlGroup BorderBrush="White">
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition />
-                            <RowDefinition />
-                        </Grid.RowDefinitions>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition />
-                            <ColumnDefinition />
-                        </Grid.ColumnDefinitions>
-
-                        <TextBlock Grid.Column="0" Grid.Row="0" Text="Brightness" VerticalAlignment="Center" x:Name="brightnessBox" />
-                        <Button Command="{Binding CutCommand}"
-                                CommandParameter="{Binding Text, ElementName=brightnessBox}" 
-                                Content="Cut" 
-                                IsDefault="{Binding IsFocused, ElementName=brightnessBox}" />
-                        <TextBlock Grid.Column="0" Grid.Row="1" Text="Height" VerticalAlignment="Center" x:Name="heightBox"/>
-                        <RibbonTextBox Grid.Column="1" Grid.Row="0"/>
-                        <RibbonTextBox Grid.Column="1" Grid.Row="1"/>
-                    </Grid>
-                </RibbonControlGroup>
             </RibbonGroup>
         </RibbonTab>
         <RibbonTab Header="Room" KeyTip="R">

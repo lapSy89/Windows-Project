@@ -20,14 +20,14 @@ namespace OptiLight.ViewModel {
             set { snapActive = value; RaisePropertyChanged(); }
         }
         
-        // variable for wtether the grid is visible or not
+        //Boolean variable for whether the grid is visible or not
         private bool gridVisible = false;
         public bool GridVisible {
             get { return gridVisible; }
             set { gridVisible = value; RaisePropertyChanged(); }
         }
 
-        // The color of the grid. Off = transparten, on = black
+        // The color of the grid. OFF = transparent, ON = black
         public string visibility {
             get { return Canvas.visibility; }
             set { Canvas.visibility = value; RaisePropertyChanged(); }
@@ -49,35 +49,47 @@ namespace OptiLight.ViewModel {
         public int cellSize {
             get { return Canvas.cellSize; }
             set {
-                Canvas.cellSize = value;
-                Canvas.height = Canvas.cellsY * value;
-                Canvas.width = Canvas.cellsX * value;
-                RaisePropertyChanged();
-                RaisePropertyChanged(() => corner1);
-                RaisePropertyChanged(() => corner2);
-                RaisePropertyChanged(() => Canvas.height);
-                RaisePropertyChanged(() => Canvas.width);
-                RaisePropertyChanged(() => viewport);
+                if (value > 0) {
+                    Canvas.cellSize = value;
+                    Canvas.height = Canvas.cellsY * value;
+                    Canvas.width = Canvas.cellsX * value;
+                    RaisePropertyChanged();
+                    RaisePropertyChanged(() => corner1);
+                    RaisePropertyChanged(() => corner2);
+                    RaisePropertyChanged(() => Canvas.height);
+                    RaisePropertyChanged(() => Canvas.width);
+                    RaisePropertyChanged(() => viewport);
+                } else {
+                    MessageBox.Show("Positive Values Only", "OptiLight - Invalid Input", MessageBoxButton.OK);
+                }
             }
         }
 
         public int cellsX {
             get { return Canvas.cellsX; }
             set {
-                Canvas.cellsX = value;
-                Canvas.width = value * Canvas.cellSize;
-                RaisePropertyChanged();
-                RaisePropertyChanged(() => Canvas.width);
+                if(value > 0) {
+                    Canvas.cellsX = value;
+                    Canvas.width = value * Canvas.cellSize;
+                    RaisePropertyChanged();
+                    RaisePropertyChanged(() => Canvas.width);
+                } else {
+                    MessageBox.Show("Positive Values Only", "OptiLight - Invalid Input", MessageBoxButton.OK);
+                }
             }
         }
 
         public int cellsY {
             get { return Canvas.cellsY; }
             set {
-                Canvas.cellsY = value;
-                Canvas.height = value * Canvas.cellSize;
-                RaisePropertyChanged();
-                RaisePropertyChanged(() => Canvas.height);
+                if (value > 0) {
+                    Canvas.cellsY = value;
+                    Canvas.height = value * Canvas.cellSize;
+                    RaisePropertyChanged();
+                    RaisePropertyChanged(() => Canvas.height);
+                } else {
+                    MessageBox.Show("Positive Values Only", "OptiLight - Invalid Input", MessageBoxButton.OK);
+                }
             }
         }
 

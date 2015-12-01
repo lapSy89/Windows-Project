@@ -29,8 +29,8 @@
                 <StackPanel Orientation="Horizontal">
                     <AccessText Text="Height:       "/>
                     <excd:DoubleUpDown Value="{Binding sidePanel.CurrentLampHeight}" 
-                                       Increment="0.2" Maximum="5" 
-                                       FormatString="G0" UpdateValueOnEnterKey="True" Minimum="1"/>
+                                       Increment="0.2" Maximum="10" 
+                                       FormatString="G0" UpdateValueOnEnterKey="True" Minimum="0"/>
                     <AccessText Text=" m"/>
                 </StackPanel>
             </ListBoxItem>
@@ -92,6 +92,7 @@
                 <!--Here we bind the background color of a selected cell-->
                 <DataGrid.Resources>
                     <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}" Color="{Binding sidePanel.AddingColor}"/>
+                    <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="{Binding sidePanel.AddingColor}"/>
                 </DataGrid.Resources>
             </DataGrid>
         </ScrollViewer>
