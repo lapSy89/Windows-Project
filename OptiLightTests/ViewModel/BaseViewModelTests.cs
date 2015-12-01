@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using OptiLight.Model;
+using System.Windows.Input;
 
 namespace OptiLight.ViewModel.Tests {
     [TestClass()]
@@ -29,32 +31,64 @@ namespace OptiLight.ViewModel.Tests {
 
 
             //Execute the command with the list containing a selected rectangle Lamp
-            
             main.AddLampCommand.Execute(newList);
             Assert.IsTrue(main.AddLampCommand.CanExecute(newList));
 
-            //TODO
+            //Now click the canvas
+            MouseButtonEventArgs e = new MouseButtonEventArgs(Mouse.PrimaryDevice, 0, MouseButton.Left);
+            main.MouseDownCanvasCommand.Execute(e);
+
+            /*
+            Is not possible to test, as we can not manipulate mouseX and mouseY from the testClass
+            */
+            //Assert.IsTrue(main.getLampCount == 1);
             //Check that we have added a lamp to the list
             //In general we should test that the command has had the desired effect
 
 
-            /*
-            Test that all commands are executeable, and that when they execute they do not cause an exception
-            Only tests commands that do not take external arguments
-            */
-           
-            main.LightSwitchCommand.Execute(null);
-            Assert.IsTrue(main.LightSwitchCommand.CanExecute(null));
+            /*----------------------------------------------------------------------------------------------------
+            | Test that all commands are executeable, and that when they execute they do not cause an exception   |
+            |                                                                                                     |
+            ----------------------------------------------------------------------------------------------------*/
 
+            /*
+            Light Switch (Done)
+            */
+            Assert.IsTrue(main.LightSwitchCommand.CanExecute(null));
+            main.LightSwitchCommand.Execute(null);
+            //Lights are now off
+            Assert.IsTrue(main.LightsOn == false);
+            main.LightSwitchCommand.Execute(null);
+            //Lights are now on again
+            Assert.IsTrue(main.LightsOn == true);
+
+            /*
+            Load Save
+            */
             //Works, because it prompts the user to load a drawing (Not feasable in an automatic test)
             //main.LoadDrawingCommand.Execute(null);
             Assert.IsTrue(main.LoadDrawingCommand.CanExecute(null));
-
             main.NewDrawingCommand.Execute(null);
             Assert.IsTrue(main.NewDrawingCommand.CanExecute(null));
+            //TODO check some parameters that apply when a new drawing is loaded
 
             /*
-            Copy Paste
+            Grid Snapping (Done)
+            */
+            //Assert False before we activate the visibility and Snap
+            Assert.IsFalse(main.canvas.SnapActive == true);
+            Assert.IsFalse(main.canvas.visibility == "Black");
+
+            main.toggleSnappingCommand.Execute(null);
+            Assert.IsTrue(main.toggleSnappingCommand.CanExecute(null));
+            main.toggleGridVisibilityCommand.Execute(null);
+            Assert.IsTrue(main.toggleGridVisibilityCommand.CanExecute(null));
+            //Assert True after we have activated the visibility and Snap
+            Assert.IsTrue(main.canvas.SnapActive == true);
+            Assert.IsTrue(main.canvas.visibility == "Black");
+
+            /*
+            Cut Copy Paste
             */
 
             // Copy does not work without something to copy (TODO)           
@@ -65,25 +99,18 @@ namespace OptiLight.ViewModel.Tests {
             //       main.PasteCommand.Execute(null);
             //       Assert.IsTrue(main.PasteCommand.CanExecute(null));
 
+            // Cut does not work without something to cut (TODO)
+            //       main.CutCommand.Execute(null);
+            //       Assert.IsTrue(main.CutCommand.CanExecute(null));
+
             /*
             Undo Redo Can not work with the Undo Redo stack empty (TODO)
             */
 
-            // main.UndoCommand.Execute(null);
+            //  main.UndoCommand.Execute(null);
             // Assert.IsTrue(main.UndoCommand.CanExecute(null));
 
-            /*
-            Grid Snapping
-            */
 
-            main.toggleSnappingCommand.Execute(null);
-            Assert.IsTrue(main.toggleSnappingCommand.CanExecute(null));
-            main.toggleGridVisibilityCommand.Execute(null);
-            Assert.IsTrue(main.toggleGridVisibilityCommand.CanExecute(null));
-
-            /*
-            Light
-            */
         }
     }
 }
