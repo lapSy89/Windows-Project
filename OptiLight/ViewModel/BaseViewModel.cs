@@ -29,6 +29,8 @@ namespace OptiLight.ViewModel {
         // All the single lamps, all the single lamps, all the single lamps, all the single lamps, throw your light up!
         public static ObservableCollection<LampViewModel> Lamps { get; set; }
 
+        public int getLampCount { get; set; }
+
         // Contains a copy of all current types of lamps - used in the sidepanel
         public static List<Lamp> lampTypes { get; } = Lamp.lampTypes;
 
@@ -93,7 +95,6 @@ namespace OptiLight.ViewModel {
         }
 
         #region New / Save / Load
-
         // Method for making a new drawing
         private void NewDrawing() {
             // Check if changes are made to the drawing
@@ -269,6 +270,8 @@ namespace OptiLight.ViewModel {
 
             // We get the selected lamp from the View
             Lamp selectedLamp = selectedAddingLamp.Cast<Lamp>().ToList().First();
+            
+
 
             //We either choose a type of lamp to add or stop adding
             if (sidePanel.addingLampSelected == null) {
