@@ -43,12 +43,16 @@
               Command="{Binding LightSwitchCommand}" />
         <KeyBinding Key="G"
               Command="{Binding toggleSnappingCommand}" />
-        <KeyBinding Key="S"
+        <KeyBinding Key="H"
               Command="{Binding toggleGridVisibilityCommand}" />
     </Window.InputBindings>
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="KeyDown">
-            <cmd:EventToCommand Command="{Binding DataContext.ArrowKeyPressedCommand, 
+            <cmd:EventToCommand Command="{Binding DataContext.WASDKeyPressedCommand, 
+                        RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" PassEventArgsToCommand="True"/>
+        </i:EventTrigger>
+        <i:EventTrigger EventName="KeyUp">
+            <cmd:EventToCommand Command="{Binding DataContext.WASDKeyReleasedCommand, 
                         RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" PassEventArgsToCommand="True"/>
         </i:EventTrigger>
     </i:Interaction.Triggers>
