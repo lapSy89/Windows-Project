@@ -1,4 +1,5 @@
-﻿using OptiLight.Model;
+﻿using OptiLight.Command;
+using OptiLight.Model;
 using System;
 using System.Windows;
 using System.Windows.Media;
@@ -6,26 +7,21 @@ using System.Windows.Media;
 namespace OptiLight.ViewModel {
     public class SidePanelViewModel : BaseViewModel {
 
-        // Variables for showing and editing lamps (Brightness, Height and Radius)
-        private double currentLampBrightness { get; set; }
-        private double currentLampHeight { get; set; }
-        private double currentLampVertRadius { get; set; }
-        private double currentLampHoriRadius { get; set; }
-
         //We use the Singleton design pattern for our constructor
         public static SidePanelViewModel Instance { get; } = new SidePanelViewModel();
 
-        private SidePanelViewModel() {
-
-            // Initialize Current values for editing selected lamp
-            CurrentLampBrightness = 0;
-            CurrentLampHeight = 0;
-            CurrentLampVertRadius = 0;
-            CurrentLampHoriRadius = 0;
-        }
-
         // The currently selected lamp type to add represented. Null when none is selected.
         public Lamp addingLampSelected { get; set; }
+
+        // Values for displaying radius on the sidepanel
+        private double currentLampHoriRadius { get; set; }
+        private double currentLampVertRadius { get; set; }
+
+        // Constructor
+        public SidePanelViewModel() {
+            CurrentLampHoriRadius = 0;
+            CurrentLampVertRadius = 0;
+        }
 
         // The color of the selected lamp in the side menu - either transparent or darkgray
         private Color addingColor = Colors.Transparent;
@@ -43,12 +39,17 @@ namespace OptiLight.ViewModel {
 
         // Method for getting/setting currentLampBrightness
         public double CurrentLampBrightness {
-            get { return currentLampBrightness; }
-            set {
-                currentLampBrightness = value;
+            get {
                 if (Lamps != null && LampsAreSelected()) {
                     LampViewModel lamp = getSelectedLamps()[0];
-                    lamp.Brightness = value;
+                    return lamp.Brightness;
+                }
+                return 0;
+            }
+            set {
+                if (Lamps != null && LampsAreSelected()) {
+                    LampViewModel lamp = getSelectedLamps()[0];
+                    undoRedoController.AddAndExecute(new ChangeBrightness(lamp, value - lamp.Brightness));
                     CurrentLampVertRadius = (lamp.VerticalUp + lamp.VerticalDown) / 2;
                     CurrentLampHoriRadius = (lamp.HorizontalLeft + lamp.HorizontalRight) / 2;
                 }
@@ -58,12 +59,18 @@ namespace OptiLight.ViewModel {
 
         // Method for getting/setting currentLampHeight
         public double CurrentLampHeight {
-            get { return currentLampHeight; }
-            set {
-                currentLampHeight = value;
+            get {
                 if (Lamps != null && LampsAreSelected()) {
                     LampViewModel lamp = getSelectedLamps()[0];
-                    lamp.LampHeight = value;
+                    return lamp.LampHeight;
+                }
+                return 0;
+
+            }
+            set {
+                if (Lamps != null && LampsAreSelected()) {
+                    LampViewModel lamp = getSelectedLamps()[0];
+                    undoRedoController.AddAndExecute(new ChangeHeight(lamp, value - lamp.LampHeight));
                     CurrentLampVertRadius = (lamp.VerticalUp + lamp.VerticalDown) / 2;
                     CurrentLampHoriRadius = (lamp.HorizontalLeft + lamp.HorizontalRight) / 2;
                 }

@@ -19,9 +19,9 @@
             <ListBoxItem Margin="0,5,0,0">
                 <StackPanel Orientation="Horizontal">
                     <AccessText Text="Brigthness"/>
-                    <excd:IntegerUpDown Value="{Binding sidePanel.CurrentLampBrightness}" 
+                    <excd:IntegerUpDown Value="{Binding sidePanel.CurrentLampBrightness}"
                                         Increment="1" Maximum="100" 
-                                        FormatString="G0" UpdateValueOnEnterKey="True"/>
+                                        FormatString="G0" UpdateValueOnEnterKey="True" Minimum="0"/>
                     <AccessText Text=" Watt"/>
                 </StackPanel>
             </ListBoxItem>
@@ -29,8 +29,8 @@
                 <StackPanel Orientation="Horizontal">
                     <AccessText Text="Height:       "/>
                     <excd:DoubleUpDown Value="{Binding sidePanel.CurrentLampHeight}" 
-                                       Increment="0.2" Maximum="100" 
-                                       FormatString="G0" UpdateValueOnEnterKey="True"/>
+                                       Increment="0.2" Maximum="5" 
+                                       FormatString="G0" UpdateValueOnEnterKey="True" Minimum="1"/>
                     <AccessText Text=" m"/>
                 </StackPanel>
             </ListBoxItem>
