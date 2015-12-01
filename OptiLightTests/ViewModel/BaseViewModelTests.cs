@@ -84,7 +84,6 @@ namespace OptiLight.ViewModel.Tests {
             /*
             Light
             */
-            Assert.IsTrue(main.)
         }
     }
 }
