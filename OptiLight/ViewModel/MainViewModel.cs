@@ -6,13 +6,14 @@ using System.Windows.Media;
 using OptiLight.Model;
 using OptiLight.Command;
 using System;
+using System.Collections;
 //using LampLibrary; // LampLibrary DLL
 
 namespace OptiLight.ViewModel {
 
     public class MainViewModel : BaseViewModel {
 
-        // Global points created for having initials positions of Lamp and Mouse when a lamp is moved.
+        // Points created for having initials positions of Lamp and Mouse when a lamp is moved.
         private Point initialLampPosition;
         private Point initialMousePosition;
 
@@ -26,7 +27,8 @@ namespace OptiLight.ViewModel {
         public ICommand MouseDownCanvasCommand { get; }
 
         // The possible arrowkey commands
-        public ICommand ArrowKeyPressedCommand { get; }
+        public ICommand WASDKeyPressedCommand { get; }
+        public ICommand WASDKeyReleasedCommand { get; }
 
         // Constructor - creates the initial lamps and initializes the commands
         public MainViewModel() : base() {
@@ -42,7 +44,8 @@ namespace OptiLight.ViewModel {
             LampMovedCommand = new RelayCommand<MouseEventArgs>(LampMoved);
             MouseDownCanvasCommand = new RelayCommand<MouseButtonEventArgs>(CanvasDown);
 
-            ArrowKeyPressedCommand = new RelayCommand<KeyEventArgs>(ArrowKeyPressed);
+            WASDKeyPressedCommand = new RelayCommand<KeyEventArgs>(WASDKeyPressed);
+            WASDKeyReleasedCommand = new RelayCommand<KeyEventArgs>(WASDKeyReleased);
         }
 
         #region Lamp Pressed / Released / Moved
@@ -291,25 +294,47 @@ namespace OptiLight.ViewModel {
 
         #endregion Canvas Pressed
 
-        #region Arrowkey Presses
+        #region WASDkey Presses / Released
 
-        private void ArrowKeyPressed(KeyEventArgs e) {
-            if (e != null) {
-                if (e.Key == Key.Up) {
-                    Console.WriteLine("Up");
-                } else if (e.Key == Key.Down) {
-                    Console.WriteLine("Down");
-                } else if (e.Key == Key.Left) {
-                    Console.WriteLine("Left");
-                } else if (e.Key == Key.Right) {
-                    Console.WriteLine("Right");
+        // Method for when a WASD key is pressed
+        private void WASDKeyPressed(KeyEventArgs e) {
+            if (e != null && LampsAreSelected()) {
+                LampViewModel Lamp = getSelectedLamps()[0];
+
+                // move but not with undo redo
+
+                if (e.Key.Equals(Key.W)) {
+                    
+                } else if (e.Key.Equals(Key.A)) {
+                    
+                } else if (e.Key.Equals(Key.S)) {
+                    
+                } else if (e.Key.Equals(Key.D)) {
+                    
                 }
             }
         }
 
-        #endregion Arrowkey Presses
+        // Method for when a WASD key is released
+        private void WASDKeyReleased(KeyEventArgs e) {
+            if (e != null && LampsAreSelected()) {
+                LampViewModel Lamp = getSelectedLamps()[0];
 
-            // Helping method for attaching the mouse to a lamp
+                if (e.Key.Equals(Key.W)) {
+                    this.undoRedoController.AddAndExecute(new Command.MoveLamp(Lamp, 0.0, -10.0));
+                } else if (e.Key.Equals(Key.A)) {
+                    this.undoRedoController.AddAndExecute(new Command.MoveLamp(Lamp, -10.0, 0.0));
+                } else if (e.Key.Equals(Key.S)) {
+                    this.undoRedoController.AddAndExecute(new Command.MoveLamp(Lamp, 0.0, 10.0));
+                } else if (e.Key.Equals(Key.D)) {
+                    this.undoRedoController.AddAndExecute(new Command.MoveLamp(Lamp, 10.0, 0.0));
+                }
+            }
+        }
+
+        #endregion WASDkey Pressesd / Released
+
+        // Helping method for attaching the mouse to a lamp
         private LampViewModel TargetLamp(MouseEventArgs e) {
             var targetedElement = (FrameworkElement)e.MouseDevice.Target;
             return (LampViewModel)targetedElement.DataContext;
