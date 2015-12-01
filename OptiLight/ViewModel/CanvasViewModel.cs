@@ -19,21 +19,30 @@ namespace OptiLight.ViewModel {
             get { return snapActive; }
             set { snapActive = value; RaisePropertyChanged(); }
         }
-
-        public string visibility {
-            get { return Canvas.visibility; }
-            set {
-                Canvas.visibility = value;
-                RaisePropertyChanged();
-            }
+        
+        // variable for wtether the grid is visible or not
+        private bool gridVisible = false;
+        public bool GridVisible {
+            get { return gridVisible; }
+            set { gridVisible = value; RaisePropertyChanged(); }
         }
 
-        public void toggleVisibility() {
-            if (visibility.Equals("Transparent")) {
+        // The color of the grid. Off = transparten, on = black
+        public string visibility {
+            get { return Canvas.visibility; }
+            set { Canvas.visibility = value; RaisePropertyChanged(); }
+        }
+
+        // Method for turning the visibility of the grid on and off
+        // The new keyword makes sure we override the BaseViewModel method of same name
+        new public void toggleVisibility() {
+            if (!GridVisible) {
                 visibility = "Black";
+                GridVisible = true;
             }
-            else if (visibility.Equals("Black")) {
+            else {
                 visibility = "Transparent";
+                GridVisible = false;
             }
         }
 

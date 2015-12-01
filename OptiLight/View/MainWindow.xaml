@@ -5,7 +5,7 @@
         xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
         xmlns:cmd="clr-namespace:GalaSoft.MvvmLight.Command;assembly=GalaSoft.MvvmLight.Platform"
         xmlns:ViewModel="clr-namespace:OptiLight.ViewModel"
-        Title="Optilight" Height="700" Width="900"
+        Title="Optilight" Height="750" Width="1000"
         Icon="pack://application:,,,/Resources/lampicon.ico"
         DataContext="{Binding Source={StaticResource Locator}, Path=Main}">
 
@@ -30,7 +30,28 @@
         <KeyBinding Key="V"
               Modifiers="Control" 
               Command="{Binding PasteCommand}" />
+        <KeyBinding Key="N"
+              Modifiers="Control" 
+              Command="{Binding NewDrawingCommand}" />
+        <KeyBinding Key="O"
+              Modifiers="Control" 
+              Command="{Binding LoadDrawingCommand}" />
+        <KeyBinding Key="S"
+              Modifiers="Control" 
+              Command="{Binding SaveDrawingCommand}" />
+        <KeyBinding Key="L"
+              Command="{Binding LightSwitchCommand}" />
+        <KeyBinding Key="G"
+              Command="{Binding toggleSnappingCommand}" />
+        <KeyBinding Key="S"
+              Command="{Binding toggleGridVisibilityCommand}" />
     </Window.InputBindings>
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="KeyDown">
+            <cmd:EventToCommand Command="{Binding DataContext.ArrowKeyPressedCommand, 
+                        RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" PassEventArgsToCommand="True"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
     <!-- Overall layout for the Window-->
     <DockPanel>
         <!-- RibbonMenu layout -->

@@ -12,7 +12,7 @@
         <ListBox DockPanel.Dock="Bottom" Visibility="{Binding sidePanel.ShowSidePanelBox}">
             <ListBoxItem Margin="0,5,0,0">
                 <StackPanel Orientation="Horizontal">
-                    <AccessText Text="Swtich Lights on / off:  "/>
+                    <AccessText Text="Switch Lights on / off:  "/>
                     <Button Content="Click me!" Command="{Binding SwitchLampLightCommand}" />
                 </StackPanel>
             </ListBoxItem>

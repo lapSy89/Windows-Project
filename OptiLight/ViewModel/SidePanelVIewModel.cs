@@ -14,6 +14,7 @@ namespace OptiLight.ViewModel {
 
         //We use the Singleton design pattern for our constructor
         public static SidePanelViewModel Instance { get; } = new SidePanelViewModel();
+
         private SidePanelViewModel() {
 
             // Initialize Current values for editing selected lamp

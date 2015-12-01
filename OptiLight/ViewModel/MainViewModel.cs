@@ -25,9 +25,8 @@ namespace OptiLight.ViewModel {
         public ICommand LampMovedCommand { get; }
         public ICommand MouseDownCanvasCommand { get; }
 
-        // The Grid Commands
-        public ICommand toggleSnappingCommand { get; }
-        public ICommand toggleGridVisibilityCommand { get; }
+        // The possible arrowkey commands
+        public ICommand ArrowKeyPressedCommand { get; }
 
         // Constructor - creates the initial lamps and initializes the commands
         public MainViewModel() : base() {
@@ -41,19 +40,11 @@ namespace OptiLight.ViewModel {
             LampPressedCommand = new RelayCommand<MouseButtonEventArgs>(LampPressed);
             LampReleasedCommand = new RelayCommand<MouseButtonEventArgs>(LampReleased);
             LampMovedCommand = new RelayCommand<MouseEventArgs>(LampMoved);
-            toggleSnappingCommand = new RelayCommand(toggleSnapping);
-            toggleGridVisibilityCommand = new RelayCommand(toggleVisibility);
             MouseDownCanvasCommand = new RelayCommand<MouseButtonEventArgs>(CanvasDown);
-        }
 
-        public void toggleSnapping() {
-            canvas.SnapActive = !canvas.SnapActive;
+            ArrowKeyPressedCommand = new RelayCommand<KeyEventArgs>(ArrowKeyPressed);
         }
-
-        public void toggleVisibility() {
-            canvas.toggleVisibility();
-        }
-
+    
         #region Lamp Pressed / Released / Moved
 
         // Method for capturing the mouse on a lamp
@@ -87,29 +78,31 @@ namespace OptiLight.ViewModel {
         // the lamps new position is definedand saved to the lamp.
         // The method is only allowed if the lamp was pressed before releasing.
         private void LampReleased(MouseButtonEventArgs e) {
-            //Get target lamp and mouseposition
-            var Lamp = TargetLamp(e);
-            var MousePosition = RelativeMousePosition(e);
+            if (lampIsPressed) {
+                var Lamp = TargetLamp(e);
+                var MousePosition = RelativeMousePosition(e);
 
             //Set lamp coordinates to the position it was at when originally pressed
-            Lamp.X = initialLampPosition.X;
-            Lamp.Y = initialLampPosition.Y;
+                    Lamp.X = initialLampPosition.X;
+                    Lamp.Y = initialLampPosition.Y;
 
             //Calculate the movement from the relative mouse position
-            var offsetX = MousePosition.X - initialMousePosition.X;
-            var offsetY = MousePosition.Y - initialMousePosition.Y;
+                    var offsetX = MousePosition.X - initialMousePosition.X;
+                    var offsetY = MousePosition.Y - initialMousePosition.Y;
 
-            //Calculate the new lamp coordinates, based on initial position and the offset
+                //Calculate the new lamp coordinates, based on initial position and the offset
             var newX = movement(initialLampPosition.X, offsetX, Lamp.Width, canvas.width);
             var newY = movement(initialLampPosition.Y, offsetY, Lamp.Height, canvas.height);
 
-            // The move command is only added to the undo/redo stack if the lamp is moved and not when
-            // it is just selected
-            if (offsetX != 0 || offsetY != 0) {
-                this.undoRedoController.AddAndExecute(new Command.MoveLamp(Lamp, (newX - initialLampPosition.X), (newY - initialLampPosition.Y)));
+                        // The move command is only added to the undo/redo stack if the lamp is moved and not when
+                        // it is just selected
+                        if (offsetX != 0 || offsetY != 0) {
+                    this.undoRedoController.AddAndExecute(new Command.MoveLamp(Lamp, (newX - initialLampPosition.X), (newY - initialLampPosition.Y)));
+                        }
+                e.MouseDevice.Target.ReleaseMouseCapture();
+                lampIsPressed = false;
             }
-            e.MouseDevice.Target.ReleaseMouseCapture();
-        }
+            }
 
         // Method for moving the lamp. This is created as an on-the-go method, so that each "pixel" 
         // move of the lamp isn't saved in the undo-redo command. 
@@ -147,29 +140,29 @@ namespace OptiLight.ViewModel {
 
                 if (extra < canvas.cellSize / 2) {
                     newPos = newPos - extra;
-                }
-                else {
+                        }
+                        else {
                     newPos = newPos - extra + canvas.cellSize;
-                }
+                    }
 
                 if (newPos < 0) {
                     newPos = padding - objectDimension / 2;
-                }
+                        }
                 else if (newPos + objectDimension > canvasDimension) {
                     newPos = canvasDimension - padding - objectDimension / 2;
+                    }
                 }
-            }
-            else {
-                //Check if new position is within the canvas, before the move is accepted
+                else {
+                    //Check if new position is within the canvas, before the move is accepted
                 if (newPos < 0) {
                     newPos = 0;
-                }
+                    }
                 else if (newPos + objectDimension > canvasDimension) {
                     newPos = canvasDimension - objectDimension;
-                }
-            }
+                    }
+                    }
             return newPos;
-        }
+                }
 
         //Auxiliary function to calculate minimum distance to canvas edge
         //when snapping is active
@@ -177,9 +170,9 @@ namespace OptiLight.ViewModel {
             var padding = 0;
             while (padding < lampDimension / 2) {
                 padding += canvas.cellSize;
-            }
+                }
             return padding;
-        }
+            }
 
         #endregion Lamp Pressed / Released / Moved
 
@@ -231,6 +224,24 @@ namespace OptiLight.ViewModel {
 
         #endregion Canvas Pressed
 
+        #region Arrowkey Presses
+
+        private void ArrowKeyPressed(KeyEventArgs e) {
+            if (e != null) {
+                if (e.Key == Key.Up) {
+                    Console.WriteLine("Up");
+                } else if (e.Key == Key.Down) {
+                    Console.WriteLine("Down");
+                } else if (e.Key == Key.Left) {
+                    Console.WriteLine("Left");
+                } else if (e.Key == Key.Right) {
+                    Console.WriteLine("Right");
+                }
+            }
+        }
+
+        #endregion Arrowkey Presses
+
         // Helping method for attaching the mouse to a lamp
         private LampViewModel TargetLamp(MouseEventArgs e) {
             var targetedElement = (FrameworkElement)e.MouseDevice.Target;
@@ -252,7 +263,7 @@ namespace OptiLight.ViewModel {
         // Method for getting current selected lamp.
         private LampViewModel getCurrentLamp() {
             foreach (LampViewModel lamp in Lamps) {
-                if (lamp.IsSelected) {
+                if(lamp.IsSelected) {
                     return lamp;
                 }
             }
