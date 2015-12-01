@@ -229,7 +229,11 @@ namespace OptiLight.ViewModel {
         #region Add / Remove
 
         // Method for adding lamps
-        private void AddNewLamp(IList selectedAddingLamp) {
+        
+        //    
+        // IS ONLY PUBLIC FOR TESTING PURPOSES!!!
+        //
+        public void AddNewLamp(IList selectedAddingLamp) {
 
             // We get the selected lamp from the View
             Lamp selectedLamp = selectedAddingLamp.Cast<Lamp>().ToList().First();
