@@ -206,7 +206,7 @@ namespace OptiLight.ViewModel {
 
             // We add a lamp at the mouse position if add lamp is on
             if (sidePanel.addingLampSelected != null && mouseX > 0 && mouseY > 0
-                && mouseX < canvas.width - canvas.cellSize && mouseY < canvas.height - canvas.cellSize) {
+                && mouseX < canvas.width && mouseY < canvas.height) {
 
                 // We get the right type of Lamp;
                 Type lampType = sidePanel.addingLampSelected.GetType();
@@ -217,9 +217,25 @@ namespace OptiLight.ViewModel {
 
                 // We create an instance of the lamp and create a lampViewModel
                 Lamp lamp = (Lamp)Activator.CreateInstance(lampType);
-                lamp.X = mouseX;
-                lamp.Y = mouseY;
 
+                // We make sure the lamp is placed inside the canvas on x axis
+                if (mouseX + lamp.Width / 2 > canvas.width) {
+                    lamp.X = canvas.width - lamp.Width;
+                } else if (mouseX - lamp.Width / 2 < 0) {
+                    lamp.X = 0;
+                } else {
+                    lamp.X = mouseX - lamp.Width / 2;
+                }
+
+                // We make sure the lamp is placed inside the canvas on y axis
+                if (mouseY + lamp.Height / 2 > canvas.height) {
+                    lamp.Y = canvas.height - lamp.Height;
+                } else if (mouseY - lamp.Height / 2 < 0) {
+                    lamp.Y = 0;
+                } else {
+                    lamp.Y = mouseY - lamp.Height / 2;
+                }
+                
                 object[] argsVM = { lamp };
                 LampViewModel lampVM = (LampViewModel)Activator.CreateInstance(lampTypeVM, argsVM);
 

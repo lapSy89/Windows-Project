@@ -65,7 +65,7 @@
                                     LargeImageSource="/Resources/grid.png" 
                                     Command="{Binding toggleGridVisibilityCommand}"
                                     IsChecked="{Binding canvas.GridVisible, Mode=OneWay}"/>
-                <RibbonToggleButton Label="Grip Snapping" 
+                <RibbonToggleButton Label="Grid Snapping" 
                                     LargeImageSource="/Resources/lock111.png" 
                                     Command="{Binding toggleSnappingCommand}" 
                                     IsChecked="{Binding canvas.SnapActive, Mode=OneWay}"/>
