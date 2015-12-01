@@ -62,7 +62,7 @@
     <!-- Overall layout for the Window-->
     <DockPanel>
         <!-- RibbonMenu layout -->
-        <Grid DockPanel.Dock="Top" Margin="5">
+        <Grid DockPanel.Dock="Top">
             <View:RibbonMenu/>
         </Grid>
         <!-- Sidepanel and drawing window layout -->
@@ -71,10 +71,10 @@
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-   
+
             <!-- SidePanel layout (comes from SidePanel.xaml -->
             <View:SidePanel Grid.Column="0"/>
-         
+
 
 
             <!-- Drawing window -->
@@ -99,7 +99,7 @@
                     </Grid.ContextMenu>
 
                     <Border BorderBrush="Black" 
-                        BorderThickness="2"
+                        BorderThickness="2" 
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch"
                         Background="LightGray"/>
@@ -134,16 +134,17 @@
                                 <cmd:EventToCommand Command="{Binding MouseDownCanvasCommand}" PassEventArgsToCommand="True"/>
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
-                         
+
                     </Rectangle>
- 
+
                     <ItemsControl ItemsSource="{Binding Lamps}">
-    
+
                     </ItemsControl>
                 </Grid>
             </ScrollViewer>
-          
+            
+
         </Grid>
-       
+
     </DockPanel>
 </Window>
