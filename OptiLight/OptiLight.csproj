@@ -113,6 +113,8 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Command\AddLamp.cs" />
+    <Compile Include="Command\ChangeBrightness.cs" />
+    <Compile Include="Command\ChangeHeight.cs" />
     <Compile Include="Command\IUndoRedo.cs" />
     <Compile Include="Command\MoveLamp.cs" />
     <Compile Include="Command\RemoveLamp.cs" />

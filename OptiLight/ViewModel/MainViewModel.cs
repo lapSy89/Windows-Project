@@ -66,8 +66,8 @@ namespace OptiLight.ViewModel {
             // Sending Lamp values for editing in sidebar
             sidePanel.CurrentLampBrightness = Lamp.Brightness;
             sidePanel.CurrentLampHeight = Lamp.LampHeight;
-            sidePanel.CurrentLampVertRadius = Lamp.VerticalUp + Lamp.VerticalDown;
-            sidePanel.CurrentLampHoriRadius = Lamp.HorizontalLeft + Lamp.HorizontalRight;
+            sidePanel.CurrentLampVertRadius = (Lamp.VerticalUp + Lamp.VerticalDown) / 2;
+            sidePanel.CurrentLampHoriRadius = (Lamp.HorizontalLeft + Lamp.HorizontalRight) / 2;
 
             lampIsPressed = true;
 
