@@ -7,8 +7,7 @@
         xmlns:ViewModel="clr-namespace:OptiLight.ViewModel"
         Title="Optilight" Height="750" Width="1000"
         Icon="pack://application:,,,/Resources/lampicon.ico"
-        DataContext="{Binding Source={StaticResource Locator}, Path=Main}"
-        WindowStartupLocation="CenterScreen" WindowState="Maximized">
+        DataContext="{Binding Source={StaticResource Locator}, Path=Main}">
 
     <!-- Key bindings-->
     <Window.InputBindings>

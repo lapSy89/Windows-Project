@@ -13,14 +13,15 @@ namespace OptiLight.ViewModel {
 
     public class MainViewModel : BaseViewModel {
 
-        // The number of pixels a lamp moves with a WASD key press
+        // The number of pixels a lamp moves with a WASD key press without grid on
         private const int ATOMICLENGTH = 10;
 
         // Points created for having initials positions of Lamp and Mouse when a lamp is moved.
         private Point initialLampPosition;
         private Point initialMousePosition;
 
-        // Is true if a lamp is pressed by the mouse - this way lamp released is only called if this is true
+        // Is true if a lamp is pressed by the mouse or WASD - this way lamp released is only called if this is true
+        // None of the two booleans can be true at the same time.
         private bool lampIsPressed { get; set; } = false;
         private bool lampIsKeyMoved { get; set; } = false;
 
@@ -56,36 +57,38 @@ namespace OptiLight.ViewModel {
 
         // Method for capturing the mouse on a lamp
         private void LampPressed(MouseButtonEventArgs e) {
-            var Lamp = TargetLamp(e);
-            var MousePosition = RelativeMousePosition(e);
-            initialLampPosition = new Point(Lamp.X, Lamp.Y);
-            initialMousePosition = MousePosition;
+            if (!lampIsKeyMoved) {
+                var Lamp = TargetLamp(e);
+                var MousePosition = RelativeMousePosition(e);
+                initialLampPosition = new Point(Lamp.X, Lamp.Y);
+                initialMousePosition = MousePosition;
 
-            //We unselect already selected lamps
-            if (LampsAreSelected()) {
-                UnSelectAllLamps();
+                //We unselect already selected lamps
+                if (LampsAreSelected()) {
+                    UnSelectAllLamps();
+                }
+
+                // The lamp now knows that it is selected and the sidepanel is showed
+                Lamp.IsSelected = true;
+                sidePanel.ShowSidePanelBox = Visibility.Visible;
+
+                // Sending Lamp values for editing in sidebar
+                sidePanel.CurrentLampBrightness = Lamp.Brightness;
+                sidePanel.CurrentLampHeight = Lamp.LampHeight;
+                sidePanel.CurrentLampVertRadius = (Lamp.VerticalUp + Lamp.VerticalDown) / 2;
+                sidePanel.CurrentLampHoriRadius = (Lamp.HorizontalLeft + Lamp.HorizontalRight) / 2;
+
+                lampIsPressed = true;
+
+                e.MouseDevice.Target.CaptureMouse();
             }
-
-            // The lamp now knows that it is selected and the sidepanel is showed
-            Lamp.IsSelected = true;
-            sidePanel.ShowSidePanelBox = Visibility.Visible;
-
-            // Sending Lamp values for editing in sidebar
-            sidePanel.CurrentLampBrightness = Lamp.Brightness;
-            sidePanel.CurrentLampHeight = Lamp.LampHeight;
-            sidePanel.CurrentLampVertRadius = (Lamp.VerticalUp + Lamp.VerticalDown) / 2;
-            sidePanel.CurrentLampHoriRadius = (Lamp.HorizontalLeft + Lamp.HorizontalRight) / 2;
-
-            lampIsPressed = true;
-
-            e.MouseDevice.Target.CaptureMouse();
         }
 
         // Method for releasing the capturing of the mouse on a lamp. After the mouse is released, 
         // the lamps new position is definedand saved to the lamp.
         // The method is only allowed if the lamp was pressed before releasing.
         private void LampReleased(MouseButtonEventArgs e) {
-            if (lampIsPressed) {
+            if (lampIsPressed && !lampIsKeyMoved) {
                 var Lamp = TargetLamp(e);
                 var MousePosition = RelativeMousePosition(e);
 
@@ -231,7 +234,10 @@ namespace OptiLight.ViewModel {
 
         // Method for when a WASD key is pressed
         private void WASDKeyPressed(KeyEventArgs e) {
-            if (e != null && LampsAreSelected()) {
+            if (e != null && LampsAreSelected() && !lampIsPressed
+                && (e.Key.Equals(Key.W) || e.Key.Equals(Key.A) 
+                || e.Key.Equals(Key.S) || e.Key.Equals(Key.D))) {
+                
                 LampViewModel Lamp = getSelectedLamps()[0];
 
                 if (!lampIsKeyMoved) {
@@ -253,14 +259,14 @@ namespace OptiLight.ViewModel {
 
         // Method for when a WASD key is released
         private void WASDKeyReleased(KeyEventArgs e) {
-            if (e != null && LampsAreSelected()) {
+            if (e != null && LampsAreSelected() && !lampIsPressed 
+                && (e.Key.Equals(Key.W) || e.Key.Equals(Key.A) 
+                || e.Key.Equals(Key.S) || e.Key.Equals(Key.D))) {
+
                 LampViewModel Lamp = getSelectedLamps()[0];
 
                 double offsetX = Lamp.X - initialLampPosition.X;
                 double offsetY = Lamp.Y - initialLampPosition.Y;
-
-
-                
 
                 if (offsetX != 0 || offsetY != 0) {
                     Lamp.X = initialLampPosition.X;
@@ -272,12 +278,8 @@ namespace OptiLight.ViewModel {
         }
 
         private double keyMovement(double initPos, double objectDimension, double canvasDimension, double direction) {
-            double stepSize;
-            if (canvas.SnapActive) {
-                stepSize = canvas.cellSize;
-            } else {
-                stepSize = ATOMICLENGTH;
-            }
+
+            double stepSize = canvas.SnapActive ? canvas.cellSize : ATOMICLENGTH ;
 
             var newPos = initPos + stepSize * direction;
 

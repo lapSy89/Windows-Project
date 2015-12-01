@@ -307,10 +307,12 @@ namespace OptiLight.ViewModel {
 
         #region Grid Snap / Show
 
+        // Method for turning the grid on / off
         public void toggleSnapping() {
             canvas.SnapActive = !canvas.SnapActive;
         }
 
+        // Method for making the grid visible or not
         public void toggleVisibility() {
             canvas.toggleVisibility();
         }
