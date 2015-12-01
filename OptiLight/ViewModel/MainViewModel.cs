@@ -101,7 +101,7 @@ namespace OptiLight.ViewModel {
                 var newX = initialLampPosition.X + offsetX;
                 var newY = initialLampPosition.Y + offsetY;
 
-            if (canvas.snapActive) {
+            if (canvas.SnapActive) {
                 //"+ Lamp.[Width/Heigh] / 2" is to adjust coordinates from top-left corner to lamp center
                 var extraX = (newX + Lamp.Width  / 2) % canvas.cellSize;
                     var extraY = (newY + Lamp.Height / 2) % canvas.cellSize;
@@ -185,7 +185,7 @@ namespace OptiLight.ViewModel {
                 var newY = initialLampPosition.Y + offsetY;
 
                 //Calculate coordinates according to specified grid, if snapping is active
-                if (canvas.snapActive) {
+                if (canvas.SnapActive) {
                     //"+ Lamp.[Width/Heigh] / 2" is to adjust coordinates from top-left corner to lamp center
                     var extraX = (newX + Lamp.Width / 2) % canvas.cellSize;
                     var extraY = (newY + Lamp.Height / 2) % canvas.cellSize;
