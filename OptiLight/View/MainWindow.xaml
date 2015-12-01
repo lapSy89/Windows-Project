@@ -78,8 +78,8 @@
 
 
             <!-- Drawing window -->
-            <ScrollViewer HorizontalScrollBarVisibility="Visible" VerticalAlignment="Center" HorizontalAlignment="Center"
-                          VerticalScrollBarVisibility="Visible" Grid.Column="1">
+            <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalAlignment="Center" HorizontalAlignment="Center"
+                          VerticalScrollBarVisibility="Auto" Grid.Column="1">
                 <Grid Height="{Binding canvas.height}" Width="{Binding canvas.width}">
                     <!--Context menu of the canvas-->
                     <Grid.ContextMenu>
