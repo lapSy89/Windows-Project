@@ -10,6 +10,9 @@ namespace OptiLight.Command {
         private readonly Stack<IUndoRedo> undoStack = new Stack<IUndoRedo>();
         private readonly Stack<IUndoRedo> redoStack = new Stack<IUndoRedo>();
 
+        //Boolean for checking for changes in the drawing
+        public bool drawingIsSaved { get; set; }
+
         //We use the Singleton design pattern for our constructor
         public static UndoRedoController Instance { get; } = new UndoRedoController();
         private UndoRedoController() { }
@@ -20,6 +23,7 @@ namespace OptiLight.Command {
             undoStack.Push(command);
             redoStack.Clear();
             command.Execute();
+            drawingIsSaved = false;
         }
 
         //This informs the View when the Undo command can be used
@@ -31,6 +35,7 @@ namespace OptiLight.Command {
             var command = undoStack.Pop();
             redoStack.Push(command);
             command.UnExecute();
+            drawingIsSaved = false;
         }
 
         //This informs the View when the Redo command can be used
@@ -42,6 +47,7 @@ namespace OptiLight.Command {
             var command = redoStack.Pop();
             undoStack.Push(command);
             command.Execute();
+            drawingIsSaved = false;
         }
 
         //Clear stack when a drawing is new or opened.

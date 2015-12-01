@@ -29,8 +29,8 @@
                 <StackPanel Orientation="Horizontal">
                     <AccessText Text="Height:       "/>
                     <excd:DoubleUpDown Value="{Binding sidePanel.CurrentLampHeight}" 
-                                       Increment="0.2" Maximum="5" 
-                                       FormatString="G0" UpdateValueOnEnterKey="True" Minimum="1"/>
+                                       Increment="0.2" Maximum="10" 
+                                       FormatString="G0" UpdateValueOnEnterKey="True" Minimum="0"/>
                     <AccessText Text=" m"/>
                 </StackPanel>
             </ListBoxItem>

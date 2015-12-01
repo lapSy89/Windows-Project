@@ -42,7 +42,7 @@ namespace OptiLight.ViewModel {
             get {
                 if (Lamps != null && LampsAreSelected()) {
                     LampViewModel lamp = getSelectedLamps()[0];
-                    return lamp.Brightness;
+                    return Math.Round(lamp.Brightness, 0);
                 }
                 return 0;
             }
@@ -62,7 +62,7 @@ namespace OptiLight.ViewModel {
             get {
                 if (Lamps != null && LampsAreSelected()) {
                     LampViewModel lamp = getSelectedLamps()[0];
-                    return lamp.LampHeight;
+                    return Math.Round(lamp.LampHeight, 1);
                 }
                 return 0;
 
