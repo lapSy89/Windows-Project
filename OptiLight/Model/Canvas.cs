@@ -8,6 +8,6 @@
         public int cellsX { get; set; } = 12;
         public int cellsY { get; set; } = 10;
         public int height { get; set; } = 500;
-        public int width { get; set; } = 700;
+        public int width { get; set; } = 600;
     }
 }

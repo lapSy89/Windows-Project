@@ -46,21 +46,32 @@ namespace OptiLight.ViewModel {
             }
         }
 
+        //Set the cell size of the canvas grid.
         public int cellSize {
             get { return Canvas.cellSize; }
             set {
-                if (value > 0) {
+                //Only values above 0 and below or equal to half of the shortest grid dimension
+                if (value > 0 && value <= Canvas.width / 2 && value <= Canvas.height / 2) {
+
+                    //Calculate amount of cells in height/width, so the canvas never shrinks at resizing
+                    //This is to avoid lamps escaping the grid at resizing.
+                    Canvas.cellsX = (Canvas.width % value > 0) ? (Canvas.width / value + 1) : Canvas.width / value;
+                    Canvas.cellsY = (Canvas.height % value > 0) ? (Canvas.height / value + 1) : Canvas.height / value;
+
                     Canvas.cellSize = value;
                     Canvas.height = Canvas.cellsY * value;
                     Canvas.width = Canvas.cellsX * value;
+
                     RaisePropertyChanged();
                     RaisePropertyChanged(() => corner1);
                     RaisePropertyChanged(() => corner2);
                     RaisePropertyChanged(() => Canvas.height);
                     RaisePropertyChanged(() => Canvas.width);
+                    RaisePropertyChanged(() => Canvas.cellsX);
+                    RaisePropertyChanged(() => Canvas.cellsY);
                     RaisePropertyChanged(() => viewport);
                 } else {
-                    MessageBox.Show("Positive Values Only", "OptiLight - Invalid Input", MessageBoxButton.OK);
+                    MessageBox.Show("Only positive values Between 1 and half of the shortest grid dimension", "OptiLight - Invalid Input", MessageBoxButton.OK);
                 }
             }
         }
