@@ -1,5 +1,5 @@
 ﻿using System.Windows;
-using OptiLight.Model;
+using LampLibrary; // LampLibrary DLL
 
 namespace OptiLight.ViewModel {
     public class CanvasViewModel : BaseViewModel {

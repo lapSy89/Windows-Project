@@ -4,8 +4,7 @@ using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
-using OptiLight.Model;
-//using LampLibrary; // LampLibrary DLL
+using LampLibrary; // LampLibrary DLL
 
 namespace OptiLight.Serialization
 {
