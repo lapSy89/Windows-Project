@@ -1,8 +1,8 @@
 ﻿using OptiLight.Command;
-using OptiLight.Model;
 using System;
 using System.Windows;
 using System.Windows.Media;
+using LampLibrary; // LampLibrary DLL
 
 namespace OptiLight.ViewModel {
     public class SidePanelViewModel : BaseViewModel {
@@ -49,7 +49,8 @@ namespace OptiLight.ViewModel {
             set {
                 if (Lamps != null && LampsAreSelected()) {
                     LampViewModel lamp = getSelectedLamps()[0];
-                    undoRedoController.AddAndExecute(new ChangeBrightness(lamp, value - lamp.Brightness));
+                    lamp.Brightness = value;
+                    //undoRedoController.AddAndExecute(new ChangeBrightness(lamp, value - lamp.Brightness));
                     CurrentLampVertRadius = (lamp.VerticalUp + lamp.VerticalDown) / 2;
                     CurrentLampHoriRadius = (lamp.HorizontalLeft + lamp.HorizontalRight) / 2;
                 }
@@ -70,7 +71,8 @@ namespace OptiLight.ViewModel {
             set {
                 if (Lamps != null && LampsAreSelected()) {
                     LampViewModel lamp = getSelectedLamps()[0];
-                    undoRedoController.AddAndExecute(new ChangeHeight(lamp, value - lamp.LampHeight));
+                    lamp.LampHeight = value;
+                    //undoRedoController.AddAndExecute(new ChangeHeight(lamp, value - lamp.LampHeight));
                     CurrentLampVertRadius = (lamp.VerticalUp + lamp.VerticalDown) / 2;
                     CurrentLampHoriRadius = (lamp.HorizontalLeft + lamp.HorizontalRight) / 2;
                 }

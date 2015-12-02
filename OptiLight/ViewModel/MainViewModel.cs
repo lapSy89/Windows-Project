@@ -3,11 +3,9 @@ using System.Collections.ObjectModel;
 using System.Windows.Input;
 using System.Windows;
 using System.Windows.Media;
-using OptiLight.Model;
 using OptiLight.Command;
 using System;
-using System.Collections;
-//using LampLibrary; // LampLibrary DLL
+using LampLibrary; // LampLibrary DLL
 
 namespace OptiLight.ViewModel {
 

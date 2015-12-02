@@ -1,5 +1,4 @@
 ﻿using OptiLight.Command;
-using OptiLight.Model;
 using OptiLight.View;
 using OptiLight.Serialization;
 using GalaSoft.MvvmLight;
@@ -12,7 +11,7 @@ using System.Windows.Media;
 using System.Windows.Input;
 using System.Linq;
 using System;
-//using LampLibrary; // LampLibrary DLL
+using LampLibrary; // LampLibrary DLL
 
 namespace OptiLight.ViewModel {
 
@@ -98,7 +97,7 @@ namespace OptiLight.ViewModel {
         // Method for making a new drawing
         private void NewDrawing() {
             // Check if changes are made to the drawing
-            if (undoRedoController.CanUndo() || undoRedoController.CanRedo()) {
+            if (!undoRedoController.drawingIsSaved) {
                 // Pop up window for confirming deleting of changes.
                 if (dialogWindow.NewFile()) {
                     // Deleting lamps
