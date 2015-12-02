@@ -1,4 +1,4 @@
-﻿namespace OptiLight.Model {
+﻿/*namespace OptiLight.Model {
     public class RectangleLamp : Lamp {
 
         public override double Height { get; set; } = 50;
@@ -16,3 +16,4 @@
         public override string viewModel { get; } = "RectangleLampViewModel";
     }
 }
+*/

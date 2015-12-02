@@ -1,4 +1,4 @@
-﻿using System.Xml.Serialization;
+﻿/*using System.Xml.Serialization;
 using System.Collections.Generic;
 
 namespace OptiLight.Model {
@@ -44,4 +44,4 @@ namespace OptiLight.Model {
         };
  
     }
-}
+}*/

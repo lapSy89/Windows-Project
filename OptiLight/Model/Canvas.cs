@@ -1,4 +1,4 @@
-﻿namespace OptiLight.Model {
+﻿/*namespace OptiLight.Model {
 
     public class Canvas {
 
@@ -7,7 +7,7 @@
         public int cellSize { get; set; } = 50;
         public int cellsX { get; set; } = 12;
         public int cellsY { get; set; } = 10;
-        public int height { get; set; } = 500;
-        public int width { get; set; } = 600;
+        public int height { get; { return cellsY * cellSize; } }
+        public int width { get { return cellsX * cellSize; } }
     }
-}
+}*/

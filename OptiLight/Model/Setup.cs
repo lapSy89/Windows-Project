@@ -1,4 +1,4 @@
-﻿
+﻿/*
 using System.Collections.Generic;
 
 namespace OptiLight.Model {
@@ -9,3 +9,4 @@ namespace OptiLight.Model {
         public List<Lamp> Lamps { get; set; }
     }
 }
+*/
