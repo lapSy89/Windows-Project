@@ -59,8 +59,6 @@ namespace OptiLight.ViewModel {
                     Canvas.cellsY = (Canvas.height % value > 0) ? (Canvas.height / value + 1) : Canvas.height / value;
 
                     Canvas.cellSize = value;
-                    Canvas.height = Canvas.cellsY * value;
-                    Canvas.width = Canvas.cellsX * value;
 
                     RaisePropertyChanged();
                     RaisePropertyChanged(() => corner1);
@@ -81,7 +79,6 @@ namespace OptiLight.ViewModel {
             set {
                 if(value > 0) {
                     Canvas.cellsX = value;
-                    Canvas.width = value * Canvas.cellSize;
                     RaisePropertyChanged();
                     RaisePropertyChanged(() => Canvas.width);
                 } else {
@@ -95,7 +92,6 @@ namespace OptiLight.ViewModel {
             set {
                 if (value > 0) {
                     Canvas.cellsY = value;
-                    Canvas.height = value * Canvas.cellSize;
                     RaisePropertyChanged();
                     RaisePropertyChanged(() => Canvas.height);
                 } else {
@@ -106,18 +102,10 @@ namespace OptiLight.ViewModel {
 
         public int width {
             get { return Canvas.width; }
-            set {
-                Canvas.width = value;
-                RaisePropertyChanged();
-            }
         }
 
         public int height {
             get { return Canvas.height; }
-            set {
-                Canvas.height = value;
-                RaisePropertyChanged();
-            }
         }
 
         public Point corner1 { get { return (new Point(0, Canvas.cellSize)); } }
