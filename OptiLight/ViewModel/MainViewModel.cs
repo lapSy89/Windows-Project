@@ -171,6 +171,7 @@ namespace OptiLight.ViewModel {
         //when snapping is active
         private double snapPadding(double lampDimension) {
             var padding = 0;
+            
             while (padding < lampDimension / 2) {
                 padding += canvas.cellSize;
                 }
