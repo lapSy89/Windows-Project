@@ -169,7 +169,7 @@ namespace OptiLight.ViewModel {
                     // The canvas is sized properly
                     canvas.cellSize = setup.cellSize;
                     canvas.cellsX = setup.cellsX;
-                    canvas.cellsY = setup.cellsX;
+                    canvas.cellsY = setup.cellsY;
 
                     // Inserting lamps into array of lamps
                     foreach (Lamp lamp in setup.Lamps) {
