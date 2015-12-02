@@ -17,41 +17,41 @@ namespace OptiLight.Serialization
         private XML() { }
 
         // We create an async method, to save the file in a second process.
-        public async void AsyncSaveToFile(List<Lamp> lamps, string path)
+        public async void AsyncSaveToFile(Setup setup, string path)
         {
             // The process is awaited, so that no changes are made to the drawing, 
             // before the file is saved.
-            await Task.Run(() => ToFile(lamps, path));
+            await Task.Run(() => ToFile(setup, path));
         }
 
         // We save the XML file.
-        private void ToFile(List<Lamp> lamps, string path)
+        private void ToFile(Setup setup, string path)
         {
             using (FileStream stream = File.Create(path))
             {
-                XmlSerializer serializer = new XmlSerializer(typeof(List<Lamp>));
-                serializer.Serialize(stream, lamps);
+                XmlSerializer serializer = new XmlSerializer(typeof(Setup));
+                serializer.Serialize(stream, setup);
             }
         }
 
         // We create an async method, to load the file in a second process
-        public Task<List<Lamp>> AsyncOpenFromFile(string path)
+        public Task<Setup> AsyncOpenFromFile(string path)
         {
             return Task.Run(() => FromFile(path));
         }
 
         // We load the XML file
-        private List<Lamp> FromFile(string path)
+        private Setup FromFile(string path)
         {
             using (FileStream stream = File.OpenRead(path))
             {
-                List<Lamp> tempLamps = new List<Lamp>();
-                XmlSerializer serializer = new XmlSerializer(typeof(List<Lamp>));
+                Setup setup = new Setup();
+                XmlSerializer serializer = new XmlSerializer(typeof(Setup));
                 try {
-                    tempLamps = serializer.Deserialize(stream) as List<Lamp>;
+                    setup = serializer.Deserialize(stream) as Setup;
                 } catch (InvalidOperationException) {}
 
-                return tempLamps;
+                return setup;
             }
         }
 

@@ -24,5 +24,10 @@ namespace OptiLight.View
         {
             InitializeComponent();
         }
+
+        private void AddLampControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
     }
 }

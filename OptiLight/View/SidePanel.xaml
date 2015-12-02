@@ -9,34 +9,34 @@
              d:DesignHeight="300" Width="200">
 
     <DockPanel>
-        <ListBox DockPanel.Dock="Bottom" Visibility="{Binding sidePanel.ShowSidePanelBox}">
-            <ListBoxItem Margin="0,5,0,0">
+        <ListBox DockPanel.Dock="Bottom" Visibility="{Binding sidePanel.ShowSidePanelBox}" BorderBrush="#C7C7C7">
+            <ListBoxItem Margin="0,5,0,0" HorizontalContentAlignment="Stretch">
                 <StackPanel Orientation="Horizontal">
-                    <AccessText Text="Switch Lights on / off:  "/>
-                    <Button Content="Click me!" Command="{Binding SwitchLampLightCommand}" />
+                    <AccessText Text="Lights on / off:  "/>
+                    <Button Content="On / Off" Command="{Binding SwitchLampLightCommand}" />
                 </StackPanel>
             </ListBoxItem>
-            <ListBoxItem Margin="0,5,0,0">
+            <ListBoxItem Margin="0,5,0,0" >
                 <StackPanel Orientation="Horizontal">
-                    <AccessText Text="Brigthness"/>
+                    <AccessText Text="Brigthness         " Width="84"/>
                     <excd:IntegerUpDown Value="{Binding sidePanel.CurrentLampBrightness}"
                                         Increment="1" Maximum="100" 
-                                        FormatString="G0" UpdateValueOnEnterKey="True" Minimum="0"/>
+                                        FormatString="G0" UpdateValueOnEnterKey="True" Minimum="0" Width="48" />
                     <AccessText Text=" Watt"/>
                 </StackPanel>
             </ListBoxItem>
             <ListBoxItem Margin="0,5,0,0">
                 <StackPanel Orientation="Horizontal">
-                    <AccessText Text="Height:       "/>
+                    <AccessText Text="Height:              "/>
                     <excd:DoubleUpDown Value="{Binding sidePanel.CurrentLampHeight}" 
                                        Increment="0.2" Maximum="10" 
-                                       FormatString="G0" UpdateValueOnEnterKey="True" Minimum="0"/>
+                                       FormatString="G0" UpdateValueOnEnterKey="True" Minimum="0" Width="48" />
                     <AccessText Text=" m"/>
                 </StackPanel>
             </ListBoxItem>
             <ListBoxItem Margin="0,5,0,5">
                 <StackPanel Orientation="Horizontal">
-                    <AccessText Text="Radius:       "/>
+                    <AccessText Text="Radius:       " Width="77" Height="24" RenderTransformOrigin="1.194,1.267"/>
                     <StackPanel Orientation="Vertical">
                         <AccessText Text="{Binding sidePanel.CurrentLampHoriRadius}"  
                                     Width="30" TextAlignment="Center"/>
@@ -60,12 +60,12 @@
         <ScrollViewer VerticalScrollBarVisibility="Auto" VerticalAlignment="Stretch" DockPanel.Dock="Bottom">
             <DataGrid x:Name="AddLampControl"  ItemsSource="{Binding lampTypes}" AutoGenerateColumns="False" 
                 SelectionUnit="FullRow" SelectionMode="Single" CanUserAddRows="False" 
-                CanUserDeleteRows="False" CanUserResizeColumns="False" HeadersVisibility="None">
+                CanUserDeleteRows="False" CanUserResizeColumns="False" HeadersVisibility="None" SelectionChanged="AddLampControl_SelectionChanged" Background="White" BorderBrush="#C7C7C7">
                 <DataGrid.Columns>
                     <DataGridTemplateColumn Width="*">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate >
-                                <!--Each cell is a butten with an image and a text - all taken from the corresponding model-->
+                                <!--Each cell is a button with an image and a text - all taken from the corresponding model-->
                                 <Button Command="{Binding DataContext.AddLampCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"
                                         CommandParameter="{Binding ElementName=AddLampControl, Path=SelectedItems}"
                                         Background="Transparent" HorizontalContentAlignment="Stretch">
@@ -92,6 +92,7 @@
                 <!--Here we bind the background color of a selected cell-->
                 <DataGrid.Resources>
                     <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}" Color="{Binding sidePanel.AddingColor}"/>
+                    <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="{Binding sidePanel.AddingColor}"/>
                 </DataGrid.Resources>
             </DataGrid>
         </ScrollViewer>
