@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Input;
+using System.Windows.Interactivity;
 using System.Linq;
 using System;
 using LampLibrary; // LampLibrary DLL
@@ -46,6 +47,8 @@ namespace OptiLight.ViewModel {
             set { lightsOn = value; RaisePropertyChanged(); }
         }
 
+        public ICommand CloseWindowCommand { get; }
+
         public ICommand UndoCommand { get; }
         public ICommand RedoCommand { get; }
 
@@ -70,6 +73,8 @@ namespace OptiLight.ViewModel {
         //Constructor 
         public BaseViewModel() {
 
+            CloseWindowCommand = new RelayCommand<Window>(CloseWindow);
+
             UndoCommand = new RelayCommand(undoRedoController.Undo, undoRedoController.CanUndo);
             RedoCommand = new RelayCommand(undoRedoController.Redo, undoRedoController.CanRedo);
 
@@ -93,7 +98,27 @@ namespace OptiLight.ViewModel {
             toggleGridVisibilityCommand = new RelayCommand(toggleVisibility);
         }
 
-        #region New / Save / Load
+
+        #region Close / New / Save / Load
+
+        // Method for checking that drawing is saved before the program is closed on X
+        private void CloseWindow(Window window) {
+            // Check if changes are made to the drawing
+            if (!undoRedoController.drawingIsSaved) {
+                // Pop up window for confirming saving before close
+                if (dialogWindow.CloseWindow()) {
+                    if (savedPath == null) {
+                        string savePath = dialogWindow.SaveFile();
+                        if (savePath != null) {
+                            XML.Instance.AsyncSaveToFile(getCurrentSetup(), savePath);
+                        }
+                    } else {
+                        XML.Instance.AsyncSaveToFile(getCurrentSetup(), savedPath);
+                    }
+                }
+            }
+        }
+
         // Method for making a new drawing
         private void NewDrawing() {
             // Check if changes are made to the drawing
@@ -201,7 +226,7 @@ namespace OptiLight.ViewModel {
             return setup;
         }
 
-        #endregion New / Save / Load
+        #endregion Close / New / Save / Load
 
         #region Cut / Copy / Paste
 

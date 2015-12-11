@@ -9,7 +9,6 @@
         Icon="pack://application:,,,/Resources/lampicon.ico"
         DataContext="{Binding Source={StaticResource Locator}, Path=Main}"
         WindowStartupLocation="CenterScreen">
-
     <!-- Key bindings-->
     <Window.InputBindings>
         <KeyBinding Key="Delete"
@@ -58,6 +57,10 @@
         <i:EventTrigger EventName="KeyUp">
             <cmd:EventToCommand Command="{Binding DataContext.WASDKeyReleasedCommand, 
                         RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" PassEventArgsToCommand="True"/>
+        </i:EventTrigger>
+        <i:EventTrigger EventName="Closing">
+            <i:InvokeCommandAction Command="{Binding DataContext.CloseWindowCommand,
+                        RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"/>
         </i:EventTrigger>
     </i:Interaction.Triggers>
     <!-- Overall layout for the Window-->

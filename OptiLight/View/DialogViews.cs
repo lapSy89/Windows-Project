@@ -28,6 +28,10 @@ namespace OptiLight.View {
         // Save file - showing window to specify save file
         public string SaveFile() => saveDialog.ShowDialog() == true ? saveDialog.FileName : null;
 
+        // Close window - showing before window is closed and drawing isn't saved
+        public bool CloseWindow() =>
+            MessageBox.Show("Save before closing?", "OptiLight", MessageBoxButton.YesNo) == MessageBoxResult.Yes; 
+
         // Pop up window for when something goes wrong with the program.
         public void popUpError() {
              MessageBox.Show("Error opening file!", "OptiLight - Error", MessageBoxButton.OK);
