@@ -38,7 +38,7 @@ namespace OptiLight.ViewModel {
             // Lamps created from the start
             //It generates a collection of LampViewModels
             Lamps = new ObservableCollection<LampViewModel>() {
-                 new RectangleLampViewModel(new RectangleLamp())
+                 
             };
 
             // Commands are defined as relay commands
