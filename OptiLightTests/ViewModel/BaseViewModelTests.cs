@@ -1,12 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using OptiLight.ViewModel;
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using OptiLight.Model;
+using LampLibrary;
 using System.Windows.Input;
 
 namespace OptiLight.ViewModel.Tests {
@@ -23,9 +18,9 @@ namespace OptiLight.ViewModel.Tests {
             MainViewModel main = new MainViewModel();
 
             //Create a lamp that imitates a "Selected Lamp"
-            Model.Lamp modelLamp = new Model.RectangleLamp();
+            Lamp modelLamp = new RectangleLamp();
             //AddLampCommand takes an IList of type Lamp as an argument
-            IList newList = new List<Model.Lamp>();
+            IList newList = new List<Lamp>();
             //Add the created lamp
             newList.Add(modelLamp);
 
