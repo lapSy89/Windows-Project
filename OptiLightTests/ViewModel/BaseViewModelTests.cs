@@ -11,7 +11,6 @@ namespace OptiLight.ViewModel.Tests {
 
         //Test that we can add a lamp
 
-        // TODO: Divide commands into different test methods
         public void BaseViewModelTest() {
 
             //Initialize the Mainmodel
@@ -47,7 +46,7 @@ namespace OptiLight.ViewModel.Tests {
             ----------------------------------------------------------------------------------------------------*/
 
             /*
-            Light Switch (Done)
+            Light Switch
             */
             Assert.IsTrue(main.LightSwitchCommand.CanExecute(null));
             main.LightSwitchCommand.Execute(null);
@@ -68,7 +67,7 @@ namespace OptiLight.ViewModel.Tests {
             //TODO check some parameters that apply when a new drawing is loaded
 
             /*
-            Grid Snapping (Done)
+            Grid Snapping
             */
             //Assert False before we activate the visibility and Snap
             Assert.IsFalse(main.canvas.SnapActive == true);
@@ -86,7 +85,7 @@ namespace OptiLight.ViewModel.Tests {
             Cut Copy Paste
             */
 
-            // Copy does not work without something to copy (TODO)           
+            // Copy does not work without something to copy       
             //       main.CopyCommand.Execute(null);
             //       Assert.IsTrue(main.CopyCommand.CanExecute(null));
 
@@ -94,12 +93,12 @@ namespace OptiLight.ViewModel.Tests {
             //       main.PasteCommand.Execute(null);
             //       Assert.IsTrue(main.PasteCommand.CanExecute(null));
 
-            // Cut does not work without something to cut (TODO)
+            // Cut does not work without something to cut
             //       main.CutCommand.Execute(null);
             //       Assert.IsTrue(main.CutCommand.CanExecute(null));
 
             /*
-            Undo Redo Can not work with the Undo Redo stack empty (TODO)
+            Undo Redo Can not work with the Undo Redo stack empty
             */
 
             //  main.UndoCommand.Execute(null);

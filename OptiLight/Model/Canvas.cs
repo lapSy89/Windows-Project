@@ -1,4 +1,9 @@
-﻿/*namespace OptiLight.Model {
+﻿/*
+    Hele modellen er udkommenteret da denne er oprette som en dll. 
+    Model mappen er dog bibeholdt, for at vise hvad dll'en LampLibrary indeholder.
+*/
+
+/*namespace OptiLight.Model {
 
     public class Canvas {
 

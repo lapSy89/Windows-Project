@@ -6,7 +6,9 @@ namespace OptiLight.View {
 
     public class DialogViews {
 
+        // Dialog to get path for saving file.
         private static OpenFileDialog openDialog = new OpenFileDialog() { Title = "Open Diagram", Filter = "XML Document (.xml)|*.xml", DefaultExt = "xml", InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), CheckFileExists = true };
+        // Dialog to get path for loading file.
         private static SaveFileDialog saveDialog = new SaveFileDialog() { Title = "Save Diagram", Filter = "XML Document (.xml)|*.xml", DefaultExt = "xml", InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) };
 
         // Create new file - showing window if changes aren't saved.

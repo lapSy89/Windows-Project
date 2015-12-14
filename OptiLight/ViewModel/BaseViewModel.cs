@@ -287,9 +287,6 @@ namespace OptiLight.ViewModel {
 
         // Method for adding lamps
         
-        //    
-        // IS ONLY PUBLIC FOR TESTING PURPOSES!!!
-        //
         public void AddNewLamp(IList selectedAddingLamp) {
 
             // We get the selected lamp from the View

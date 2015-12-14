@@ -20,7 +20,6 @@ namespace OptiLight.Command {
         }
 
         // Method for removing the lamp from the collection
-        //TODO: is not currently called, implement this in the BaseViewModel
         public void UnExecute() {
             lampCollection.Remove(lamp);
         }

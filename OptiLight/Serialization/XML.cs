@@ -33,7 +33,7 @@ namespace OptiLight.Serialization
             }
         }
 
-        // We create an async method, to load the file in a second process
+        // Method, to load the file in a second process
         public Task<Setup> AsyncOpenFromFile(string path)
         {
             return Task.Run(() => FromFile(path));
@@ -54,11 +54,13 @@ namespace OptiLight.Serialization
             }
         }
 
+        // Method for copying/cutting
         public Task<string> AsyncSerializeToString(List<Lamp> lamps)
         {
             return Task.Run(() => SerializeToString(lamps));
         }
 
+        // We serialize to a string, so the copied is in the clipboard
         private string SerializeToString(List<Lamp> lamps)
         {
             var stringBuilder = new StringBuilder();
@@ -72,11 +74,13 @@ namespace OptiLight.Serialization
             return stringBuilder.ToString();
         }
 
+        // Method for pasting
         public Task<List<Lamp>> AsyncDeserializeFromString(string xml)
         {
             return Task.Run(() => DeserializeFromString(xml));
         }
 
+        // We deserialize from string to paste from clipboard
         private List<Lamp> DeserializeFromString(string xml)
         {
             using (TextReader stream = new StringReader(xml))

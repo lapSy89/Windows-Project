@@ -112,13 +112,10 @@
                         <Rectangle.Fill>
                             <DrawingBrush Stretch="None" TileMode="Tile"
                             Viewport="{Binding canvas.viewport}" ViewportUnits="Absolute">
-                                <!-- ^^^^^^^^^^^ set the size of the tile-->
                                 <DrawingBrush.Drawing>
                                     <GeometryDrawing>
                                         <GeometryDrawing.Geometry>
                                             <GeometryGroup>
-                                                <!-- Draws two lines, to represent grid (X,Y Coordinates)
-                                                     Change "50" to the Grid Size Variable, Emil-->
                                                 <LineGeometry StartPoint="0,0" EndPoint="{Binding canvas.corner1}" />
                                                 <LineGeometry StartPoint="{Binding canvas.corner1}" EndPoint="{Binding canvas.corner2}" />
                                             </GeometryGroup>

@@ -51,8 +51,6 @@
                     </StackPanel>
                     <Image Source="/Resources/upDownArrow.png"
                            Width="20"/>
-                    <!--<excd:IntegerUpDown Value="{Binding CurrentLampRadius}" Increment="1" Maximum="100" FormatString="G0" UpdateValueOnEnterKey="True"/>-->
-                    <!--<AccessText Text=" cm"/>-->
                 </StackPanel>
             </ListBoxItem>
         </ListBox>
